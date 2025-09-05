@@ -1,1 +1,12 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=20318344&assignment_repo_type=AssignmentRepo)
+# Folha de Pagamento
+Esse projeto é um sistema de folha de pagamento desenvolvido como trabalho para a diciplina Programação Modular
+no curso Engenharia de Software.
+
+## 🚀 Tecnolgoias Utilizadas
+- **Java:** Linguagem de programação principal.
+- **Spring Boot:** Framework para simplificar o desenvolvimento de aplicações Java.
+
+## Alunos
+[Luan Guimarães](https://github.com/LuanGuimas)
+
+[Iago Adrien](https://github.com/Miukiyn)
