@@ -1,4 +1,4 @@
-# Folha de Pagamento
+# Folha de Pagamento - Lab 01 Grupo 02
 Esse projeto é um sistema de folha de pagamento desenvolvido como trabalho para a diciplina Programação Modular
 no curso Engenharia de Software.
 
