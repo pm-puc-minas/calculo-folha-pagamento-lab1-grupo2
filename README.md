@@ -10,3 +10,5 @@ no curso Engenharia de Software.
 [Luan Guimarães](https://github.com/LuanGuimas)
 
 [Iago Adrien](https://github.com/Miukiyn)
+
+[Murilo Freitas](https://github.com/murilofsouzaa)
