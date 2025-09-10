@@ -1,6 +1,6 @@
 # Documentação de Testes Unitários - Sistema de Folha de Pagamento
 
-## 1. Cálculo INSS
+## 1. Cálculo Insalubridade
 | Teste | Descrição | Entrada | Resultado Esperado | Status |
 |-------|-----------|---------|-------------------|--------|
 | **N1** | Verifica se o o cálculo de insalubridade está correto para o grau de risco "Baixo", que corresponde a 10% do salário mínimo. | Salário: 1380,60; Grau de risco: Baixo (10%) | Valor do adicional: 138,06  | ? |
