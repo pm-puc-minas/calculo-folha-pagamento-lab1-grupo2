@@ -12,3 +12,5 @@ no curso Engenharia de Software.
 [Iago Adrien](https://github.com/Miukiyn)
 
 [Murilo Freitas](https://github.com/murilofsouzaa)
+
+[Iago Lara](https://github.com/Iagolara)
