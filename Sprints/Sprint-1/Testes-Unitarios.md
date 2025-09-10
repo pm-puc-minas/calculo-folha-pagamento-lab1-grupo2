@@ -3,9 +3,9 @@
 ## 1. Cálculo INSS
 | Teste | Descrição | Entrada | Resultado Esperado | Status |
 |-------|-----------|---------|-------------------|--------|
-| **N1** | [desc] | [dados de entrada] | [resultado esperado] | ? |
-| **N2** | [desc] | [dados de entrada] | [resultado esperado] | ? |
-| **N3** | [desc] | [dados de entrada] | [resultado esperado] | ? |
+| **N1** | Verifica se o o cálculo de insalubridade está correto para o grau de risco "Baixo", que corresponde a 10% do salário mínimo. | Salário: 1380,60; Grau de risco: Baixo (10%) | Valor do adicional: 138,06  | ? |
+| **N2** |  Verifica se o o cálculo de insalubridade está correto para o grau de risco "Medio", que corresponde a 20% do salário mínimo. | Salário: 1380,60; Grau de risco: Baixo (20%) | Valor do adicional: 276,12 | ? |
+| **N3** |  Verifica se o o cálculo de insalubridade está correto para o grau de risco "Alto", que corresponde a 40% do salário mínimo. | Salário: 1380,60; Grau de risco: Baixo (40%) | Valor do adicional: 552,24 | ? |
 
 ## 2. Cálculo IRRF
 | Teste | Descrição | Entrada | Resultado Esperado | Status |
