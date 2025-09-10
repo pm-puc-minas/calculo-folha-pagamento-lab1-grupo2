@@ -1,57 +1,65 @@
-# Testes Unitários
+# Documentação de Testes Unitários - Sistema de Folha de Pagamento
 
-## Calculo INSS
-| Teste   | Descrição | Resultado |
-| :---    | :---      | :---      |
-| **N1**  | [desc]    |           |
-| **N2**  | [desc]    |           |
-| **N3**  | [desc]    |           |
+## 1. Cálculo INSS
 
-## Calculo IRRF
-| Teste   | Descrição | Resultado |
-| :---    | :---      | :---      |
-| **N1**  | [desc]    |           |
-| **N2**  | [desc]    |           |
-| **N3**  | [desc]    |           |
+| Teste | Descrição | Entrada | Resultado Esperado | Status |
+|-------|-----------|---------|-------------------|--------|
+| **N1** | [desc] | [dados de entrada] | [resultado esperado] | ? |
+| **N2** | [desc] | [dados de entrada] | [resultado esperado] | ? |
+| **N3** | [desc] | [dados de entrada] | [resultado esperado] | ? |
 
-## Calculo Isalubridade
-| Teste   | Descrição | Resultado |
-| :---    | :---      | :---      |
-| **N1**  | [desc]    |           |
-| **N2**  | [desc]    |           |
-| **N3**  | [desc]    |           |
+## 2. Cálculo IRRF
 
-## Calculo Periculosidade
-| Teste   | Descrição | Resultado |
-| :---    | :---      | :---      |
-| **N1**  | [desc]    |           |
-| **N2**  | [desc]    |           |
-| **N3**  | [desc]    |           |
+| Teste | Descrição | Entrada | Resultado Esperado | Status |
+|-------|-----------|---------|-------------------|--------|
+| **N1** | [desc] | [dados de entrada] | [resultado esperado] | ? |
+| **N2** | [desc] | [dados de entrada] | [resultado esperado] | ? |
+| **N3** | [desc] | [dados de entrada] | [resultado esperado] | ? |
 
-## Calculo Benefícios
-| Teste   | Descrição | Resultado |
-| :---    | :---      | :---      |
-| **N1**  | [desc]    |           |
-| **N2**  | [desc]    |           |
-| **N3**  | [desc]    |           |
+## 3. Cálculo Insalubridade
 
-## Calculo FGTS
-| Teste   | Descrição | Resultado |
-| :---    | :---      | :---      |
-| **N1**  | [desc]    |           |
-| **N2**  | [desc]    |           |
-| **N3**  | [desc]    |           |
+| Teste | Descrição | Entrada | Resultado Esperado | Status |
+|-------|-----------|---------|-------------------|--------|
+| **N1** | [desc] | [dados de entrada] | [resultado esperado] | ? |
+| **N2** | [desc] | [dados de entrada] | [resultado esperado] | ? |
+| **N3** | [desc] | [dados de entrada] | [resultado esperado] | ? |
 
-## Jornada de trabalho
-| Teste   | Descrição | Resultado |
-| :---    | :---      | :---      |
-| **N1**  | [desc]    |           |
-| **N2**  | [desc]    |           |
-| **N3**  | [desc]    |           |
+## 4. Cálculo Periculosidade
 
-## Pegar os dados do Banco de Dados
-| Teste   | Descrição | Resultado |
-| :---    | :---      | :---      |
-| **N1**  | [desc]    |           |
-| **N2**  | [desc]    |           |
-| **N3**  | [desc]    |           |
+| Teste | Descrição | Entrada | Resultado Esperado | Status |
+|-------|-----------|---------|-------------------|--------|
+| **N1** | [desc] | [dados de entrada] | [resultado esperado] | ? |
+| **N2** | [desc] | [dados de entrada] | [resultado esperado] | ? |
+| **N3** | [desc] | [dados de entrada] | [resultado esperado] | ? |
+
+## 5. Cálculo Benefícios
+
+| Teste | Descrição | Entrada | Resultado Esperado | Status |
+|-------|-----------|---------|-------------------|--------|
+| **N1** | [desc] | [dados de entrada] | [resultado esperado] | ? |
+| **N2** | [desc] | [dados de entrada] | [resultado esperado] | ? |
+| **N3** | [desc] | [dados de entrada] | [resultado esperado] | ? |
+
+## 6. Cálculo FGTS
+
+| Teste | Descrição | Entrada | Resultado Esperado | Status |
+|-------|-----------|---------|-------------------|--------|
+| **N1** | [desc] | [dados de entrada] | [resultado esperado] | ? |
+| **N2** | [desc] | [dados de entrada] | [resultado esperado] | ? |
+| **N3** | [desc] | [dados de entrada] | [resultado esperado] | ? |
+
+## 7. Jornada de Trabalho
+
+| Teste | Descrição | Entrada | Resultado Esperado | Status |
+|-------|-----------|---------|-------------------|--------|
+| **N1** | [desc] | [dados de entrada] | [resultado esperado] | ? |
+| **N2** | [desc] | [dados de entrada] | [resultado esperado] | ? |
+| **N3** | [desc] | [dados de entrada] | [resultado esperado] | ? |
+
+## 8. Acesso ao Banco de Dados
+
+| Teste | Descrição | Entrada | Resultado Esperado | Status |
+|-------|-----------|---------|-------------------|--------|
+| **N1** | [desc] | [dados de entrada] | [resultado esperado] | ? |
+| **N2** | [desc] | [dados de entrada] | [resultado esperado] | ? |
+| **N3** | [desc] | [dados de entrada] | [resultado esperado] | ? |
