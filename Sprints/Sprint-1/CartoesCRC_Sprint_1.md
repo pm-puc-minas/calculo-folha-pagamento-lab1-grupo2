@@ -59,7 +59,7 @@
 | :--- | :--- |
 | Validar a autenticidade das credenciais de um usuário. | `UsuarioRepository` |
 
-## ****LoginController**
+## **LoginController**
 | Responsabilidades | Colaboradores |
 | :--- | :--- |
 | Receber as credenciais do usuário. |`GestaoDeAcesso` |
