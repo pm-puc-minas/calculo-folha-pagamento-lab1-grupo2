@@ -14,6 +14,7 @@
 | **RF8** | O sistema deve ser capaz de calcular o desconto de IRRF. |
 | **RF9** | O sistema deve ser capaz de calcular o salário líquido do funcionário. |
 | **RF10**| O sistema deve ser capaz de mostrar na tela o relatório da folha de pagamento. |
+| **RF11**| O sistema deve ter uma forma de autenticação de usuário e identificar o perfil do usuário conectado, para saber se é funcionário, RH ou gerente. |
 
 ## Requisitos Não Funcionais
 
@@ -23,6 +24,7 @@
 | **RNF2** | **Manutenabilidade** | O software deverá ser desenvolvido usando o paradigma Orientado a Objetos, com baixo acoplamento e alta coesão. |
 | **RNF3** | **Manutenabilidade** | O código deverá estar limpo, muito bem organizado e estruturado, seguindo as boas práticas da programação. |
 | **RNF4** | **Manutenabilidade** | O código fonte deverá seguir as convenções de código da linguagem de programação Java. |
+| **RNF5** | **Usabilidade** | O sistema deverá registrar um log de todas as alterações realizadas, permitindo ao gerente a verificação e o controle das ações executadas pelo setor de RH. |
 
 ## Requisitos Extra (Opcionais)
 
