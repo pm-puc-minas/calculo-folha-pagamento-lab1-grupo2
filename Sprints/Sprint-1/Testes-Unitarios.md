@@ -46,9 +46,10 @@
 ## 7. Jornada de Trabalho
 | Teste | Descrição | Entrada | Resultado Esperado | Status |
 |-------|-----------|---------|-------------------|--------|
-| **N1** | [desc] | [dados de entrada] | [resultado esperado] | ? |
-| **N2** | [desc] | [dados de entrada] | [resultado esperado] | ? |
-| **N3** | [desc] | [dados de entrada] | [resultado esperado] | ? |
+| **N1** | Retornar horas semanais | Funcionário, Período: 07/09/2025 a 13/09/2025 | 40 horas semanais | ? |
+| **N2** | Calcular horas mensais para mês completo | Funcionário, Mês: setembro/2025 | 160 horas mensais (40h/semana × 4 semanas)| ? |
+| **N3** | Calcular horas mensais com faltas | Funcionário, Setembro/2025 com 2 faltas (16h) | 144 horas mensais (160 - 16h de faltas) | ? |
+| **N4** | Calcular salário/hora base | Salário mensal: R$ 4.400,00, jornada: 160/mês | R$ 27,50 por hora | ? |
 
 ## 8. Acesso ao Banco de Dados
 | Teste | Descrição | Entrada | Resultado Esperado | Status |
