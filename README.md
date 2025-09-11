@@ -2,7 +2,7 @@
 Esse projeto é um sistema de folha de pagamento desenvolvido como trabalho para a diciplina Programação Modular
 no curso Engenharia de Software.
 
-## 🚀 Tecnolgoias Utilizadas
+## 🚀 Tecnologias Utilizadas
 - **Java:** Linguagem de programação principal.
 - **Spring Boot:** Framework para simplificar o desenvolvimento de aplicações Java.
 
