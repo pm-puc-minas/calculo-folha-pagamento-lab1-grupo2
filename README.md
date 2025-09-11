@@ -16,3 +16,5 @@ no curso Engenharia de Software.
 [Iago Lara](https://github.com/Iagolara)
 
 [Vinícius Gonçalves](https://github.com/goncalvesvs)
+
+[Bruno Hoske](https://github.com/brunohoske)
