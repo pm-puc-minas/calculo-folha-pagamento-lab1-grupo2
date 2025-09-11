@@ -2,6 +2,8 @@
 Esse projeto é um sistema de folha de pagamento desenvolvido como trabalho para a diciplina Programação Modular
 no curso Engenharia de Software.
 
+---
+
 ## Alunos Responsáveis
 [Luan Guimarães](https://github.com/LuanGuimas)
 
@@ -15,8 +17,12 @@ no curso Engenharia de Software.
 
 [Bruno Hoske](https://github.com/brunohoske)
 
+---
+
 ## Professor Responsável
 [Paulo Coelho](https://github.com/paulohdscoelho)
+
+---
 
 ## 🚀 Tecnologias Utilizadas
 - **Java:** Linguagem de programação principal.
