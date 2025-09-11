@@ -54,9 +54,9 @@
 ## 8. Acesso ao Banco de Dados
 | Teste | Descrição | Entrada | Resultado Esperado | Status |
 |-------|-----------|---------|-------------------|--------|
-| **N1** | [desc] | [dados de entrada] | [resultado esperado] | ? |
-| **N2** | [desc] | [dados de entrada] | [resultado esperado] | ? |
-| **N3** | [desc] | [dados de entrada] | [resultado esperado] | ? |
+| **N1** | Conectar ao banco | String de conexão | Conexão estabelecida com sucesso, retorna true | ? |
+| **N2** | Fechar Conexão com o banco | Sem dados  de entrada | Conexão fechada | ? |
+| **N3** | Executar SELECT | Query: "SELECT COUNT(*) FROM Funcionarios" | Retornar dados da query: numero total de funcionarios | ? |
 
 ---
 
