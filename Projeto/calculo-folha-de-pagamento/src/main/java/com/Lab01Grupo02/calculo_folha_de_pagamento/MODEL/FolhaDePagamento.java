@@ -1,12 +1,19 @@
 package com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL;
 
-import lombok.Value;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.YearMonth;
 
-@Value
+@Entity
+@Data // Alterar para Value, utilizando Data apenas para testes unitarios
 public class FolhaDePagamento {
+     @Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
      int matricula; // Atributo implementado para pesquisa de dados - Deve ser att na UML
      BigDecimal salarioBruto;
      BigDecimal totalProvento;
