@@ -1,19 +1,11 @@
 package com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.YearMonth;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
+@Data
 public class FolhaDePagamento {
     private BigDecimal salarioBruto;
     private BigDecimal totalProvento;
