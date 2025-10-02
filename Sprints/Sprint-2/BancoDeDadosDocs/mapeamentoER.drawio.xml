@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0" version="28.2.5">
+  <diagram name="Modelo Relacional" id="relacional-1">
+    <mxGraphModel dx="3465" dy="779" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Modelo Relacional: Sistema de Folha de Pagamento" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;" parent="1" vertex="1">
+          <mxGeometry x="400" y="200" width="540" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="F-0" value="FUNCIONARIO" style="swimlane;startSize=23;fontSize=12;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="200" y="270" width="1080" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="F-1" value="Matricula" style="text;align=center;verticalAlign=middle;fontSize=12;fontStyle=4" parent="F-0" vertex="1">
+          <mxGeometry x="30" y="22" width="80" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="F-2" value="Nome" style="text;align=center;verticalAlign=middle;fontSize=12;" parent="F-0" vertex="1">
+          <mxGeometry x="100" y="22" width="100" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="F-3" value="CPF" style="text;align=center;verticalAlign=middle;fontSize=12;" parent="F-0" vertex="1">
+          <mxGeometry x="190" y="22" width="80" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="F-4" value="DataNascimento" style="text;align=center;verticalAlign=middle;fontSize=12;" parent="F-0" vertex="1">
+          <mxGeometry x="280" y="22" width="100" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="F-5" value="DataAdmissao" style="text;align=center;verticalAlign=middle;fontSize=12;" parent="F-0" vertex="1">
+          <mxGeometry x="410" y="22" width="100" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="F-6" value="SalarioBruto" style="text;align=center;verticalAlign=middle;fontSize=12;" parent="F-0" vertex="1">
+          <mxGeometry x="540" y="22" width="80" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="F-7" value="GrauInsalubridade" style="text;align=center;verticalAlign=middle;fontSize=12;" parent="F-0" vertex="1">
+          <mxGeometry x="640" y="22" width="120" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="O-1cNmuVw7pCOh1Jw555-20" value="CargaHoraria" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="F-0">
+          <mxGeometry x="780" y="20" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="O-1cNmuVw7pCOh1Jw555-22" value="Possui_Periculosidade" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="F-0">
+          <mxGeometry x="900" y="22" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="L-0" value="LOGIN" style="swimlane;startSize=23;fontSize=12;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="-90" y="320" width="220" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="L-1" value="Matricula_Funcionario" style="text;align=center;verticalAlign=middle;fontSize=12;" parent="L-0" vertex="1">
+          <mxGeometry x="10" y="24" width="120" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="O-1cNmuVw7pCOh1Jw555-2" value="" style="endArrow=none;dashed=1;html=1;rounded=0;exitX=0.006;exitY=0.792;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.984;entryY=0.787;entryDx=0;entryDy=0;entryPerimeter=0;elbow=vertical;" edge="1" parent="L-0" source="L-1" target="L-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="70" y="60" as="sourcePoint" />
+            <mxPoint x="160" y="60" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="O-1cNmuVw7pCOh1Jw555-3" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;Senha&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="L-0">
+          <mxGeometry x="140" y="22" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="D-0" value="DEPENDENTE" style="swimlane;startSize=23;fontSize=12;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="200" y="390" width="730" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="D-1" value="ID_Dependente" style="text;align=center;verticalAlign=middle;fontSize=12;fontStyle=4" parent="D-0" vertex="1">
+          <mxGeometry x="30" y="22" width="100" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="D-2" value="Matricula_Funcionario" style="text;align=center;verticalAlign=middle;fontSize=12;" parent="D-0" vertex="1">
+          <mxGeometry x="160" y="22" width="120" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="D-3" value="Nome" style="text;align=center;verticalAlign=middle;fontSize=12;" parent="D-0" vertex="1">
+          <mxGeometry x="310" y="22" width="60" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="D-4" value="Parentesco" style="text;align=center;verticalAlign=middle;fontSize=12;" parent="D-0" vertex="1">
+          <mxGeometry x="400" y="22" width="80" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="O-1cNmuVw7pCOh1Jw555-9" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="D-0" source="D-2" target="D-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="150" y="40" as="sourcePoint" />
+            <mxPoint x="200" y="-10" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="O-1cNmuVw7pCOh1Jw555-23" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;CPF&lt;/font&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="D-0">
+          <mxGeometry x="500" y="22" width="60" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="O-1cNmuVw7pCOh1Jw555-24" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;&lt;code&gt;DataNasc&lt;/code&gt;&lt;/font&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="D-0">
+          <mxGeometry x="580" y="22" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="FP-0" value="FOLHA_PAGAMENTO" style="swimlane;startSize=23;fontSize=12;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="400" y="520" width="700" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="FP-1" value="ID_Folha" style="text;align=center;verticalAlign=middle;fontSize=12;fontStyle=4" parent="FP-0" vertex="1">
+          <mxGeometry y="22" width="80" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="FP-2" value="Matricula_Funcionario" style="text;align=center;verticalAlign=middle;fontSize=12;" parent="FP-0" vertex="1">
+          <mxGeometry x="110" y="22" width="120" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="FP-3" value="MesReferencia" style="text;align=center;verticalAlign=middle;fontSize=12;" parent="FP-0" vertex="1">
+          <mxGeometry x="260" y="22" width="90" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="FP-4" value="TotalProventos" style="text;align=center;verticalAlign=middle;fontSize=12;" parent="FP-0" vertex="1">
+          <mxGeometry x="380" y="22" width="90" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="FP-5" value="TotalDescontos" style="text;align=center;verticalAlign=middle;fontSize=12;" parent="FP-0" vertex="1">
+          <mxGeometry x="500" y="22" width="90" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="FP-6" value="SalarioLiquido" style="text;align=center;verticalAlign=middle;fontSize=12;" parent="FP-0" vertex="1">
+          <mxGeometry x="610" y="22" width="80" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="O-1cNmuVw7pCOh1Jw555-15" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="FP-0" source="FP-2" target="FP-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="150" y="-30" as="sourcePoint" />
+            <mxPoint x="200" y="-80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IF-0" value="ITEM_FOLHA" style="swimlane;startSize=23;fontSize=12;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="600" y="650" width="410" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="IF-1" value="ID_Item" style="text;align=center;verticalAlign=middle;fontSize=12;fontStyle=4" parent="IF-0" vertex="1">
+          <mxGeometry y="22" width="80" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="IF-2" value="ID_Folha" style="text;align=center;verticalAlign=middle;fontSize=12;" parent="IF-0" vertex="1">
+          <mxGeometry x="90" y="22" width="80" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="IF-3" value="Descricao" style="text;align=center;verticalAlign=middle;fontSize=12;" parent="IF-0" vertex="1">
+          <mxGeometry x="180" y="22" width="80" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="IF-4" value="Tipo" style="text;align=center;verticalAlign=middle;fontSize=12;" parent="IF-0" vertex="1">
+          <mxGeometry x="270" y="22" width="40" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="IF-5" value="Valor" style="text;align=center;verticalAlign=middle;fontSize=12;" parent="IF-0" vertex="1">
+          <mxGeometry x="340" y="22" width="40" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="O-1cNmuVw7pCOh1Jw555-16" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="IF-0" source="IF-2" target="IF-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-30" y="-30" as="sourcePoint" />
+            <mxPoint x="20" y="-80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="O-1cNmuVw7pCOh1Jw555-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="L-1" target="F-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-20" y="400" />
+              <mxPoint x="170" y="400" />
+              <mxPoint x="170" y="338" />
+              <mxPoint x="270" y="338" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="O-1cNmuVw7pCOh1Jw555-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.598;entryY=1.051;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="420" y="438.7" as="sourcePoint" />
+            <mxPoint x="277.84000000000015" y="320.026" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="420" y="461" />
+              <mxPoint x="1070" y="461" />
+              <mxPoint x="1070" y="370" />
+              <mxPoint x="278" y="370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="O-1cNmuVw7pCOh1Jw555-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="FP-2" target="F-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="570" y="590" />
+              <mxPoint x="1140" y="590" />
+              <mxPoint x="1140" y="340" />
+              <mxPoint x="290" y="340" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="O-1cNmuVw7pCOh1Jw555-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="IF-2" target="FP-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="730" y="740" />
+              <mxPoint x="440" y="740" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
