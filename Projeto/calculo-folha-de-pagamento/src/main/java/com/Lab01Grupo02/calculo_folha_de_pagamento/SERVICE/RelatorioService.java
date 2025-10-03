@@ -11,13 +11,14 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class RelatorioService {
-    private FolhaDePagamento folhaDePagamento = new FolhaDePagamento();
+    //private FolhaDePagamento folhaDePagamento = new FolhaDePagamento();
 
     private Gson gson = new Gson();
 
@@ -48,11 +49,11 @@ public class RelatorioService {
      * MÉTODO DE ACESSO AO BANCO DE DADOS (DAO)
      * Especialista em buscar todas as folhas de pagamento na tabela.
      */
-    private List<FolhaDePagamento> buscarTodasAsFolhas() {
+    public List<FolhaDePagamento> buscarTodasAsFolhas() { // Definir como Public para efetuar os testes
         // Cria uma lista vazia para armazenar os resultados
         List<FolhaDePagamento> listaFolhas = new ArrayList<>();
         // SQL para selecionar TUDO da tabela. Adapte o nome "folha_de_pagamento" se for diferente.
-        String sql = "SELECT * FROM folha_de_pagamento";
+        String sql = "SELECT * FROM FOLHA_PAGAMENTO";
 
         try (Connection conn = DAO.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -63,18 +64,21 @@ public class RelatorioService {
             // Loop de busca de resultado
             while (rs.next()) {
                 // Para cada linha encontrada...
-                FolhaDePagamento folha = new FolhaDePagamento();
+                FolhaDePagamento folhaDePagamento = new FolhaDePagamento();
+
+                // Verifique se TODAS estas linhas existem e estão corretas
+                folhaDePagamento.setId_Folha(rs.getInt("ID_Folha"));
 
                 // Criar o objeto da folha de pagamento
-                folhaDePagamento.setMatricula(rs.getInt("matricula"));
-                folhaDePagamento.setMesReferencia(YearMonth.parse(rs.getString("mesRef")));
-                folhaDePagamento.setSalarioBruto(BigDecimal.valueOf(rs.getDouble("salarioBruto")));
-                folhaDePagamento.setTotalProvento(BigDecimal.valueOf(rs.getDouble("totalProvento")));
-                folhaDePagamento.setTotalDesconto(BigDecimal.valueOf(rs.getDouble("totalDesconto")));
-                folhaDePagamento.setSalarioLiquido(BigDecimal.valueOf(rs.getDouble("salarioLiquido")));
+                folhaDePagamento.setMatricula(rs.getInt("matricula_Funcionario"));
+                folhaDePagamento.setMesReferencia(LocalDate.parse(rs.getString("MesReferencia")));
+                folhaDePagamento.setSalarioBruto(BigDecimal.valueOf(rs.getDouble("SalarioBrutoCalculo")));
+                folhaDePagamento.setTotalProvento(rs.getBigDecimal("TotalProventos"));
+                folhaDePagamento.setTotalDesconto(rs.getBigDecimal("TotalDescontos"));
+                folhaDePagamento.setSalarioLiquido(rs.getBigDecimal("SalarioLiquido"));
 
                 // Adiciona o objeto preenchido a lista
-                listaFolhas.add(folha);
+                listaFolhas.add(folhaDePagamento);
             }
 
             rs.close();

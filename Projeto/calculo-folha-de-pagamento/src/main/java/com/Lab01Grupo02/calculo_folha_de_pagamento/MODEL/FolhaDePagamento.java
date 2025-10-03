@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.YearMonth;
 
 @Entity
@@ -15,6 +16,7 @@ import java.time.YearMonth;
 public class FolhaDePagamento {
      @Id
      @GeneratedValue(strategy = GenerationType.IDENTITY)
+     int id_Folha;
      int matricula; // Atributo implementado para pesquisa de dados - Deve ser att na UML
      BigDecimal salarioBruto;
      BigDecimal totalProvento;
@@ -27,6 +29,6 @@ public class FolhaDePagamento {
      BigDecimal valorVA;
      BigDecimal valorPericulosidade;
      BigDecimal valorInsalubridade;
-     YearMonth mesReferencia;
+     LocalDate mesReferencia;
      BigDecimal salarioHora;
 }
