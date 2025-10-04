@@ -6,6 +6,10 @@ import com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.RelatorioService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -15,7 +19,13 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
+@ActiveProfiles("test")
+@Transactional
 class RelatorioServiceTests {
+
+    @Autowired
+    private RelatorioService service;
 
     // 1. ATUALIZAMOS O SQL PARA CRIAR AS DUAS TABELAS E INSERIR OS DADOS
     private static final String SQL_SETUP_DATABASE = """
@@ -63,7 +73,7 @@ class RelatorioServiceTests {
     @DisplayName("Deve retornar a folha de pagamento de teste do banco de dados")
     void buscarTodasAsFolhas_DeveRetornarListaComSucesso() {
         // Arrange
-        RelatorioService service = new RelatorioService();
+        //RelatorioService service = new RelatorioService();
 
         // Act
         List<FolhaDePagamento> resultado = service.buscarTodasAsFolhas();
