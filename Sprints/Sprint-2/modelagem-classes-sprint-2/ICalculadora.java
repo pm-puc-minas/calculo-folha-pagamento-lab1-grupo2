@@ -1,5 +1,5 @@
-import FolhaDePagamento;
+import java.math.BigDecimal;
 
 public interface ICalculadora {
-	FolhaDePagamento calcularFolha();
+    FolhaDePagamento calcularFolha(double salarioMinimo, double grauRisco, String descricao);
 }
