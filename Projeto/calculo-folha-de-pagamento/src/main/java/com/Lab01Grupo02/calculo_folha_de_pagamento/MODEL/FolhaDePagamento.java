@@ -7,13 +7,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "FOLHA_PAGAMENTO") // <-- VOLTANDO PARA MAIÚSCULO
+ 
+@Getter // Define os métodos getters para todos os campos
+@Setter // Define os métodos setters para todos os campos
+@NoArgsConstructor // Define um construtor sem argumentos
+@AllArgsConstructor // Define um construtor com argumentos
+    
+// --- Anotações do JPA (Jakarta Persistence API) ---
+// Elas transformam esta classe Java em um espelho de uma tabela do banco de dados.
+@Entity  // Marca esta classe como uma "entidade", ou seja, um objeto que pode ser salvo no banco de dados.
+@Table(name = "FOLHA_PAGAMENTO")
 public class FolhaDePagamento {
 
     @Id
