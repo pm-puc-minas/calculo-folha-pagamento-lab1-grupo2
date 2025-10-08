@@ -1,4 +1,4 @@
-package com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL;
+package com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE;
 
 
 import java.math.BigDecimal;
