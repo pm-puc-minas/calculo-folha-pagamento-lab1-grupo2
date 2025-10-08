@@ -1,24 +1,40 @@
 package com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.calculos;
 
-import java.math.BigDecimal;
-
 import com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL.FolhaDePagamento;
-import com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL.ICalculadora;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL.ItemFolha;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class CalculoInsalubridade implements ICalculadora {
 
-    @Override
-    public FolhaDePagamento calcularFolha(double salarioMinimo, double grauRisco, String descricao) {
-        FolhaDePagamento folha = new FolhaDePagamento();
-        
-        BigDecimal adicional = BigDecimal.valueOf(salarioMinimo * grauRisco);
-        
-        folha.setDescricao(descricao);
-        folha.setValor(adicional);
-        return folha;
+    private BigDecimal salarioMinimo;
+    private BigDecimal grauRisco;
+    private String descricao;
+
+    public CalculoInsalubridade(BigDecimal salarioMinimo, BigDecimal grauRisco, String descricao) {
+        this.salarioMinimo = salarioMinimo;
+        this.grauRisco = grauRisco;
+        this.descricao = descricao;
     }
-    
-    public BigDecimal calcularAdicional(double salarioMinimo, double grauRisco) {
-        return BigDecimal.valueOf(salarioMinimo * grauRisco);
+
+    @Override
+    public FolhaDePagamento calcularFolha(BigDecimal salarioBruto) {
+        FolhaDePagamento folha = new FolhaDePagamento();
+        folha.setSalarioBruto(salarioBruto);
+
+        BigDecimal adicional = salarioMinimo.multiply(grauRisco).setScale(2, RoundingMode.HALF_UP);
+
+        ItemFolha item = new ItemFolha();
+        item.setFolha(folha);
+        item.setDescricao(descricao);
+        item.setTipo("PROVENTO");
+        item.setValor(adicional);
+
+        folha.getItens().add(item);
+
+        folha.setTotalProvento(adicional);
+        folha.setSalarioLiquido(adicional); // se não houver outros descontos
+
+        return folha;
     }
 }
