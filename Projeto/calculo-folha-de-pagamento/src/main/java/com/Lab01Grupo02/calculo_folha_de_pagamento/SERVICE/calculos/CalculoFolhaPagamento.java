@@ -1,4 +1,4 @@
-package com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL;
+package com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.calculos;
 
 
 import com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL.FolhaPagamento;
