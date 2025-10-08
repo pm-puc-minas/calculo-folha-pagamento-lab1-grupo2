@@ -1,7 +1,5 @@
 package com.Lab01Grupo02.calculo_folha_de_pagamento.Testes.Calculos;
 
-import com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL.FolhaDePagamento;
-import com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL.ItemFolha;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.calculos.CalculoInsalubridade;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,39 +9,36 @@ import java.math.RoundingMode;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CalculoInsalubridadeTests {
+class TesteCalculoInsalubridade {
 
     @Test
-    @DisplayName("Deve calcular corretamente o adicional de insalubridade e criar ItemFolha")
-    void calcularFolha_DeveRetornarFolhaComItemCorreto() {
+    @DisplayName("Deve calcular corretamente o adicional de insalubridade")
+    void calcularAdicional_DeveRetornarValorCorreto() {
         // Arrange
         BigDecimal salarioMinimo = new BigDecimal("1300.00");
-        BigDecimal grauRisco = new BigDecimal("0.20"); // 20% de insalubridade
+        BigDecimal grauRisco = new BigDecimal("0.20"); // 20%
         String descricao = "Insalubridade Grau 2";
 
         CalculoInsalubridade calculadora = new CalculoInsalubridade(salarioMinimo, grauRisco, descricao);
-        BigDecimal salarioBruto = new BigDecimal("5000.00");
 
         // Act
-        FolhaDePagamento folha = calculadora.calcularFolha(salarioBruto);
+        BigDecimal adicional = calculadora.calcularAdicional(salarioMinimo, grauRisco);
 
         // Assert
-        assertNotNull(folha);
-        assertEquals(salarioBruto, folha.getSalarioBruto());
+        BigDecimal esperado = salarioMinimo.multiply(grauRisco).setScale(2, RoundingMode.HALF_UP);
+        assertEquals(0, esperado.compareTo(adicional));
+    }
 
-        // Verifica totais
-        BigDecimal adicionalEsperado = salarioMinimo.multiply(grauRisco).setScale(2, RoundingMode.HALF_UP);
-        assertEquals(0, adicionalEsperado.compareTo(folha.getTotalProvento()));
-        assertEquals(0, adicionalEsperado.compareTo(folha.getSalarioLiquido()));
+    @Test
+    @DisplayName("Deve retornar zero quando salário mínimo ou grau de risco forem nulos")
+    void calcularAdicional_Nulo_DeveRetornarZero() {
+        // Arrange
+        CalculoInsalubridade calculadora = new CalculoInsalubridade(null, null, "Teste");
 
-        // Verifica o ItemFolha
-        assertNotNull(folha.getItens());
-        assertEquals(1, folha.getItens().size());
+        // Act
+        BigDecimal adicional = calculadora.calcularAdicional(null, null);
 
-        ItemFolha item = folha.getItens().get(0);
-        assertEquals(descricao, item.getDescricao());
-        assertEquals("PROVENTO", item.getTipo());
-        assertEquals(0, adicionalEsperado.compareTo(item.getValor()));
-        assertEquals(folha, item.getFolha());
+        // Assert
+        assertEquals(BigDecimal.ZERO, adicional);
     }
 }
