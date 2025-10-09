@@ -1,12 +1,19 @@
-package com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.calculos;
+package com.Lab01Grupo02.calculo_folha_de_pagamento.CalculosTestes;
 
+import com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL.FolhaDePagamento;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.calculos.CalculoINSS;
 import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TestCalculoINSS {
 
-    private final CalculoINSS calculadora = new CalculoINSS();
+    private final CalculoINSS calculadora = new CalculoINSS() {
+        @Override
+        public FolhaDePagamento calcularFolha(BigDecimal salarioBruto) {
+            return null;
+        }
+    };
 
     @Test
     void deveCalcularINSSParaSalarioAtePrimeiraFaixa() {

@@ -3,7 +3,7 @@ package com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.calculos;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class CalculoINSS implements ICalculadora {
+public abstract class CalculoINSS implements ICalculadora {
 
     private static final double TETO_INSS = 7507.49;
 
@@ -15,7 +15,6 @@ public class CalculoINSS implements ICalculadora {
         {3856.95, 7507.49, 0.14}    
     };
 
-    @Override
     public BigDecimal calcular(BigDecimal salarioBruto) {
         double salario = salarioBruto.doubleValue();
 
@@ -53,15 +52,4 @@ public class CalculoINSS implements ICalculadora {
                 .multiply(BigDecimal.valueOf(100)); // transforma em %
     }
 
-    public static void main(String[] args) {
-        CalculoINSS calculo = new CalculoINSS();
-        BigDecimal salario = new BigDecimal("7507.49");
-
-        BigDecimal desconto = calculo.calcular(salario);
-        BigDecimal aliquotaEfetiva = calculo.calcularAliquotaEfetiva(salario);
-
-        System.out.println("Salário Bruto: R$ " + salario);
-        System.out.println("Desconto INSS: R$ " + desconto);
-        System.out.println("Alíquota Efetiva: " + aliquotaEfetiva + "%");
-    }
 }

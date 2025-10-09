@@ -3,13 +3,12 @@ package com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.calculos;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL.FolhaDePagamento;
-import com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL.ICalculadora;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.calculos.ICalculadora;
 
 public class CalculoIRRF implements ICalculadora {
 
     private static final BigDecimal DEDUCAO_DEPENDENTE = new BigDecimal("189.59");
 
-    @Override
     public FolhaDePagamento calcularFolha(double salarioBruto, double numeroDependentes, String descricao) {
         BigDecimal salarioBrutoBD = BigDecimal.valueOf(salarioBruto);
         BigDecimal dependentesBD = BigDecimal.valueOf(numeroDependentes);
@@ -45,10 +44,15 @@ public class CalculoIRRF implements ICalculadora {
         }
 
         FolhaDePagamento folha = new FolhaDePagamento();
-        folha.setDescricao(descricao);
+        // folha.setDescricao(descricao);
         folha.setTotalProvento(irrf);
         folha.setSalarioLiquido(salarioBrutoBD.subtract(irrf));
 
         return folha;
+    }
+
+    @Override
+    public FolhaDePagamento calcularFolha(BigDecimal salarioBruto) {
+        return null;
     }
 }
