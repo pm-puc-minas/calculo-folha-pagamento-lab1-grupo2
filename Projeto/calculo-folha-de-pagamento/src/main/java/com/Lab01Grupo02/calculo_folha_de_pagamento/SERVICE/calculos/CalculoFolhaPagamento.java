@@ -1,7 +1,7 @@
 package com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.calculos;
 
 
-import com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL.FolhaPagamento;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL.FolhaDePagamento;
 import java.math.BigDecimal;
 
 public class CalculoFolhaPagamento {
@@ -13,8 +13,8 @@ public class CalculoFolhaPagamento {
     private final CalculoBeneficio calculoBeneficios = new CalculoBeneficio();
     private final CalculoFGTS calculoFGTS = new CalculoFGTS();
 
-    public FolhaPagamento calcularFolha(double salarioBruto) {
-        FolhaPagamento folha = new FolhaPagamento();
+    public FolhaDePagamento calcularFolha(double salarioBruto) {
+        FolhaDePagamento folha = new FolhaDePagamento();
 
         folha.setSalarioBruto(BigDecimal.valueOf(salarioBruto));
         folha.setBaseINSS(calculoINSS.calcularDesconto(salarioBruto));

@@ -7,7 +7,7 @@ public class CalculoBeneficio {
 
 
     public double calcularVT(double salarioBruto, double valorVT) {
-.
+
         double limiteDesconto = salarioBruto * 0.06;
 
         if (valorVT < limiteDesconto) {

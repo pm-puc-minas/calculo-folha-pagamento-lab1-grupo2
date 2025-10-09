@@ -6,7 +6,7 @@ import java.math.RoundingMode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class TestCalculoBeneficio {
+class TestCalculoBeneficios {
 
     private final CalculoBeneficio calculadora = new CalculoBeneficio();
     // Constante para arredondamento, garantindo que a comparação usa a mesma regra da implementação

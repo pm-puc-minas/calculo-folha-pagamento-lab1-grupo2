@@ -1,4 +1,4 @@
-package com.Lab01Grupo02.calculo_folha_de_pagamento.TESTE;
+package com.Lab01Grupo02.calculo_folha_de_pagamento.CalculosTestes;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.calculos.CalculoInsalubridade;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL.FolhaDePagamento;
 
-public class CalculoInsalubridadeTest {
+public class TestCalculoInsalubridade {
 
     private final CalculoInsalubridade calculadora = new CalculoInsalubridade();
 

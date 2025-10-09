@@ -1,5 +1,6 @@
-package com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.calculos;
+package com.Lab01Grupo02.calculo_folha_de_pagamento.CalculosTestes;
 
+import com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.calculos.CalculoFGTS;
 import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.*;

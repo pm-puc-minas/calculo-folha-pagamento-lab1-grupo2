@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Entity
 @Table(name = "FOLHA_PAGAMENTO") // <-- VOLTANDO PARA MAIÚSCULO
-public class FolhaDePagamento {
+public class ItemFolha {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
