@@ -1,4 +1,4 @@
-package com.Lab01Grupo02.calculo_folha_de_pagamento.Testes.Calculos;
+package com.Lab01Grupo02.calculo_folha_de_pagamento.CalculosTestes;
 
 import com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.calculos.CalculoFGTS;
 import org.junit.jupiter.api.DisplayName;
@@ -9,7 +9,7 @@ import java.math.RoundingMode;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TesteCalculoFGTS {
+class TestCalculoFGTS {
 
     @Test
     @DisplayName("Deve calcular corretamente 8% de FGTS sobre o salário bruto")
