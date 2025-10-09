@@ -22,4 +22,11 @@ public class Funcionario extends Pessoa  {
     private String grauInsalubridade;
     private String cargo;
     private List<Dependente> dependentes;
+    
+    public int GetQuantidadeDependentes()
+    {
+        return dependentes.size();
+    }
+
+
 }
