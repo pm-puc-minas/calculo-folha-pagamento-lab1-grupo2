@@ -2,43 +2,34 @@ package com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.calculos;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL.FolhaDePagamento;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL.ItemFolha;
 
-public class CalculoInsalubridade implements ICalculadora {
+public class CalculoInsalubridade {
 
-    private String grau; // Baixo, Médio, Alto
+    private double percentual; // Percentual do grau de risco: 0.1, 0.2, 0.4
+    private String descricao;  // Descrição do grau de risco: Baixo, Médio, Alto
 
-    public CalculoInsalubridade(String grau) {
-        this.grau = grau;
+    public CalculoInsalubridade(double percentual, String descricao) {
+        this.percentual = percentual;
+        this.descricao = descricao;
     }
 
-    @Override
-    public FolhaDePagamento calcularFolha(BigDecimal salarioBruto) {
-        if (salarioBruto == null) {
-            salarioBruto = BigDecimal.ZERO;
+    public ItemFolha calcularInsalubridade(BigDecimal salarioMinimo) {
+        if (salarioMinimo == null) {
+            salarioMinimo = BigDecimal.ZERO;
         }
 
-        double percentual = 0.0;
-        switch (grau.toLowerCase()) {
-            case "baixo":
-                percentual = 0.10;
-                break;
-            case "médio":
-            case "medio":
-                percentual = 0.20;
-                break;
-            case "alto":
-                percentual = 0.40;
-                break;
-            default:
-                percentual = 0.0; // caso inválido
-        }
-
-        BigDecimal totalProvento = salarioBruto.multiply(BigDecimal.valueOf(percentual))
+        // Cálculo do adicional: salário mínimo * percentual
+        BigDecimal valor = salarioMinimo
+                .multiply(BigDecimal.valueOf(percentual))
                 .setScale(2, RoundingMode.HALF_UP);
 
-        FolhaDePagamento folha = new FolhaDePagamento();
-        folha.setTotalProvento(totalProvento);
-        return folha;
+        // Criação do item da folha de pagamento
+        ItemFolha item = new ItemFolha();
+        item.setDesc(descricao);
+        item.setTipo("Provento");
+        item.setValor(valor);
+
+        return item;
     }
 }
