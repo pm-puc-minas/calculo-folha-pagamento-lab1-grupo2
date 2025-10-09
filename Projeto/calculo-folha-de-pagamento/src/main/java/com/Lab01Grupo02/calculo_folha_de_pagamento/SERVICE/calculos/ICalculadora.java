@@ -5,4 +5,6 @@ import java.math.BigDecimal;
 
 public interface ICalculadora {
     FolhaDePagamento calcularFolha(BigDecimal salarioBruto);
+
+    FolhaDePagamento calcularFolha(double salarioBase, double ignorado, String descricao);
 }

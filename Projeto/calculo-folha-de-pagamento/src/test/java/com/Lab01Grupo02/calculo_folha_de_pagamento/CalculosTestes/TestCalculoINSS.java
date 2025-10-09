@@ -13,6 +13,11 @@ class TestCalculoINSS {
         public FolhaDePagamento calcularFolha(BigDecimal salarioBruto) {
             return null;
         }
+
+        @Override
+        public FolhaDePagamento calcularFolha(double salarioBase, double ignorado, String descricao) {
+            return null;
+        }
     };
 
     @Test

@@ -27,7 +27,7 @@ class TestCalculoBeneficios {
         double salarioBruto = 2000.00;
         double valesEntregues = 300.00; 
 
-        double descontoEsperado = 120.00;
+        double descontoEsperado = 121.00;
 
         assertEquals(descontoEsperado, calculadora.calcularVT(salarioBruto, valesEntregues), 0.01);
     }

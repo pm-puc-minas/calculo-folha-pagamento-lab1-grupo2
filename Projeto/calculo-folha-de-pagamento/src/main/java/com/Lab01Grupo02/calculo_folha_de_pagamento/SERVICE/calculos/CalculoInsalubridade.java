@@ -41,4 +41,9 @@ public class CalculoInsalubridade implements ICalculadora {
         folha.setTotalProvento(totalProvento);
         return folha;
     }
+
+    @Override
+    public FolhaDePagamento calcularFolha(double salarioBase, double ignorado, String descricao) {
+        return null;
+    }
 }
