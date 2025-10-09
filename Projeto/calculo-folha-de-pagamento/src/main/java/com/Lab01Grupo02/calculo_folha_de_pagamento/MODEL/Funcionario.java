@@ -1,4 +1,4 @@
-/**
+
 package com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL;
 
 import java.math.BigDecimal;
@@ -15,7 +15,6 @@ import lombok.Setter;
 @Setter // Define os métodos setters para todos os campos
 @NoArgsConstructor // Define um construtor sem argumentos
 @AllArgsConstructor // Define um construtor com argumentos
-
 
 @Entity
 @Table(name = "FUNCIONARIOS")
@@ -47,4 +46,3 @@ public class Funcionario extends Pessoa {
         return dependentes != null ? dependentes.size() : 0;
     }
 }
-*/

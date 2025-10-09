@@ -16,6 +16,7 @@ import java.time.Period;
 
 @Entity
 @Table(name = "PESSOAS")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
