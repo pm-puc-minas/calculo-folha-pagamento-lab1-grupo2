@@ -4,11 +4,13 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TestCalculoBeneficio {
 
     private final CalculoBeneficio calculadora = new CalculoBeneficio();
+    // Constante para arredondamento, garantindo que a comparação usa a mesma regra da implementação
+    private static final int ESCALA = 2; 
 
     @Test
     void deveDescontarValorVTQuandoForMenorQueSeisPorcento() {
@@ -45,31 +47,31 @@ class TestCalculoBeneficio {
         int diasUteis = 26;
         double valorDiario = 24.00;
 
-        BigDecimal esperado = new BigDecimal("624.00").setScale(2, RoundingMode.HALF_UP);
-
         BigDecimal resultado = calculadora.calcularVA(diasUteis, valorDiario);
-        assertEquals(esperado, resultado);
+        
+        // CORREÇÃO: Usando setScale para garantir a comparação exata de escala
+        assertEquals(new BigDecimal("624.00").setScale(ESCALA, RoundingMode.HALF_UP), resultado);
     }
 
     @Test
     void deveCalcularVATotalComValoresDecimaisEArredondarCorretamente() {
         int diasUteis = 22;
         double valorDiario = 33.3333; 
-
-        BigDecimal esperado = new BigDecimal("733.33").setScale(2, RoundingMode.HALF_UP);
-
+        
         BigDecimal resultado = calculadora.calcularVA(diasUteis, valorDiario);
-        assertEquals(esperado, resultado);
+
+        // CORREÇÃO: Usando setScale para garantir a comparação exata de escala
+        assertEquals(new BigDecimal("733.33").setScale(ESCALA, RoundingMode.HALF_UP), resultado);
     }
 
     @Test
     void deveRetornarZeroQuandoNaoHouverDiasUteis() {
         int diasUteis = 0;
         double valorDiario = 50.00;
-
-        BigDecimal esperado = new BigDecimal("0.00").setScale(2, RoundingMode.HALF_UP);
-
+        
         BigDecimal resultado = calculadora.calcularVA(diasUteis, valorDiario);
-        assertEquals(esperado, resultado);
+
+        // Uso do setScale no BigDecimal.ZERO
+        assertEquals(BigDecimal.ZERO.setScale(ESCALA, RoundingMode.HALF_UP), resultado);
     }
 }
