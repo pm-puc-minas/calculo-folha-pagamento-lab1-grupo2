@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor // Define um construtor sem argumentos
 @AllArgsConstructor // Define um construtor com argumentos
 
-public class Funcionario  {
+public class Funcionario extends Pessoa  {
     private BigDecimal salarioBruto;
     private LocalDate dataAdmissao;
     private boolean temPericulosidade;
