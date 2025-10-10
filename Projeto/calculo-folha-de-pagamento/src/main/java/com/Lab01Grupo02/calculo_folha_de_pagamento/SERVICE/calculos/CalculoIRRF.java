@@ -9,6 +9,7 @@ public class CalculoIRRF implements ICalculadora {
 
     private static final BigDecimal DEDUCAO_DEPENDENTE = new BigDecimal("189.59");
 
+    // Dinir bd na ass
     public FolhaDePagamento calcularFolha(double salarioBruto, double numeroDependentes, String descricao) {
         BigDecimal salarioBrutoBD = BigDecimal.valueOf(salarioBruto);
         BigDecimal dependentesBD = BigDecimal.valueOf(numeroDependentes);

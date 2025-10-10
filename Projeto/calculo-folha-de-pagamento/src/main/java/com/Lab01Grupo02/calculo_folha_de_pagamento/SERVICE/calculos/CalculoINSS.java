@@ -7,7 +7,7 @@ public abstract class CalculoINSS implements ICalculadora {
 
     private static final double TETO_INSS = 7507.49;
 
-    // Tabela progressiva de 2023
+    // Tabela progressiva de 2023 (criar classe eneum)+
     private static final double[][] FAIXAS = {
         {0.00, 1302.00, 0.075},      
         {1302.01, 2571.29, 0.09},    
