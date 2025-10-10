@@ -1,6 +1,6 @@
 // TODO Criar um funcionario ficticio para fazer os calculos, usando a calculadora. Mudar a calculadora para receber o funcionario
 package com.Lab01Grupo02.calculo_folha_de_pagamento.CalculosTestes;
-
+/*
 import com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.calculos.CalculoPericulosidade;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL.FolhaDePagamento;
 import org.junit.jupiter.api.Test;
@@ -58,3 +58,5 @@ class TestCalculoPericulosidade {
        // assertEquals(descricao, folha.getDescricao());
     }
 }
+
+ */

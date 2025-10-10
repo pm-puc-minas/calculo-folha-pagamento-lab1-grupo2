@@ -1,9 +1,9 @@
-package com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.calculos;
-
+package com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos;
+/*
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public abstract class CalculoINSS implements ICalculadora {
+public class CalculoINSS implements ICalculadora {
 
     private static final double TETO_INSS = 7507.49;
 
@@ -53,3 +53,5 @@ public abstract class CalculoINSS implements ICalculadora {
     }
 
 }
+
+ */

@@ -1,5 +1,5 @@
 
-package com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL;
+package com.Lab01Grupo02.calculo_folha_de_pagamento.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

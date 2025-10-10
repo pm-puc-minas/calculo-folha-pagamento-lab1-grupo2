@@ -1,7 +1,7 @@
-package com.Lab01Grupo02.calculo_folha_de_pagamento.CONTROLLER;
+package com.Lab01Grupo02.calculo_folha_de_pagamento.controller;
 
-import com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL.FolhaDePagamento;
-import com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.RelatorioService;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.model.FolhaDePagamento;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.service.RelatorioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

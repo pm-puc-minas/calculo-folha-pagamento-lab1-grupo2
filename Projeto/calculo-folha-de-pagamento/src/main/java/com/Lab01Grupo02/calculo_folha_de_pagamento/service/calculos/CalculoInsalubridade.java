@@ -1,10 +1,9 @@
-package com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.calculos;
+package com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL.FolhaDePagamento;
-import com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL.ItemFolha;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
 
 public class CalculoInsalubridade {
 

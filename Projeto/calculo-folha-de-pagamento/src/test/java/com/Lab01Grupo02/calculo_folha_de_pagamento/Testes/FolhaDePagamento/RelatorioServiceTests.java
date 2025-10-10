@@ -1,8 +1,8 @@
 package com.Lab01Grupo02.calculo_folha_de_pagamento.Testes.FolhaDePagamento;
 
 import com.Lab01Grupo02.calculo_folha_de_pagamento.DAO.DAO;
-import com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL.FolhaDePagamento;
-import com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.RelatorioService;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.model.FolhaDePagamento;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.service.RelatorioService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

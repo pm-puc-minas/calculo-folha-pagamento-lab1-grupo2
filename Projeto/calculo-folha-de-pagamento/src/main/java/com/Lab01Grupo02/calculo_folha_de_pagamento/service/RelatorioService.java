@@ -1,6 +1,7 @@
-package com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE;
+package com.Lab01Grupo02.calculo_folha_de_pagamento.service;
 
-import com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL.FolhaDePagamento;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.model.FolhaDePagamento;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.service.jpa.FolhaPagamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL;
+package com.Lab01Grupo02.calculo_folha_de_pagamento.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Getter
 @Setter

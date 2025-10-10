@@ -7,8 +7,8 @@ import java.math.BigDecimal;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.calculos.CalculoInsalubridade;
-import com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL.ItemFolha;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos.CalculoInsalubridade;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
 
 public class TestCalculoInsalubridade {
 
