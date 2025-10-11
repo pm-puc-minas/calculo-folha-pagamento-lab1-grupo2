@@ -21,6 +21,10 @@ import lombok.Setter;
 @PrimaryKeyJoinColumn(name = "ID_Pessoa")
 public class Funcionario extends Pessoa {
 
+    //Atributo para relacionar com Folha de pagamento
+    @Column(name = "matricula")
+    private int matricula;
+
     @Column(name = "SalarioBruto")
     private BigDecimal salarioBruto;
 
