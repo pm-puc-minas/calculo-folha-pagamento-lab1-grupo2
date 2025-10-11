@@ -1,5 +1,5 @@
 
-package com.Lab01Grupo02.calculo_folha_de_pagamento.model;
+package main.java.com.Lab01Grupo02.calculo_folha_de_pagamento.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package com.Lab01Grupo02.calculo_folha_de_pagamento.config;
+package main.java.com.Lab01Grupo02.calculo_folha_de_pagamento.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;

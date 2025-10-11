@@ -1,4 +1,4 @@
-package com.Lab01Grupo02.calculo_folha_de_pagamento.service;
+package main.java.com.Lab01Grupo02.calculo_folha_de_pagamento.service;
 
 import org.springframework.stereotype.Service;
 
