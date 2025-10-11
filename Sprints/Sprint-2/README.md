@@ -1,4 +1,4 @@
-#Entrega Sprint 2
+# Entrega Sprint 2
 
 ## Model
 - [Model](https://github.com/pm-puc-minas/calculo-folha-pagamento-lab1-grupo2/tree/main/Projeto/calculo-folha-de-pagamento/src/main/java/com/Lab01Grupo02/calculo_folha_de_pagamento/model)
