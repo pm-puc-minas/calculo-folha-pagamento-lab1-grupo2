@@ -18,7 +18,7 @@ import java.util.List;
  * uma lista de módulos que implementam CalculoFolha.
  */
 @Service
-public class CalculadoraService implements com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.calculos.ICalculadora {
+public class CalculadoraService implements com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos.ICalculadora{
 
     // NOTA: A lista de todos os módulos de cálculo que o sistema suporta.
     // Todos são do tipo genérico 'CalculoFolha', permitindo tratá-los da mesma forma.

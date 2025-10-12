@@ -1,4 +1,4 @@
-package main.java.com.Lab01Grupo02.calculo_folha_de_pagamento.service.jpa;
+package com.Lab01Grupo02.calculo_folha_de_pagamento.service.jpa;
 
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.FolhaDePagamento;
 import org.springframework.data.jpa.repository.JpaRepository;
