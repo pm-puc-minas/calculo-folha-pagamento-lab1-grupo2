@@ -13,7 +13,7 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CalculoINSSTest {
+class TestCalculoINSS {
 
     private CalculoINSS calculoINSS;
     private Funcionario funcionario;
