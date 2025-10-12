@@ -32,7 +32,7 @@ class TestCalculoIRRF {
 
         ItemFolha itemIRRF = calculadora.calcular(funcionario, inssCalculado);
 
-        BigDecimal irrfEsperado = new BigDecimal("-90.76"); // Corrigido
+        BigDecimal irrfEsperado = new BigDecimal("-90.76"); 
         assertEquals(irrfEsperado, itemIRRF.getValor());
         assertEquals("Desconto", itemIRRF.getTipo());
     }
@@ -45,7 +45,7 @@ class TestCalculoIRRF {
 
         ItemFolha itemIRRF = calculadora.calcular(funcionario, inssCalculado);
 
-        BigDecimal irrfEsperado = new BigDecimal("-849.74"); // Corrigido
+        BigDecimal irrfEsperado = new BigDecimal("-849.74"); 
         assertEquals(irrfEsperado, itemIRRF.getValor());
         assertEquals("Desconto", itemIRRF.getTipo());
     }
