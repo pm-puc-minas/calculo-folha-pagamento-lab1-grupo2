@@ -1,53 +1,70 @@
-package com.Lab01Grupo02.calculo_folha_de_pagamento.CalculosTestes;
-/*
-import com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.calculos.CalculoIRRF;
-import com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL.FolhaDePagamento;
+package test.java.com.Lab01Grupo02.calculo_folha_de_pagamento.CalculosTestes;
+
+import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Funcionario;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos.CalculoIRRF;
 import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TestCalculoIRRF {
 
     private final CalculoIRRF calculadora = new CalculoIRRF();
+    private static final int ESCALA = 2;
 
     @Test
     void deveCalcularIRRFFaixaIsenta() {
-        double salarioBruto = 2000.00;
-        double dependentes = 0;
-        String descricao = "IRRF - Faixa Isenta";
+        
+        Funcionario funcionario = new Funcionario();
+        funcionario.setSalarioBruto(new BigDecimal("2000.00"));
+        funcionario.setNumeroDependentes(0); 
 
-        FolhaDePagamento folha = calculadora.calcularFolha(salarioBruto, dependentes, descricao);
-
-        assertEquals(new BigDecimal("0.00"), folha.getTotalProvento());
-        assertEquals(new BigDecimal("2000.00"), folha.getSalarioLiquido().add(folha.getTotalProvento()));
-        //assertEquals(descricao, folha.getDescricao());
+      
+        BigDecimal inssCalculado = new BigDecimal("180.00"); 
+        
+        ItemFolha itemIRRF = calculadora.calcular(funcionario, inssCalculado);
+        
+       
+        assertEquals(BigDecimal.ZERO.setScale(ESCALA), itemIRRF.getValor().abs());
+        assertEquals("Desconto", itemIRRF.getTipo());
     }
 
     @Test
     void deveCalcularIRRFFaixa3ComDependente() {
-        double salarioBruto = 3500.00;
-        double dependentes = 1;
-        String descricao = "IRRF - Faixa 3 com Dependente";
+      
+        
+        Funcionario funcionario = new Funcionario();
+        funcionario.setSalarioBruto(new BigDecimal("3500.00"));
+        funcionario.setNumeroDependentes(1);
 
-        FolhaDePagamento folha = calculadora.calcularFolha(salarioBruto, dependentes, descricao);
+        BigDecimal inssCalculado = new BigDecimal("340.00");
+        
+      
+        BigDecimal irrfEsperado = new BigDecimal("-89.76"); 
 
-        assertEquals(new BigDecimal("99.52"), folha.getTotalProvento());
-        assertEquals(new BigDecimal("3400.48"), folha.getSalarioLiquido());
-        //assertEquals(descricao, folha.getDescricao());
+        ItemFolha itemIRRF = calculadora.calcular(funcionario, inssCalculado);
+        
+        assertEquals(irrfEsperado, itemIRRF.getValor());
+        assertEquals("Desconto", itemIRRF.getTipo());
     }
 
     @Test
     void deveCalcularIRRFFaixa5MultiplasDeducoes() {
-        double salarioBruto = 7507.49;
-        double dependentes = 2;
-        String descricao = "IRRF - Faixa 5 múltiplas deduções";
+     
+        
+        Funcionario funcionario = new Funcionario();
+        funcionario.setSalarioBruto(new BigDecimal("7507.49"));
+        funcionario.setNumeroDependentes(2);
 
-        FolhaDePagamento folha = calculadora.calcularFolha(salarioBruto, dependentes, descricao);
+      
+        BigDecimal inssCalculado = new BigDecimal("877.24");
 
-        assertEquals(new BigDecimal("849.68"), folha.getTotalProvento());
-        assertEquals(new BigDecimal("6657.81"), folha.getSalarioLiquido());
-        //assertEquals(descricao, folha.getDescricao());
+       
+        BigDecimal irrfEsperado = new BigDecimal("-849.68"); 
+
+        ItemFolha itemIRRF = calculadora.calcular(funcionario, inssCalculado);
+
+        assertEquals(irrfEsperado, itemIRRF.getValor());
+        assertEquals("Desconto", itemIRRF.getTipo());
     }
 }
-
- */
