@@ -2,28 +2,34 @@ package com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos;
 
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Funcionario;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos.ICalculadora;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CalculoIRRF implements CalculoFolha {
+public class CalculoIRRF implements ICalculadora {
 
     private static final BigDecimal DEDUCAO_POR_DEPENDENTE = new BigDecimal("189.59");
     private static final int ESCALA = 2;
 
-    public ItemFolha calcular(Funcionario funcionario, BigDecimal inssDescontado) {
-
-        if (funcionario == null || funcionario.getSalarioBruto() == null || inssDescontado == null) {
-            return criarItemVazio();
+    @Override
+    public List<ItemFolha> calcularFolhaCompleta(Funcionario funcionario) {
+        List<ItemFolha> lista = new ArrayList<>();
+        if (funcionario == null || funcionario.getSalarioBruto() == null) {
+            lista.add(criarItemVazio());
+            return lista;
         }
 
-        BigDecimal salarioBruto = funcionario.getSalarioBruto();
-        BigDecimal numeroDependentes = BigDecimal.valueOf(funcionario.getNumeroDependentes());
-        BigDecimal salarioBase = salarioBruto.subtract(inssDescontado);
-        BigDecimal deducaoDependentes = DEDUCAO_POR_DEPENDENTE.multiply(numeroDependentes);
+        BigDecimal salarioBase = funcionario.getSalarioBruto();
+        BigDecimal deducaoDependentes = DEDUCAO_POR_DEPENDENTE
+                .multiply(BigDecimal.valueOf(funcionario.getNumeroDependentes()));
         BigDecimal baseCalculo = salarioBase.subtract(deducaoDependentes);
 
         if (baseCalculo.compareTo(BigDecimal.ZERO) <= 0) {
-            return criarItemVazio();
+            lista.add(criarItemVazio());
+            return lista;
         }
 
         BigDecimal aliquota;
@@ -46,9 +52,8 @@ public class CalculoIRRF implements CalculoFolha {
             deducaoIR = new BigDecimal("869.36");
         }
 
-        BigDecimal irrf = baseCalculo.multiply(aliquota)
-                                     .subtract(deducaoIR)
-                                     .setScale(ESCALA, RoundingMode.HALF_UP);
+        BigDecimal irrf = baseCalculo.multiply(aliquota).subtract(deducaoIR)
+                .setScale(ESCALA, RoundingMode.HALF_UP);
 
         if (irrf.compareTo(BigDecimal.ZERO) < 0) {
             irrf = BigDecimal.ZERO;
@@ -58,14 +63,15 @@ public class CalculoIRRF implements CalculoFolha {
         item.setDesc("IRRF - Imposto de Renda Retido na Fonte");
         item.setTipo("Desconto");
         item.setValor(irrf.negate());
-        return item;
+        lista.add(item);
+        return lista;
     }
 
     private ItemFolha criarItemVazio() {
-        ItemFolha itemVazio = new ItemFolha();
-        itemVazio.setDesc("IRRF - Imposto de Renda Retido na Fonte");
-        itemVazio.setTipo("Desconto");
-        itemVazio.setValor(BigDecimal.ZERO.setScale(ESCALA));
-        return itemVazio;
+        ItemFolha item = new ItemFolha();
+        item.setDesc("IRRF - Imposto de Renda Retido na Fonte");
+        item.setTipo("Desconto");
+        item.setValor(BigDecimal.ZERO.setScale(ESCALA));
+        return item;
     }
 }
