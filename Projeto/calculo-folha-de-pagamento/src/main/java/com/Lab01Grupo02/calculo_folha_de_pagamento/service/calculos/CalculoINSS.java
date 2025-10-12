@@ -4,86 +4,95 @@ import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Funcionario;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CalculoINSS implements CalculoFolha {
 
-    private static final double TETO_INSS = 7507.49;
+    private static final BigDecimal TETO_INSS = new BigDecimal("7507.49");
 
-    private enum TipoINSS {
-        PROGRESSIVO {
-            @Override
-            public BigDecimal calcular(BigDecimal salarioBruto) {
+    private enum FaixaINSS {
+        FAIXA_1(new BigDecimal("0.00"), new BigDecimal("1302.00"), new BigDecimal("0.075")),
+        FAIXA_2(new BigDecimal("1302.01"), new BigDecimal("2571.29"), new BigDecimal("0.09")),
+        FAIXA_3(new BigDecimal("2571.30"), new BigDecimal("3856.94"), new BigDecimal("0.12")),
+        FAIXA_4(new BigDecimal("3856.95"), new BigDecimal("7507.49"), new BigDecimal("0.14"));
 
-                if (salarioBruto == null || salarioBruto.compareTo(BigDecimal.ZERO) <= 0) {
-                    return BigDecimal.ZERO;
-                }
+        private final BigDecimal limiteInferior;
+        private final BigDecimal limiteSuperior;
+        private final BigDecimal aliquota;
 
-                double salario = salarioBruto.doubleValue();
+        FaixaINSS(BigDecimal limiteInferior, BigDecimal limiteSuperior, BigDecimal aliquota) {
+            this.limiteInferior = limiteInferior;
+            this.limiteSuperior = limiteSuperior;
+            this.aliquota = aliquota;
+        }
 
-                // Aplica o teto máximo do INSS
-                salario = Math.min(salario, TETO_INSS);
-                double desconto = 0.0;
+        public BigDecimal getLimiteInferior() {
+            return limiteInferior;
+        }
 
-                // Cálculo progressivo com as faixas de 2023
-                if (salario > 3856.94) {
-                    desconto += (salario - 3856.94) * 0.14;
-                    salario = 3856.94;
-                }
-                if (salario > 2571.29) {
-                    desconto += (salario - 2571.29) * 0.12;
-                    salario = 2571.29;
-                }
-                if (salario > 1302.00) {
-                    desconto += (salario - 1302.00) * 0.09;
-                    salario = 1302.00;
-                }
+        public BigDecimal getLimiteSuperior() {
+            return limiteSuperior;
+        }
 
-                desconto += salario * 0.075;
+        public BigDecimal getAliquota() {
+            return aliquota;
+        }
+    }
 
-                return BigDecimal.valueOf(desconto).setScale(2, RoundingMode.HALF_UP);
+    @Override
+    public ItemFolha calcular(Funcionario funcionario) {
+        if (funcionario == null || funcionario.getSalarioBruto() == null) {
+            return criarItemVazio();
+        }
+
+        BigDecimal salarioBruto = funcionario.getSalarioBruto();
+        BigDecimal descontoINSS = calcularDescontoProgressivo(salarioBruto);
+
+        ItemFolha item = new ItemFolha();
+        item.setDesc("INSS");
+        item.setTipo("Desconto");
+        item.setValor(descontoINSS);
+
+        return item;
+    }
+
+    private BigDecimal calcularDescontoProgressivo(BigDecimal salarioBruto) {
+        if (salarioBruto == null || salarioBruto.compareTo(BigDecimal.ZERO) <= 0) {
+            return BigDecimal.ZERO;
+        }
+
+        BigDecimal salario = salarioBruto.min(TETO_INSS);
+        BigDecimal descontoTotal = BigDecimal.ZERO;
+
+        for (FaixaINSS faixa : FaixaINSS.values()) {
+            if (salario.compareTo(faixa.getLimiteInferior()) > 0) {
+                BigDecimal baseCalculo = salario.min(faixa.getLimiteSuperior())
+                        .subtract(faixa.getLimiteInferior());
+                BigDecimal descontoFaixa = baseCalculo.multiply(faixa.getAliquota());
+                descontoTotal = descontoTotal.add(descontoFaixa);
+            } else {
+                break;
             }
-        };
+        }
 
-        public abstract BigDecimal calcular(BigDecimal salarioBruto);
+        return descontoTotal.setScale(2, RoundingMode.HALF_UP);
     }
 
-    @Override
-    public BigDecimal calcular(BigDecimal salarioBruto) {
-        return TipoINSS.PROGRESSIVO.calcular(salarioBruto);
-    }
-
-    @Override
     public BigDecimal calcularAliquotaEfetiva(BigDecimal salarioBruto) {
-
         if (salarioBruto == null || salarioBruto.compareTo(BigDecimal.ZERO) == 0) {
             return BigDecimal.ZERO;
         }
 
-        BigDecimal desconto = calcular(salarioBruto);
-
+        BigDecimal desconto = calcularDescontoProgressivo(salarioBruto);
         return desconto
                 .divide(salarioBruto, 4, RoundingMode.HALF_UP)
                 .multiply(BigDecimal.valueOf(100));
     }
 
-    @Override
-    public List<ItemFolha> calcularFolhaCompleta(Funcionario funcionario) {
-        List<ItemFolha> itens = new ArrayList<>();
-
-        if (funcionario != null && funcionario.getSalarioBruto() != null) {
-            BigDecimal valorINSS = calcular(funcionario.getSalarioBruto());
-            
-            // Cria o item de folha para o INSS
-            ItemFolha item = new ItemFolha();
-            item.setDesc("INSS (Previdência Social)");
-            item.setTipo(TipoItemFolha.DESCONTO); 
-            item.setValor(valorINSS);
-            
-            itens.add(item);
-        }
-
-        return itens;
+    private ItemFolha criarItemVazio() {
+        ItemFolha itemVazio = new ItemFolha();
+        itemVazio.setDesc("INSS");
+        itemVazio.setTipo("Desconto");
+        itemVazio.setValor(BigDecimal.ZERO);
+        return itemVazio;
     }
 }
