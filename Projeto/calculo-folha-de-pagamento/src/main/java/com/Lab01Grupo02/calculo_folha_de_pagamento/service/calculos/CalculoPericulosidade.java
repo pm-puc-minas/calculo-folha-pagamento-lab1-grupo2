@@ -12,16 +12,12 @@ public class CalculoPericulosidade implements CalculoFolha {
 
     @Override
     public ItemFolha calcular(Funcionario funcionario) {
-
-        if (funcionario == null || funcionario.getSalarioBruto() == null || !funcionario.isAptoPericulosidade()) {
+        if (funcionario == null || funcionario.getSalarioBruto() == null || !funcionario.isTemPericulosidade()) {
             return criarItemVazio();
         }
 
         BigDecimal salarioBruto = funcionario.getSalarioBruto();
-        
-        BigDecimal valorAdicional = salarioBruto
-                                    .multiply(ALIQUOTA_PERICULOSIDADE)
-                                    .setScale(ESCALA, RoundingMode.HALF_UP);
+        BigDecimal valorAdicional = salarioBruto.multiply(ALIQUOTA_PERICULOSIDADE).setScale(ESCALA, RoundingMode.HALF_UP);
 
         ItemFolha item = new ItemFolha();
         item.setDesc("Adicional de Periculosidade (30%)");

@@ -16,7 +16,7 @@ class TestCalculoPericulosidade {
     void deveCalcularPericulosidadeFuncionarioApto_N1() {
         Funcionario funcionario = new Funcionario();
         funcionario.setSalarioBruto(new BigDecimal("2500.00"));
-        funcionario.setAptoPericulosidade(true); 
+        funcionario.setTemPericulosidade(true); 
         
         ItemFolha itemAdicional = calculadora.calcular(funcionario);
 
@@ -30,7 +30,7 @@ class TestCalculoPericulosidade {
     void deveCalcularPericulosidadeFuncionarioNaoApto_N2() {
         Funcionario funcionario = new Funcionario();
         funcionario.setSalarioBruto(new BigDecimal("3000.00"));
-        funcionario.setAptoPericulosidade(false); 
+        funcionario.setTemPericulosidade(false); 
 
         ItemFolha itemAdicional = calculadora.calcular(funcionario);
 
@@ -44,7 +44,7 @@ class TestCalculoPericulosidade {
     void deveCalcularPericulosidadeSalarioMinimo_N3() {
         Funcionario funcionario = new Funcionario();
         funcionario.setSalarioBruto(new BigDecimal("1380.60"));
-        funcionario.setAptoPericulosidade(true); 
+        funcionario.setTemPericulosidade(true); 
 
         ItemFolha itemAdicional = calculadora.calcular(funcionario);
 
