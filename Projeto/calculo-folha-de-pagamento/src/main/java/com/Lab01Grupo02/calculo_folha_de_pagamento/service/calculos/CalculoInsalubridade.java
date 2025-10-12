@@ -5,77 +5,36 @@ import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class CalculoInsalubridade implements CalculoFolha {
+public class CalculoPericulosidade implements CalculoFolha { 
 
-    private static final BigDecimal SALARIO_MINIMO = new BigDecimal("1380.60");
+    private static final BigDecimal ALIQUOTA_PERICULOSIDADE = new BigDecimal("0.30");
+    private static final int ESCALA = 2;
 
     @Override
     public ItemFolha calcular(Funcionario funcionario) {
 
-        if (funcionario == null || !funcionario.isTemInsalubridade()) {
-            ItemFolha itemVazio = new ItemFolha();
-            itemVazio.setDesc("Adicional de Insalubridade");
-            itemVazio.setTipo("Provento");
-            itemVazio.setValor(BigDecimal.ZERO);
-            return itemVazio;
+        if (funcionario == null || funcionario.getSalarioBruto() == null || !funcionario.isTemPericulosidade()) {
+            return criarItemVazio();
         }
 
-        BigDecimal percentual = obterPercentual(funcionario.getGrauInsalubridade());
-        String descricao = obterDescricao(funcionario.getGrauInsalubridade());
-
-        BigDecimal valor = SALARIO_MINIMO
-                .multiply(percentual)
-                .setScale(2, RoundingMode.HALF_UP);
+        BigDecimal salarioBruto = funcionario.getSalarioBruto();
+        
+        BigDecimal valorAdicional = salarioBruto
+                                    .multiply(ALIQUOTA_PERICULOSIDADE)
+                                    .setScale(ESCALA, RoundingMode.HALF_UP);
 
         ItemFolha item = new ItemFolha();
-        item.setDesc(descricao);
+        item.setDesc("Adicional de Periculosidade (30%)");
         item.setTipo("Provento");
-        item.setValor(valor);
-
+        item.setValor(valorAdicional);
         return item;
     }
 
-    private BigDecimal obterPercentual(String grau) {
-        if (grau == null) {
-            return BigDecimal.ZERO;
-        }
-
-        switch (grau.toUpperCase()) {
-            case "MINIMO":
-            case "MÍNIMO":
-            case "BAIXO":
-                return new BigDecimal("0.10");
-            case "MEDIO":
-            case "MÉDIO":
-                return new BigDecimal("0.20");
-            case "MAXIMO":
-            case "MÁXIMO":
-            case "ALTO":
-                return new BigDecimal("0.40");
-            default:
-                return BigDecimal.ZERO;
-        }
-    }
-
-    private String obterDescricao(String grau) {
-        if (grau == null) {
-            return "Adicional de Insalubridade";
-        }
-
-        switch (grau.toUpperCase()) {
-            case "MINIMO":
-            case "MÍNIMO":
-            case "BAIXO":
-                return "Adicional de Insalubridade - Grau Mínimo (10%)";
-            case "MEDIO":
-            case "MÉDIO":
-                return "Adicional de Insalubridade - Grau Médio (20%)";
-            case "MAXIMO":
-            case "MÁXIMO":
-            case "ALTO":
-                return "Adicional de Insalubridade - Grau Máximo (40%)";
-            default:
-                return "Adicional de Insalubridade";
-        }
+    private ItemFolha criarItemVazio() {
+        ItemFolha itemVazio = new ItemFolha();
+        itemVazio.setDesc("Adicional de Periculosidade (30%)");
+        itemVazio.setTipo("Provento");
+        itemVazio.setValor(BigDecimal.ZERO.setScale(ESCALA));
+        return itemVazio;
     }
 }
