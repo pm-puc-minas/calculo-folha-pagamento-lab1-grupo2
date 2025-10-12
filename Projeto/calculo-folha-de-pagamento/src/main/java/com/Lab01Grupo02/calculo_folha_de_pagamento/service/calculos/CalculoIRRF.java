@@ -10,15 +10,11 @@ public class CalculoIRRF implements CalculoFolha {
     private static final BigDecimal DEDUCAO_POR_DEPENDENTE = new BigDecimal("189.59");
     private static final int ESCALA = 2;
 
-    @Override
-    public ItemFolha calcular(Funcionario funcionario) {
-        if (funcionario == null || funcionario.getSalarioBruto() == null) {
+    public ItemFolha calcular(Funcionario funcionario, BigDecimal inssDescontado) {
+
+        if (funcionario == null || funcionario.getSalarioBruto() == null || inssDescontado == null) {
             return criarItemVazio();
         }
-
-        BigDecimal inssDescontado = funcionario.getInssDescontado() != null
-                ? funcionario.getInssDescontado()
-                : BigDecimal.ZERO;
 
         BigDecimal salarioBruto = funcionario.getSalarioBruto();
         BigDecimal numeroDependentes = BigDecimal.valueOf(funcionario.getNumeroDependentes());
@@ -51,8 +47,8 @@ public class CalculoIRRF implements CalculoFolha {
         }
 
         BigDecimal irrf = baseCalculo.multiply(aliquota)
-                .subtract(deducaoIR)
-                .setScale(ESCALA, RoundingMode.HALF_UP);
+                                     .subtract(deducaoIR)
+                                     .setScale(ESCALA, RoundingMode.HALF_UP);
 
         if (irrf.compareTo(BigDecimal.ZERO) < 0) {
             irrf = BigDecimal.ZERO;
@@ -69,7 +65,7 @@ public class CalculoIRRF implements CalculoFolha {
         ItemFolha itemVazio = new ItemFolha();
         itemVazio.setDesc("IRRF - Imposto de Renda Retido na Fonte");
         itemVazio.setTipo("Desconto");
-        itemVazio.setValor(BigDecimal.ZERO);
+        itemVazio.setValor(BigDecimal.ZERO.setScale(ESCALA));
         return itemVazio;
     }
 }
