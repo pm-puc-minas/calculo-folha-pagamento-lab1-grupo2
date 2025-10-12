@@ -1,4 +1,4 @@
-package com.Lab01Grupo02.calculo_folha_de_pagamento.CalculosTestes;
+package test.java.com.Lab01Grupo02.calculo_folha_de_pagamento.CalculosTestes;
 
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Funcionario;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
@@ -19,6 +19,7 @@ class TestCalculoIRRF {
         funcionario.setNumeroDependentes(0);
 
         BigDecimal inssCalculado = new BigDecimal("180.00");
+
         ItemFolha itemIRRF = calculadora.calcular(funcionario, inssCalculado);
 
         assertEquals(BigDecimal.ZERO.setScale(ESCALA), itemIRRF.getValor().abs());
@@ -32,6 +33,7 @@ class TestCalculoIRRF {
         funcionario.setNumeroDependentes(1);
 
         BigDecimal inssCalculado = new BigDecimal("340.00");
+
         BigDecimal irrfEsperado = new BigDecimal("-89.76");
 
         ItemFolha itemIRRF = calculadora.calcular(funcionario, inssCalculado);
@@ -47,6 +49,7 @@ class TestCalculoIRRF {
         funcionario.setNumeroDependentes(2);
 
         BigDecimal inssCalculado = new BigDecimal("877.24");
+
         BigDecimal irrfEsperado = new BigDecimal("-849.68");
 
         ItemFolha itemIRRF = calculadora.calcular(funcionario, inssCalculado);
