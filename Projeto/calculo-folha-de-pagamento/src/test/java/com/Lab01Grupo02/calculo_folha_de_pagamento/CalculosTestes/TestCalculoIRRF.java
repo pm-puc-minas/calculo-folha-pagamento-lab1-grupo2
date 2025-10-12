@@ -1,4 +1,4 @@
-package test.java.com.Lab01Grupo02.calculo_folha_de_pagamento.CalculosTestes;
+package com.Lab01Grupo02.calculo_folha_de_pagamento.CalculosTestes;
 
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Funcionario;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
@@ -14,53 +14,40 @@ class TestCalculoIRRF {
 
     @Test
     void deveCalcularIRRFFaixaIsenta() {
-        
         Funcionario funcionario = new Funcionario();
         funcionario.setSalarioBruto(new BigDecimal("2000.00"));
-        funcionario.setNumeroDependentes(0); 
+        funcionario.setNumeroDependentes(0);
 
-      
-        BigDecimal inssCalculado = new BigDecimal("180.00"); 
-        
+        BigDecimal inssCalculado = new BigDecimal("180.00");
         ItemFolha itemIRRF = calculadora.calcular(funcionario, inssCalculado);
-        
-       
+
         assertEquals(BigDecimal.ZERO.setScale(ESCALA), itemIRRF.getValor().abs());
         assertEquals("Desconto", itemIRRF.getTipo());
     }
 
     @Test
     void deveCalcularIRRFFaixa3ComDependente() {
-      
-        
         Funcionario funcionario = new Funcionario();
         funcionario.setSalarioBruto(new BigDecimal("3500.00"));
         funcionario.setNumeroDependentes(1);
 
         BigDecimal inssCalculado = new BigDecimal("340.00");
-        
-      
-        BigDecimal irrfEsperado = new BigDecimal("-89.76"); 
+        BigDecimal irrfEsperado = new BigDecimal("-89.76");
 
         ItemFolha itemIRRF = calculadora.calcular(funcionario, inssCalculado);
-        
+
         assertEquals(irrfEsperado, itemIRRF.getValor());
         assertEquals("Desconto", itemIRRF.getTipo());
     }
 
     @Test
     void deveCalcularIRRFFaixa5MultiplasDeducoes() {
-     
-        
         Funcionario funcionario = new Funcionario();
         funcionario.setSalarioBruto(new BigDecimal("7507.49"));
         funcionario.setNumeroDependentes(2);
 
-      
         BigDecimal inssCalculado = new BigDecimal("877.24");
-
-       
-        BigDecimal irrfEsperado = new BigDecimal("-849.68"); 
+        BigDecimal irrfEsperado = new BigDecimal("-849.68");
 
         ItemFolha itemIRRF = calculadora.calcular(funcionario, inssCalculado);
 
