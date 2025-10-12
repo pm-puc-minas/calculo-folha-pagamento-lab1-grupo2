@@ -19,20 +19,16 @@ public class CalculoFolhaDePagamentoApplication {
         ConfigurableApplicationContext context = SpringApplication.run(CalculoFolhaDePagamentoApplication.class, args);
         CalculadoraService calculadoraService = context.getBean(CalculadoraService.class);
 
-        // --- PASSO 2: INICIAR O MODO INTERATIVO COM O USUÁRIO ---.
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.println("=====================================================");
             System.out.println("==  Teste Interativo da Calculadora de Folha de Pagamento  ==");
             System.out.println("=====================================================");
             System.out.println("\nPor favor, preencha os dados do funcionário fictício:");
 
-            // --- PASSO 3: COLETAR OS DADOS DO USUÁRIO ---
-
-            // Pedir o nome
+            // --- PASSO 2: COLETAR DADOS DO FUNCIONÁRIO ---
             System.out.print("Nome do Funcionário: ");
             String nome = scanner.nextLine();
 
-            // Pedir a matrícula
             int matricula = 0;
             try {
                 System.out.print("Matrícula (apenas números): ");
@@ -41,35 +37,33 @@ public class CalculoFolhaDePagamentoApplication {
                 System.out.println("Erro: Matrícula inválida. Usando o valor 0.");
             }
 
-            // Pedir o salário bruto
             BigDecimal salarioBruto = BigDecimal.ZERO;
             try {
                 System.out.print("Salário Bruto (ex: 3500.50): ");
-                String salarioInput = scanner.nextLine().replace(",", "."); // Aceita vírgula ou ponto
+                String salarioInput = scanner.nextLine().replace(",", ".");
                 salarioBruto = new BigDecimal(salarioInput);
             } catch (NumberFormatException e) {
                 System.out.println("Erro: Salário inválido. O cálculo será feito com o valor 0.");
             }
 
-            // --- PASSO 4: CRIAR O OBJETO FUNCIONÁRIO COM OS DADOS ---
-            Funcionario funcionarioParaTeste = new Funcionario();
-            funcionarioParaTeste.setIdPessoa(matricula);
-            
-            funcionarioParaTeste.setNome(nome);
-            funcionarioParaTeste.setSalarioBruto(salarioBruto);
+            // --- PASSO 3: CRIAR OBJETO FUNCIONÁRIO ---
+            Funcionario funcionario = new Funcionario();
+            funcionario.setIdPessoa(matricula);
+            funcionario.setNome(nome);
+            funcionario.setSalarioBruto(salarioBruto);
 
             System.out.println("\n----------------------------------------------------");
             System.out.println("Funcionário criado para o teste:");
-            System.out.println("Matrícula: " + funcionarioParaTeste.getIdPessoa());
-            System.out.println("Nome: " + funcionarioParaTeste.getNome());
-            System.out.println("Salário Bruto: R$ " + funcionarioParaTeste.getSalarioBruto());
+            System.out.println("Matrícula: " + funcionario.getIdPessoa());
+            System.out.println("Nome: " + funcionario.getNome());
+            System.out.println("Salário Bruto: R$ " + funcionario.getSalarioBruto());
             System.out.println("----------------------------------------------------");
 
-            // --- PASSO 5: EXECUTAR O CÁLCULO ---
+            // --- PASSO 4: CALCULAR FOLHA COMPLETA USANDO OS MÓDULOS ---
             System.out.println("Calculando folha de pagamento...");
-            List<ItemFolha> itensDaFolha = calculadoraService.calcularFolhaCompleta(funcionarioParaTeste);
+            List<ItemFolha> itensDaFolha = calculadoraService.calcularFolhaCompleta(funcionario);
 
-            // --- PASSO 6: EXIBIR O RESULTADO ---
+            // --- PASSO 5: EXIBIR RESULTADO ---
             System.out.println("\n--- ITENS DA FOLHA CALCULADOS ---");
             for (ItemFolha item : itensDaFolha) {
                 System.out.printf("  - Descrição: %s | Tipo: %s | Valor: R$ %.2f\n",
@@ -78,11 +72,9 @@ public class CalculoFolhaDePagamentoApplication {
                         item.getValor()
                 );
             }
-        } // Fechamento do Scanner
+        }
 
         System.out.println("\n--- TESTE FINALIZADO ---");
-
-        // Fechar aplicação
         context.close();
     }
 }

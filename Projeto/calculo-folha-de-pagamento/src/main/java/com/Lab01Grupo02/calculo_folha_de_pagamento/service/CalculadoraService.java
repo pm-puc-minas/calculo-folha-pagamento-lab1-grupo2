@@ -28,7 +28,13 @@ public class CalculadoraService implements com.Lab01Grupo02.calculo_folha_de_pag
         // NOTA: Para adicionar um novo cálculo (ex: IRRF), basta criar a classe
         // e adicioná-la nesta lista. O resto do sistema se adapta automaticamente.
         this.modulosDeCalculo = Collections.unmodifiableList(Arrays.<CalculoFolha>asList(
-                new CalculoFGTS()
+                new CalculoFGTS(),
+                new CalculoINSS(),
+                new CalculoIRRF(),
+                CalculoBeneficio.valeTransporte(new BigDecimal("150.00")), // exemplo de VT
+                CalculoBeneficio.valeAlimentacao(22, new BigDecimal("25.00")), // exemplo de VA
+                new CalculoInsalubridade(),
+                new CalculoPericulosidade()
         ));
     }
 
