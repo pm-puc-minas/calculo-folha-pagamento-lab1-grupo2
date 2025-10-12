@@ -8,7 +8,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CalculoINSS implements calcularFolhaCompleta {
+public class CalculoINSS implements CalculoFolha {
 
     private static final double TETO_INSS = 7507.49;
 
