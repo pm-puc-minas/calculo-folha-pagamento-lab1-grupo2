@@ -1,62 +1,56 @@
-// TODO Criar um funcionario ficticio para fazer os calculos, usando a calculadora. Mudar a calculadora para receber o funcionario
-package com.Lab01Grupo02.calculo_folha_de_pagamento.CalculosTestes;
-/*
-import com.Lab01Grupo02.calculo_folha_de_pagamento.SERVICE.calculos.CalculoPericulosidade;
-import com.Lab01Grupo02.calculo_folha_de_pagamento.MODEL.FolhaDePagamento;
+package test.java.com.Lab01Grupo02.calculo_folha_de_pagamento.CalculosTestes;
+
+import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Funcionario;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos.CalculoPericulosidade; 
 import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TestCalculoPericulosidade {
 
-    private final CalculoPericulosidade calculadora = new CalculoPericulosidade() {
-        @Override
-        public FolhaDePagamento calcularFolha(BigDecimal salarioBruto) {
-            return null;
-        }
-    };
+    private final CalculoPericulosidade calculadora = new CalculoPericulosidade();
+    private static final int ESCALA = 2;
 
     @Test
-    void deveCalcularPericulosidadeFuncionarioApto() {
-        // N1: Funcionário com direito a periculosidade
-        double salario = 2500.00;
-        boolean apto = true;
-        String descricao = "Periculosidade - Funcionário Apto";
+    void deveCalcularPericulosidadeFuncionarioApto_N1() {
+        Funcionario funcionario = new Funcionario();
+        funcionario.setSalarioBruto(new BigDecimal("2500.00"));
+        funcionario.setAptoPericulosidade(true); 
+        
+        ItemFolha itemAdicional = calculadora.calcular(funcionario);
 
-        // Se apto, 30% do salário
-        FolhaDePagamento folha = calculadora.calcularFolha(salario, apto ? 1 : 0, descricao);
+        BigDecimal esperado = new BigDecimal("750.00").setScale(ESCALA);
 
-        assertEquals(new BigDecimal("750.00"), folha.getTotalProvento());
-        // assertEquals(descricao, folha.getDescricao());
+        assertEquals(esperado, itemAdicional.getValor());
+        assertEquals("Provento", itemAdicional.getTipo());
     }
 
     @Test
-    void deveCalcularPericulosidadeFuncionarioNaoApto() {
-        // N2: Funcionário sem direito a periculosidade
-        double salario = 3000.00;
-        boolean apto = false;
-        String descricao = "Periculosidade - Funcionário Não Apto";
+    void deveCalcularPericulosidadeFuncionarioNaoApto_N2() {
+        Funcionario funcionario = new Funcionario();
+        funcionario.setSalarioBruto(new BigDecimal("3000.00"));
+        funcionario.setAptoPericulosidade(false); 
 
-        // Se não apto, valor deve ser zero
-        FolhaDePagamento folha = calculadora.calcularFolha(salario, apto ? 1 : 0, descricao);
+        ItemFolha itemAdicional = calculadora.calcular(funcionario);
 
-        assertEquals(new BigDecimal("0.00"), folha.getTotalProvento());
-        // assertEquals(descricao, folha.getDescricao());
+        BigDecimal esperado = BigDecimal.ZERO.setScale(ESCALA);
+
+        assertEquals(esperado, itemAdicional.getValor());
+        assertEquals("Provento", itemAdicional.getTipo());
     }
 
     @Test
-    void deveCalcularPericulosidadeSalarioMinimo() {
-        // N3: Periculosidade com salário mínimo
-        double salario = 1380.60;
-        boolean apto = true;
-        String descricao = "Periculosidade - Salário Mínimo";
+    void deveCalcularPericulosidadeSalarioMinimo_N3() {
+        Funcionario funcionario = new Funcionario();
+        funcionario.setSalarioBruto(new BigDecimal("1380.60"));
+        funcionario.setAptoPericulosidade(true); 
 
-        FolhaDePagamento folha = calculadora.calcularFolha(salario, apto ? 1 : 0, descricao);
+        ItemFolha itemAdicional = calculadora.calcular(funcionario);
 
-       
-        assertEquals(new BigDecimal("414.18"), folha.getTotalProvento());
-       // assertEquals(descricao, folha.getDescricao());
+        BigDecimal esperado = new BigDecimal("414.18").setScale(ESCALA);
+
+        assertEquals(esperado, itemAdicional.getValor());
+        assertEquals("Provento", itemAdicional.getTipo());
     }
 }
-
- */
