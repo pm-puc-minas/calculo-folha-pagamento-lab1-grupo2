@@ -4,11 +4,7 @@ import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Funcionario;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos.CalculoIRRF;
 import org.junit.jupiter.api.Test;
-
 import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TestCalculoIRRF {
@@ -21,8 +17,7 @@ class TestCalculoIRRF {
         Funcionario funcionario = new Funcionario();
         funcionario.setSalarioBruto(new BigDecimal("2000.00"));
 
-        List<ItemFolha> itens = calculadora.calcularFolhaCompleta(funcionario);
-        ItemFolha itemIRRF = itens.get(0);
+        ItemFolha itemIRRF = calculadora.calcularFolhaCompleta(funcionario).get(0);
 
         assertEquals(BigDecimal.ZERO.setScale(ESCALA), itemIRRF.getValor().abs());
         assertEquals("Desconto", itemIRRF.getTipo());
@@ -33,23 +28,32 @@ class TestCalculoIRRF {
         Funcionario funcionario = new Funcionario();
         funcionario.setSalarioBruto(new BigDecimal("3500.00"));
 
-        List<ItemFolha> itens = calculadora.calcularFolhaCompleta(funcionario);
-        ItemFolha itemIRRF = itens.get(0);
+     
+        funcionario.setDependentes(java.util.Collections.singletonList(new com.Lab01Grupo02.calculo_folha_de_pagamento.model.Dependente()));
 
-        BigDecimal irrfEsperado = new BigDecimal("-89.76").setScale(ESCALA, RoundingMode.HALF_UP);
+        BigDecimal irrfEsperado = new BigDecimal("-89.76").setScale(ESCALA);
+
+        ItemFolha itemIRRF = calculadora.calcularFolhaCompleta(funcionario).get(0);
+
         assertEquals(irrfEsperado, itemIRRF.getValor());
         assertEquals("Desconto", itemIRRF.getTipo());
     }
 
     @Test
-    void deveCalcularIRRFFaixa5MultiplasDeducoes() {
+    void deveCalcularIRRFFaixa5MultiplosDependentes() {
         Funcionario funcionario = new Funcionario();
         funcionario.setSalarioBruto(new BigDecimal("7507.49"));
 
-        List<ItemFolha> itens = calculadora.calcularFolhaCompleta(funcionario);
-        ItemFolha itemIRRF = itens.get(0);
+  
+        funcionario.setDependentes(java.util.Arrays.asList(
+                new com.Lab01Grupo02.calculo_folha_de_pagamento.model.Dependente(),
+                new com.Lab01Grupo02.calculo_folha_de_pagamento.model.Dependente()
+        ));
 
-        BigDecimal irrfEsperado = new BigDecimal("-849.68").setScale(ESCALA, RoundingMode.HALF_UP);
+        BigDecimal irrfEsperado = new BigDecimal("-849.68").setScale(ESCALA);
+
+        ItemFolha itemIRRF = calculadora.calcularFolhaCompleta(funcionario).get(0);
+
         assertEquals(irrfEsperado, itemIRRF.getValor());
         assertEquals("Desconto", itemIRRF.getTipo());
     }
