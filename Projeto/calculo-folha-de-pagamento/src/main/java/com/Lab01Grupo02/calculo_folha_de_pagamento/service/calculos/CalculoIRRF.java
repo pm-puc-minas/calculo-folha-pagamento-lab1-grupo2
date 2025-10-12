@@ -4,71 +4,105 @@ import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Funcionario;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
 
-public class CalculoIRRF implements ICalculadora {
+public class CalculoIRRF implements CalculoFolha {
 
     private static final BigDecimal DEDUCAO_POR_DEPENDENTE = new BigDecimal("189.59");
-    private static final int ESCALA = 2;
 
-    @Override
-    public List<ItemFolha> calcularFolhaCompleta(Funcionario funcionario) {
-        List<ItemFolha> itens = new ArrayList<>();
-        itens.add(calcularIRRF(funcionario));
-        return itens;
+    private enum FaixaIRRF {
+        ISENTO(new BigDecimal("0.00"), new BigDecimal("1903.98"), new BigDecimal("0.00"), new BigDecimal("0.00")),
+        FAIXA_1(new BigDecimal("1903.99"), new BigDecimal("2826.65"), new BigDecimal("0.075"), new BigDecimal("142.80")),
+        FAIXA_2(new BigDecimal("2826.66"), new BigDecimal("3751.05"), new BigDecimal("0.15"), new BigDecimal("354.80")),
+        FAIXA_3(new BigDecimal("3751.06"), new BigDecimal("4664.68"), new BigDecimal("0.225"), new BigDecimal("636.13")),
+        FAIXA_4(new BigDecimal("4664.69"), new BigDecimal("999999999.99"), new BigDecimal("0.275"), new BigDecimal("869.36"));
+
+        private final BigDecimal limiteInferior;
+        private final BigDecimal limiteSuperior;
+        private final BigDecimal aliquota;
+        private final BigDecimal deducao;
+
+        FaixaIRRF(BigDecimal limiteInferior, BigDecimal limiteSuperior, BigDecimal aliquota, BigDecimal deducao) {
+            this.limiteInferior = limiteInferior;
+            this.limiteSuperior = limiteSuperior;
+            this.aliquota = aliquota;
+            this.deducao = deducao;
+        }
+
+        public BigDecimal getLimiteInferior() {
+            return limiteInferior;
+        }
+
+        public BigDecimal getLimiteSuperior() {
+            return limiteSuperior;
+        }
+
+        public BigDecimal getAliquota() {
+            return aliquota;
+        }
+
+        public BigDecimal getDeducao() {
+            return deducao;
+        }
+
+        public static FaixaIRRF obterFaixa(BigDecimal baseCalculo) {
+            for (FaixaIRRF faixa : values()) {
+                if (baseCalculo.compareTo(faixa.getLimiteInferior()) >= 0 &&
+                        baseCalculo.compareTo(faixa.getLimiteSuperior()) <= 0) {
+                    return faixa;
+                }
+            }
+            return ISENTO;
+        }
     }
 
-    private ItemFolha calcularIRRF(Funcionario funcionario) {
+    @Override
+    public ItemFolha calcular(Funcionario funcionario) {
+        return calcular(funcionario, null);
+    }
+
+    public ItemFolha calcular(Funcionario funcionario, BigDecimal descontoINSS) {
         if (funcionario == null || funcionario.getSalarioBruto() == null) {
             return criarItemVazio();
         }
 
         BigDecimal salarioBruto = funcionario.getSalarioBruto();
-        int quantidadeDependentes = funcionario.getQuantidadeDependentes();
-        BigDecimal deducaoDependentes = DEDUCAO_POR_DEPENDENTE.multiply(BigDecimal.valueOf(quantidadeDependentes));
-        BigDecimal baseCalculo = salarioBruto.subtract(deducaoDependentes);
+        BigDecimal salarioBase = salarioBruto;
 
-        BigDecimal aliquota = BigDecimal.ZERO;
-        BigDecimal deducaoIR = BigDecimal.ZERO;
-
-        if (baseCalculo.compareTo(new BigDecimal("1903.98")) <= 0) {
-            aliquota = BigDecimal.ZERO;
-            deducaoIR = BigDecimal.ZERO;
-        } else if (baseCalculo.compareTo(new BigDecimal("2826.65")) <= 0) {
-            aliquota = new BigDecimal("0.075");
-            deducaoIR = new BigDecimal("142.80");
-        } else if (baseCalculo.compareTo(new BigDecimal("3751.05")) <= 0) {
-            aliquota = new BigDecimal("0.15");
-            deducaoIR = new BigDecimal("354.80");
-        } else if (baseCalculo.compareTo(new BigDecimal("4664.68")) <= 0) {
-            aliquota = new BigDecimal("0.225");
-            deducaoIR = new BigDecimal("636.13");
-        } else {
-            aliquota = new BigDecimal("0.275");
-            deducaoIR = new BigDecimal("869.36");
+        if (descontoINSS != null && descontoINSS.compareTo(BigDecimal.ZERO) > 0) {
+            salarioBase = salarioBruto.subtract(descontoINSS);
         }
 
-        BigDecimal irrf = baseCalculo.multiply(aliquota)
-                                     .subtract(deducaoIR)
-                                     .setScale(ESCALA, RoundingMode.HALF_UP);
+        int quantidadeDependentes = funcionario.getQuantidadeDependentes();
+        BigDecimal deducaoDependentes = DEDUCAO_POR_DEPENDENTE.multiply(BigDecimal.valueOf(quantidadeDependentes));
+        BigDecimal baseCalculo = salarioBase.subtract(deducaoDependentes);
+
+        if (baseCalculo.compareTo(BigDecimal.ZERO) <= 0) {
+            return criarItemVazio();
+        }
+
+        FaixaIRRF faixa = FaixaIRRF.obterFaixa(baseCalculo);
+
+        BigDecimal irrf = baseCalculo.multiply(faixa.getAliquota())
+                .subtract(faixa.getDeducao())
+                .setScale(2, RoundingMode.HALF_UP);
 
         if (irrf.compareTo(BigDecimal.ZERO) < 0) {
             irrf = BigDecimal.ZERO;
         }
 
         ItemFolha item = new ItemFolha();
-        item.setDesc("IRRF - Imposto de Renda Retido na Fonte");
+        item.setDesc("IRRF");
         item.setTipo("Desconto");
-        item.setValor(irrf.negate());
+        item.setValor(irrf);
+
         return item;
     }
 
     private ItemFolha criarItemVazio() {
         ItemFolha item = new ItemFolha();
-        item.setDesc("IRRF - Imposto de Renda Retido na Fonte");
+        item.setDesc("IRRF");
         item.setTipo("Desconto");
-        item.setValor(BigDecimal.ZERO.setScale(ESCALA));
+        item.setValor(BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP));
         return item;
     }
 }
