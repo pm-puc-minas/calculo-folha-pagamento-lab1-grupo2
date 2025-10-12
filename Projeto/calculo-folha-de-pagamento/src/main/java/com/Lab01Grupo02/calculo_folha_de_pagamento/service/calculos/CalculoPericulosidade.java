@@ -1,27 +1,40 @@
 package com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos;
 
-/*
-public abstract class CalculoPericulosidade implements ICalculadora {
+import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Funcionario;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
+public class CalculoPericulosidade implements CalculoFolha { 
+
+    private static final BigDecimal ALIQUOTA_PERICULOSIDADE = new BigDecimal("0.30");
+    private static final int ESCALA = 2;
 
     @Override
-    public FolhaDePagamento calcularFolha(double salarioBase, double ignorado, String descricao) {
-       
-        BigDecimal salarioBaseBD = BigDecimal.valueOf(salarioBase);
-        BigDecimal percentualPericulosidade = BigDecimal.valueOf(0.30);
+    public ItemFolha calcular(Funcionario funcionario) {
 
+        if (funcionario == null || funcionario.getSalarioBruto() == null || !funcionario.isAptoPericulosidade()) {
+            return criarItemVazio();
+        }
+
+        BigDecimal salarioBruto = funcionario.getSalarioBruto();
         
-        BigDecimal adicionalPericulosidade = salarioBaseBD
-                .multiply(percentualPericulosidade)
-                .setScale(2, RoundingMode.HALF_UP);
+        BigDecimal valorAdicional = salarioBruto
+                                    .multiply(ALIQUOTA_PERICULOSIDADE)
+                                    .setScale(ESCALA, RoundingMode.HALF_UP);
 
-        FolhaDePagamento folha = new FolhaDePagamento();
-        //folha.setDescricao(descricao);
-        folha.setTotalProvento(adicionalPericulosidade);
-        folha.setSalarioLiquido(adicionalPericulosidade); // se ainda não há descontos
+        ItemFolha item = new ItemFolha();
+        item.setDesc("Adicional de Periculosidade (30%)");
+        item.setTipo("Provento");
+        item.setValor(valorAdicional);
+        return item;
+    }
 
-        return folha;
+    private ItemFolha criarItemVazio() {
+        ItemFolha itemVazio = new ItemFolha();
+        itemVazio.setDesc("Adicional de Periculosidade (30%)");
+        itemVazio.setTipo("Provento");
+        itemVazio.setValor(BigDecimal.ZERO.setScale(ESCALA));
+        return itemVazio;
     }
 }
-
- */
