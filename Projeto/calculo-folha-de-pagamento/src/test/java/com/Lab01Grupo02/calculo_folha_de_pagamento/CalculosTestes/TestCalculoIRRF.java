@@ -20,7 +20,6 @@ class TestCalculoIRRF {
     void deveCalcularIRRFFaixaIsenta() {
         Funcionario funcionario = new Funcionario();
         funcionario.setSalarioBruto(new BigDecimal("2000.00"));
-        funcionario.setNumeroDependentes(0);
 
         List<ItemFolha> itens = calculadora.calcularFolhaCompleta(funcionario);
         ItemFolha itemIRRF = itens.get(0);
@@ -33,7 +32,6 @@ class TestCalculoIRRF {
     void deveCalcularIRRFFaixa3ComDependente() {
         Funcionario funcionario = new Funcionario();
         funcionario.setSalarioBruto(new BigDecimal("3500.00"));
-        funcionario.setNumeroDependentes(1);
 
         List<ItemFolha> itens = calculadora.calcularFolhaCompleta(funcionario);
         ItemFolha itemIRRF = itens.get(0);
@@ -47,7 +45,6 @@ class TestCalculoIRRF {
     void deveCalcularIRRFFaixa5MultiplasDeducoes() {
         Funcionario funcionario = new Funcionario();
         funcionario.setSalarioBruto(new BigDecimal("7507.49"));
-        funcionario.setNumeroDependentes(2);
 
         List<ItemFolha> itens = calculadora.calcularFolhaCompleta(funcionario);
         ItemFolha itemIRRF = itens.get(0);
