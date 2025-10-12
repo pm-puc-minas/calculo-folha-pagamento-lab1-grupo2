@@ -2,7 +2,6 @@ package com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos;
 
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Funcionario;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
-import com.Lab01Grupo02.calculo_folha_de_pagamento.model.TipoItemFolha; // <--- ASSUMINDO QUE ESTA CLASSE EXISTE
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
