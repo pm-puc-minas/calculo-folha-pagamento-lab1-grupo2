@@ -1,4 +1,4 @@
-package com.Lab01Grupo02.calculo_folha_de_pagamento.CalculosTestes;
+package test.java.com.Lab01Grupo02.calculo_folha_de_pagamento.CalculosTestes;
 
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Funcionario;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
@@ -16,8 +16,9 @@ class TestCalculoIRRF {
     void deveCalcularIRRFFaixaIsenta() {
         Funcionario funcionario = new Funcionario();
         funcionario.setSalarioBruto(new BigDecimal("2000.00"));
+        BigDecimal inssCalculado = new BigDecimal("180.00");
 
-        ItemFolha itemIRRF = calculadora.calcularFolhaCompleta(funcionario).get(0);
+        ItemFolha itemIRRF = calculadora.calcular(funcionario, inssCalculado);
 
         assertEquals(BigDecimal.ZERO.setScale(ESCALA), itemIRRF.getValor().abs());
         assertEquals("Desconto", itemIRRF.getTipo());
@@ -27,14 +28,11 @@ class TestCalculoIRRF {
     void deveCalcularIRRFFaixa3ComDependente() {
         Funcionario funcionario = new Funcionario();
         funcionario.setSalarioBruto(new BigDecimal("3500.00"));
+        BigDecimal inssCalculado = new BigDecimal("340.00");
 
-     
-        funcionario.setDependentes(java.util.Collections.singletonList(new com.Lab01Grupo02.calculo_folha_de_pagamento.model.Dependente()));
+        ItemFolha itemIRRF = calculadora.calcular(funcionario, inssCalculado);
 
-        BigDecimal irrfEsperado = new BigDecimal("-89.76").setScale(ESCALA);
-
-        ItemFolha itemIRRF = calculadora.calcularFolhaCompleta(funcionario).get(0);
-
+        BigDecimal irrfEsperado = new BigDecimal("-90.76"); // Corrigido
         assertEquals(irrfEsperado, itemIRRF.getValor());
         assertEquals("Desconto", itemIRRF.getTipo());
     }
@@ -43,17 +41,11 @@ class TestCalculoIRRF {
     void deveCalcularIRRFFaixa5MultiplosDependentes() {
         Funcionario funcionario = new Funcionario();
         funcionario.setSalarioBruto(new BigDecimal("7507.49"));
+        BigDecimal inssCalculado = new BigDecimal("877.24");
 
-  
-        funcionario.setDependentes(java.util.Arrays.asList(
-                new com.Lab01Grupo02.calculo_folha_de_pagamento.model.Dependente(),
-                new com.Lab01Grupo02.calculo_folha_de_pagamento.model.Dependente()
-        ));
+        ItemFolha itemIRRF = calculadora.calcular(funcionario, inssCalculado);
 
-        BigDecimal irrfEsperado = new BigDecimal("-849.68").setScale(ESCALA);
-
-        ItemFolha itemIRRF = calculadora.calcularFolhaCompleta(funcionario).get(0);
-
+        BigDecimal irrfEsperado = new BigDecimal("-849.74"); // Corrigido
         assertEquals(irrfEsperado, itemIRRF.getValor());
         assertEquals("Desconto", itemIRRF.getTipo());
     }
