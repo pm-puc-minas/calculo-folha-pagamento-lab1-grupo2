@@ -1,4 +1,4 @@
-package main.java.com.Lab01Grupo02.calculo_folha_de_pagamento.service;
+package com.Lab01Grupo02.calculo_folha_de_pagamento.service;
 
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.FolhaDePagamento;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.service.jpa.FolhaPagamentoRepository;

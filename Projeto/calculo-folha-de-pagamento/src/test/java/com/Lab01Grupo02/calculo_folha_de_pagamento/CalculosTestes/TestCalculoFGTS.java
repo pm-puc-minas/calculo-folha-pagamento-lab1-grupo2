@@ -1,4 +1,4 @@
-package test.java.com.Lab01Grupo02.calculo_folha_de_pagamento.CalculosTestes;
+package com.Lab01Grupo02.calculo_folha_de_pagamento.CalculosTestes;
 
 import com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos.*;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Funcionario;
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * NOTA: Esta é a classe de teste dedicada exclusivamente ao módulo CalculoFGTS.
  */
-class CalculoFGTSTest {
+class TestCalculoFGTS {
 
     // A instância do nosso módulo que será testada.
     private CalculoFGTS calculoFGTS;

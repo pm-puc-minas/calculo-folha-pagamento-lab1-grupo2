@@ -1,4 +1,4 @@
-package main.java.com.Lab01Grupo02.calculo_folha_de_pagamento;
+package com.Lab01Grupo02.calculo_folha_de_pagamento;
 
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Funcionario;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;

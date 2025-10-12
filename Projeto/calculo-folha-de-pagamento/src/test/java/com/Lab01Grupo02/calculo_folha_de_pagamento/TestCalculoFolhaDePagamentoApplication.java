@@ -1,4 +1,4 @@
-package test.java.com.Lab01Grupo02.calculo_folha_de_pagamento;
+package com.Lab01Grupo02.calculo_folha_de_pagamento;
 
 import org.springframework.boot.SpringApplication;
 
