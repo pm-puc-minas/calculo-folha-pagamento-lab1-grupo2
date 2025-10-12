@@ -1,7 +1,12 @@
 package com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos;
 
+import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Funcionario;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.model.TipoItemFolha; // <--- ASSUMINDO QUE ESTA CLASSE EXISTE
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CalculoINSS implements ICalculadora {
 
@@ -62,5 +67,24 @@ public class CalculoINSS implements ICalculadora {
         return desconto
                 .divide(salarioBruto, 4, RoundingMode.HALF_UP)
                 .multiply(BigDecimal.valueOf(100));
+    }
+
+    @Override
+    public List<ItemFolha> calcularFolhaCompleta(Funcionario funcionario) {
+        List<ItemFolha> itens = new ArrayList<>();
+
+        if (funcionario != null && funcionario.getSalarioBruto() != null) {
+            BigDecimal valorINSS = calcular(funcionario.getSalarioBruto());
+            
+            // Cria o item de folha para o INSS
+            ItemFolha item = new ItemFolha();
+            item.setDesc("INSS (Previdência Social)");
+            item.setTipo(TipoItemFolha.DESCONTO); 
+            item.setValor(valorINSS);
+            
+            itens.add(item);
+        }
+
+        return itens;
     }
 }

@@ -54,6 +54,7 @@ public class CalculoFolhaDePagamentoApplication {
             // --- PASSO 4: CRIAR O OBJETO FUNCIONÁRIO COM OS DADOS ---
             Funcionario funcionarioParaTeste = new Funcionario();
             funcionarioParaTeste.setIdPessoa(matricula);
+            
             funcionarioParaTeste.setNome(nome);
             funcionarioParaTeste.setSalarioBruto(salarioBruto);
 
