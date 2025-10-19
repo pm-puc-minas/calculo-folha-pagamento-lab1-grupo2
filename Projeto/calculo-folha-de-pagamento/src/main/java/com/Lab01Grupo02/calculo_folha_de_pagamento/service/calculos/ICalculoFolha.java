@@ -9,7 +9,7 @@ import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
  * tenha a mesma estrutura e seja tratado da mesma forma pelo sistema,
  * promovendo a programação modular.
  */
-public interface CalculoFolha {
+public interface ICalculoFolha {
 
     /**
      * NOTA: Este é o método padrão que cada módulo de cálculo DEVE implementar.

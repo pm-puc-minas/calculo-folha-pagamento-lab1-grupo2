@@ -5,7 +5,7 @@ import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class CalculoInsalubridade implements CalculoFolha {
+public class CalculoInsalubridade implements ICalculoFolha {
 
     private static final BigDecimal SALARIO_MINIMO = new BigDecimal("1380.60");
 

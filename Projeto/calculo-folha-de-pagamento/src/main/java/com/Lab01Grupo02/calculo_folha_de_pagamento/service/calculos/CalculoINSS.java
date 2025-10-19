@@ -5,7 +5,7 @@ import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class CalculoINSS implements CalculoFolha {
+public class CalculoINSS implements ICalculoFolha {
 
     private static final BigDecimal TETO_INSS = new BigDecimal("7507.49");
 
@@ -57,7 +57,7 @@ public class CalculoINSS implements CalculoFolha {
 
     private BigDecimal calcularDescontoProgressivo(BigDecimal salarioBruto) {
         if (salarioBruto == null || salarioBruto.compareTo(BigDecimal.ZERO) <= 0) {
-            return BigDecimal.ZERO;
+            return BigDecimal.ZERO; //Aqui, melhor usar tratamento de exceção com throws
         }
 
         BigDecimal salario = salarioBruto.min(TETO_INSS);

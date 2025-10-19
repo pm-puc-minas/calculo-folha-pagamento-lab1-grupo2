@@ -5,10 +5,10 @@ import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class CalculoIRRF implements CalculoFolha {
+public class CalculoIRRF implements ICalculoFolha {
 
     private static final BigDecimal DEDUCAO_POR_DEPENDENTE = new BigDecimal("189.59");
-
+    
     private enum FaixaIRRF {
         ISENTO(new BigDecimal("0.00"), new BigDecimal("1903.98"), new BigDecimal("0.00"), new BigDecimal("0.00")),
         FAIXA_1(new BigDecimal("1903.99"), new BigDecimal("2826.65"), new BigDecimal("0.075"), new BigDecimal("142.80")),
@@ -25,7 +25,7 @@ public class CalculoIRRF implements CalculoFolha {
             this.limiteInferior = limiteInferior;
             this.limiteSuperior = limiteSuperior;
             this.aliquota = aliquota;
-            this.deducao = deducao;
+            this.deducao = deducao; //Isso NÃO existe em cálculo de IRRF
         }
 
         public BigDecimal getLimiteInferior() {
@@ -69,7 +69,7 @@ public class CalculoIRRF implements CalculoFolha {
         BigDecimal salarioBase = salarioBruto;
 
         if (descontoINSS != null && descontoINSS.compareTo(BigDecimal.ZERO) > 0) {
-            salarioBase = salarioBruto.subtract(descontoINSS);
+            salarioBase = salarioBruto.subtract(descontoINSS); //tem que descontar também valor de dependente, pensão alimentícia, se houver
         }
 
         int quantidadeDependentes = funcionario.getQuantidadeDependentes();

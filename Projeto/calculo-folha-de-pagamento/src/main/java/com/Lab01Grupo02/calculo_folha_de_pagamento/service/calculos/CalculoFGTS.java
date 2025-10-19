@@ -5,7 +5,7 @@ import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class CalculoFGTS implements CalculoFolha {
+public class CalculoFGTS implements ICalculoFolha {
 
     @Override
     public ItemFolha calcular(Funcionario funcionario) {

@@ -5,7 +5,7 @@ import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class CalculoPericulosidade implements CalculoFolha { 
+public class CalculoPericulosidade implements ICalculoFolha { 
 
     private static final BigDecimal ALIQUOTA_PERICULOSIDADE = new BigDecimal("0.30");
     private static final int ESCALA = 2;
