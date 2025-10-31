@@ -1,4 +1,7 @@
-
+/**
+ * O CODIGO FUNCIONARIO FOI ALTERADO OS ATRIBUTOS PARA CORRESPONDER CORRETAMENTE AO BANCO DE DADOS
+ * ALTERAÇÃO EFETUADA POR: Iago Adrien
+ */
 package com.Lab01Grupo02.calculo_folha_de_pagamento.model;
 
 import java.math.BigDecimal;
@@ -11,41 +14,53 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter // Define os métodos getters para todos os campos
-@Setter // Define os métodos setters para todos os campos
-@NoArgsConstructor // Define um construtor sem argumentos
-@AllArgsConstructor // Define um construtor com argumentos
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 
 @Entity
 @Table(name = "FUNCIONARIOS")
-@PrimaryKeyJoinColumn(name = "ID_Pessoa")
+@PrimaryKeyJoinColumn(name = "Matricula") // Define que "Matricula" é a PK desta tabela e FK para a tabela Pessoa
 public class Funcionario extends Pessoa {
 
-    //Atributo para relacionar com Folha de pagamento
-    @Column(name = "matricula")
-    private int matricula;
+    // --- CORREÇÃO 1: REMOVIDO ---
+    // Alterado "Id_Pessoa" alterado para Matricula, pois Id pessoa nao é um dado reconhecido pelo RH
+    // @Column(name = "matricula") <REMOVIDO>
+    // private int matricula; <REMOVIDO>
 
-    @Column(name = "SalarioBruto")
-    private BigDecimal salarioBruto;
+    @Column(name = "Cargo") // Mapeamento estava faltando
+    private String cargo;
 
     @Column(name = "DataAdmissao")
     private LocalDate dataAdmissao;
 
-    @Column(name = "TemPericulosidade")
-    private boolean temPericulosidade;
-
-    @Column(name = "TemInsalubridade")
-    private boolean temInsalubridade;
+    @Column(name = "SalarioBruto")
+    private BigDecimal salarioBruto;
 
     @Column(name = "GrauInsalubridade")
     private String grauInsalubridade;
-    @Column(name = "Cargo")
-    private String cargo;
 
-    // Relação com Dependente
+    // --- Adicionado Carga Horaria Semnal ---
+    @Column(name = "CargaHorariaSemanal")
+    private int cargaHorariaSemanal;
+
+    // --- CORREÇÃO 2: RENOMEADO ---
+    // O campo é "PossuiPericulosidade"
+    @Column(name = "PossuiPericulosidade")
+    private boolean possuiPericulosidade; // Renomeado de "temPericulosidade"
+
+    // --- CORREÇÃO 3: REMOVIDO ---
+    // O campo "TemInsalubridade" (boolean) não está na imagem
+    // e é redundante, já que "GrauInsalubridade" (String) já passa essa informação.
+    // (Ex: se for "Nenhum" ou nulo, não tem; se for "Minimo", "Medio", etc., ele tem).
+    // @Column(name = "TemInsalubridade")
+    // private boolean temInsalubridade;
+    
     @OneToMany(mappedBy = "funcionario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dependente> dependentes;
 
+    // Método auxiliar (Correto, pode manter)
     public int getQuantidadeDependentes() {
         return dependentes != null ? dependentes.size() : 0;
     }
