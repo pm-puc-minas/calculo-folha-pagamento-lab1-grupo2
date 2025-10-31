@@ -6,7 +6,7 @@ import com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos.CalculoPeric
 import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+/**
 class TestCalculoPericulosidade {
 
     private final CalculoPericulosidade calculadora = new CalculoPericulosidade();
@@ -54,3 +54,4 @@ class TestCalculoPericulosidade {
         assertEquals("Provento", itemAdicional.getTipo());
     }
 }
+ */

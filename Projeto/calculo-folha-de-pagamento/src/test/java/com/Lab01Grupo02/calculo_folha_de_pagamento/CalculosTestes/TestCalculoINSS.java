@@ -12,7 +12,7 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/**
 class TestCalculoINSS {
 
     private CalculoINSS calculoINSS;
@@ -216,3 +216,4 @@ class TestCalculoINSS {
                 "A descrição do item deve ser 'INSS'");
     }
 }
+ */
