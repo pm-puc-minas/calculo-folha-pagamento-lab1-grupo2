@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor // Define um construtor com argumentos
 
 @Entity
-@Table(name = "DEPENDENTES")
+@Table(name = "DEPENDENTE")
 @PrimaryKeyJoinColumn(name = "ID_Pessoa")
 public class Dependente extends Pessoa {
 

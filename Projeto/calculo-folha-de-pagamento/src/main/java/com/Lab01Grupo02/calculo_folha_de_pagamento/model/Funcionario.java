@@ -20,7 +20,7 @@ import lombok.Setter;
 @AllArgsConstructor
 
 @Entity
-@Table(name = "FUNCIONARIOS")
+@Table(name = "FUNCIONARIO")
 @PrimaryKeyJoinColumn(name = "Matricula") // Define que "Matricula" é a PK desta tabela e FK para a tabela Pessoa
 public class Funcionario extends Pessoa {
 

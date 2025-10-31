@@ -15,7 +15,7 @@ import java.time.Period;
 @AllArgsConstructor // Define um construtor com argumentos
 
 @Entity
-@Table(name = "PESSOAS")
+@Table(name = "PESSOA")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Pessoa {
     @Id
