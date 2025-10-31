@@ -2,7 +2,7 @@ package com.Lab01Grupo02.calculo_folha_de_pagamento.CalculosTestes;
 
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Funcionario;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
-import com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos.CalculoInsalubridade;
+// import com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos.CalculoInsalubridade;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
