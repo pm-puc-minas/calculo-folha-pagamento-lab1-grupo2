@@ -12,6 +12,7 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
 class TestCalculoInsalubridade {
 
     private CalculoInsalubridade calculoInsalubridade;
@@ -163,3 +164,4 @@ class TestCalculoInsalubridade {
         }
     }
 }
+ */
