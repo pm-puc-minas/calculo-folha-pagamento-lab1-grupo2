@@ -12,7 +12,8 @@ public class CalculoPericulosidade implements ICalculoFolha {
 
     @Override
     public ItemFolha calcular(Funcionario funcionario) {
-        if (funcionario == null || funcionario.getSalarioBruto() == null || !funcionario.isTemPericulosidade()) {
+        // Alterado 'isTemPericulosidade' para 'isPossuiPericulosidade'
+        if (funcionario == null || funcionario.getSalarioBruto() == null || !funcionario.isPossuiPericulosidade()) {
             return criarItemVazio();
         }
 
