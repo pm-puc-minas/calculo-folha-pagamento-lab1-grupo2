@@ -56,7 +56,7 @@ public class Funcionario extends Pessoa {
     // (Ex: se for "Nenhum" ou nulo, não tem; se for "Minimo", "Medio", etc., ele tem).
     // @Column(name = "TemInsalubridade")
     // private boolean temInsalubridade;
-    
+
     @OneToMany(mappedBy = "funcionario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dependente> dependentes;
 
