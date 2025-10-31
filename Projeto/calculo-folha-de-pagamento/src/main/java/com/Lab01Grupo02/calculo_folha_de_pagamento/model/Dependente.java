@@ -1,5 +1,6 @@
 
 package com.Lab01Grupo02.calculo_folha_de_pagamento.model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,8 @@ public class Dependente extends Pessoa {
 
     @Column(name = "Parentesco")
     private String parentesco;
+
+    @JsonBackReference
     // Muitos dependentes para um funcionário
     @ManyToOne
     @JoinColumn(name = "ID_Funcionario")
