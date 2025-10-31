@@ -13,7 +13,15 @@ import java.util.Scanner;
 
 @SpringBootApplication
 public class CalculoFolhaDePagamentoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(CalculoFolhaDePagamentoApplication.class, args);
+    }
 
+/**
+ * NÃO É PRECISO REMOVER ESSE CODIGO COMENTÁRIO POR ENQUANTO
+ * PODE SER UTILIZADO PARA TESTES DE COMPILAÇÃO DA APLICAÇÃO CASO NECESSARIO.
+ *
+ *
     public static void main(String[] args) {
         // --- PASSO 1: INICIAR A APLICAÇÃO SPRING ---
         ConfigurableApplicationContext context = SpringApplication.run(CalculoFolhaDePagamentoApplication.class, args);
@@ -77,4 +85,5 @@ public class CalculoFolhaDePagamentoApplication {
         System.out.println("\n--- TESTE FINALIZADO ---");
         context.close();
     }
+ */
 }
