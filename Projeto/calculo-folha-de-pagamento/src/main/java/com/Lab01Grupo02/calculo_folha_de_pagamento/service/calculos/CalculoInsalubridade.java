@@ -4,11 +4,16 @@ import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Funcionario;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-
+/**
 public class CalculoInsalubridade implements ICalculoFolha {
 
     private static final BigDecimal SALARIO_MINIMO = new BigDecimal("1380.60");
 
+
+     * Nota: Conferir a logica do calculo com os atributos do banco de daods.
+     * Necessario mudar a logica ou adicionar uma coluna onde entra os valores aq trabalhados
+     * OBS: O Grau de insalubridade no banco de dados é valor String de Maximo, Medio, Alto
+     * Atenção: Nao foi revisado o codigo, apenas anotado pois esse metodo está retornando um erro de find symbol.
     @Override
     public ItemFolha calcular(Funcionario funcionario) {
 
@@ -34,6 +39,7 @@ public class CalculoInsalubridade implements ICalculoFolha {
 
         return item;
     }
+
 
     private BigDecimal obterPercentual(String grau) {
         if (grau == null) {
@@ -79,3 +85,4 @@ public class CalculoInsalubridade implements ICalculoFolha {
         }
     }
 }
+ */

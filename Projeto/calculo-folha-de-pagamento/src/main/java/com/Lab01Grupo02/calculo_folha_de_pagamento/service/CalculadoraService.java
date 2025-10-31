@@ -3,6 +3,8 @@ package com.Lab01Grupo02.calculo_folha_de_pagamento.service;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Funcionario;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos.*;
+import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +20,7 @@ import java.util.List;
  */
 
 //Não teria sido melhor ter importado a interface ao invés de usar esse implements sujo?
- @Service
+@Service
 public class CalculadoraService implements com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos.ICalculadora{
 
     // NOTA: A lista de todos os módulos de cálculo que o sistema suporta.
@@ -34,7 +36,7 @@ public class CalculadoraService implements com.Lab01Grupo02.calculo_folha_de_pag
                 new CalculoIRRF(),
                 CalculoBeneficio.valeTransporte(new BigDecimal("150.00")), // exemplo de VT
                 CalculoBeneficio.valeAlimentacao(22, new BigDecimal("25.00")), // exemplo de VA
-                new CalculoInsalubridade(),
+                //new CalculoInsalubridade(),
                 new CalculoPericulosidade()
         ));
     }
