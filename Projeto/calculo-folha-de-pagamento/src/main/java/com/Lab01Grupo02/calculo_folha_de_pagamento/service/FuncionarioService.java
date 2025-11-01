@@ -77,4 +77,22 @@ public class FuncionarioService {
         }
         return funcionarioRepository.findByNomeContainingIgnoreCase(nome);
     }
+
+    /**
+     * NOVO METODO: Atualizar a carga horária semanal do funcionario.
+     * @param matricula A matricula do funcionario a ser atualizado.
+     * @param novaCargaHoraria O novo valor para a carga horária semanal.
+     * @return O Funcionario com os dados atualizados.
+     * @throws ResourceNotFoundException Se o funcionário não for encontrado.
+     */
+    public Funcionario atualizarCargaHoraria(Integer matricula, int novaCargaHoraria){
+        // -- 1. Busca o Funcionario com o metodo de busca --
+        Funcionario funcionario = buscarPorMatricula(matricula);
+
+        // -- 2. Modificar objeto --
+        funcionario.setCargaHorariaSemanal(novaCargaHoraria);
+
+        // -- 3. Salvar o objeto modificado de volta no banco
+        return funcionarioRepository.save(funcionario);
+    }
 }

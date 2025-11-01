@@ -1,5 +1,6 @@
 package com.Lab01Grupo02.calculo_folha_de_pagamento.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
- 
+import java.util.List;
+
 @Getter // Define os métodos getters para todos os campos
 @Setter // Define os métodos setters para todos os campos
 @NoArgsConstructor // Define um construtor sem argumentos
@@ -41,4 +43,17 @@ public class FolhaDePagamento {
 
     @Column(name = "SalarioLiquido")
     private BigDecimal salarioLiquido;
+
+    // -- NOVO CAMPO --
+    /**
+     * Armazena a quantidade de dias de falta
+     */
+    @Column(name = "DiasFalta")
+    private int diasFalta;
+
+    // --- RELACIONAMENTO ADICIONADO ---
+    @JsonManagedReference // Lado "Pai" do relacionamento JSON (para evitar loops)
+    @OneToMany(mappedBy = "folhaDePagamento", cascade = CascadeType.ALL)
+    private List<ItemFolha> itens;
+
 }

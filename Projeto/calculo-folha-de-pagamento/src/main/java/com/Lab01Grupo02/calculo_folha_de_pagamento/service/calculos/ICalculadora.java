@@ -19,5 +19,5 @@
          * @param funcionario O funcionário para o qual a folha será calculada.
          * @return Uma lista de ItemFolha, representando cada linha do holerite.
          */
-        List<ItemFolha> calcularFolhaCompleta(Funcionario funcionario);
+        List<ItemFolha> calcularFolhaCompleta(Funcionario funcionario, int diasFalta);
     }

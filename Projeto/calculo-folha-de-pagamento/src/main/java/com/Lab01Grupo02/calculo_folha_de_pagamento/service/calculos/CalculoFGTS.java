@@ -15,7 +15,7 @@ public class CalculoFGTS implements ICalculoFolha {
         if (funcionario == null || funcionario.getSalarioBruto() == null) {
             ItemFolha itemVazio = new ItemFolha();
             itemVazio.setDesc("FGTS");
-            itemVazio.setTipo("Provento");
+            itemVazio.setTipo("PROVENTO");
             itemVazio.setValor(BigDecimal.ZERO);
             return itemVazio;
         }
@@ -26,7 +26,7 @@ public class CalculoFGTS implements ICalculoFolha {
 
         ItemFolha item = new ItemFolha();
         item.setDesc("FGTS");
-        item.setTipo("Provento");
+        item.setTipo("PROVENTO");
         item.setValor(valorFgts);
         return item;
     }

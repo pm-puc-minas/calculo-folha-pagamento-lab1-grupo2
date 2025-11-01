@@ -6,6 +6,7 @@ import com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos.*;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,11 +22,14 @@ import java.util.List;
 
 //Não teria sido melhor ter importado a interface ao invés de usar esse implements sujo?
 @Service
-public class CalculadoraService implements com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos.ICalculadora{
+public class CalculadoraService implements ICalculadora {
 
     // NOTA: A lista de todos os módulos de cálculo que o sistema suporta.
     // Todos são do tipo genérico 'CalculoFolha', permitindo tratá-los da mesma forma.
     private final List<ICalculoFolha> modulosDeCalculo;
+
+    // Definição padrão de dias no mês para cálculo de salário
+    private static final int DIAS_MES_COMERCIAL = 30;
 
     public CalculadoraService() {
         // NOTA: Para adicionar um novo cálculo (ex: IRRF), basta criar a classe
@@ -41,16 +45,37 @@ public class CalculadoraService implements com.Lab01Grupo02.calculo_folha_de_pag
         ));
     }
 
+    /**
+     * Calcular a folha de pagamento completa, agora incluindo o desconto por faltas.
+     */
     @Override
-    public List<ItemFolha> calcularFolhaCompleta(Funcionario funcionario) {
+    public List<ItemFolha> calcularFolhaCompleta(Funcionario funcionario, int diasFalta) {
         List<ItemFolha> itensDaFolha = new ArrayList<>();
 
         // NOTA: Adiciona o Salário Bruto como o item base da folha.
         ItemFolha itemSalario = new ItemFolha();
         itemSalario.setDesc("Salário Bruto");
-        itemSalario.setTipo("Provento");
+        itemSalario.setTipo("PROVENTO");
         itemSalario.setValor(funcionario.getSalarioBruto());
         itensDaFolha.add(itemSalario);
+
+        // -- NOVA LOGICA DE FALTAS --
+        // Calcula o desconto por faltas e adiciona à folha.
+        if (diasFalta > 0) {
+            // Calcula o valor de 1 dia de trabalho
+            BigDecimal valorDia = funcionario.getSalarioBruto()
+                    .divide(new BigDecimal(DIAS_MES_COMERCIAL), 2, RoundingMode.HALF_UP);
+
+            // Calcula o desconto total
+            BigDecimal descontoFaltas = valorDia.multiply(new BigDecimal(diasFalta));
+
+            // Adiciona o item de desconto
+            ItemFolha itemFaltas = new ItemFolha();
+            itemFaltas.setDesc("Faltas (DSR) " + diasFalta + "d");
+            itemFaltas.setTipo("DESCONTO");
+            itemFaltas.setValor(descontoFaltas);
+            itensDaFolha.add(itemFaltas);
+        }
 
         // NOTA: Este laço itera sobre a lista de especialistas.
         // Ele chama o método "calcular" de cada um, sem precisar saber

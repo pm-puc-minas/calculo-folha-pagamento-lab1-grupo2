@@ -92,7 +92,7 @@ public class CalculoIRRF implements ICalculoFolha {
 
         ItemFolha item = new ItemFolha();
         item.setDesc("IRRF");
-        item.setTipo("Desconto");
+        item.setTipo("DESCONTO");
         item.setValor(irrf);
 
         return item;
@@ -101,7 +101,7 @@ public class CalculoIRRF implements ICalculoFolha {
     private ItemFolha criarItemVazio() {
         ItemFolha item = new ItemFolha();
         item.setDesc("IRRF");
-        item.setTipo("Desconto");
+        item.setTipo("DESCONTO");
         item.setValor(BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP));
         return item;
     }

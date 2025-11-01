@@ -63,7 +63,7 @@ public class CalculoBeneficio implements ICalculoFolha {
 
         ItemFolha item = new ItemFolha();
         item.setDesc("Vale Transporte");
-        item.setTipo("Desconto");
+        item.setTipo("DESCONTO");
         item.setValor(descontoVT.setScale(2, RoundingMode.HALF_UP));
 
         return item;
@@ -73,7 +73,7 @@ public class CalculoBeneficio implements ICalculoFolha {
         if (diasUteis == null || diasUteis <= 0 || valorDiarioVA == null || valorDiarioVA.compareTo(BigDecimal.ZERO) <= 0) {
             ItemFolha itemVazio = new ItemFolha();
             itemVazio.setDesc("Vale Alimentação");
-            itemVazio.setTipo("Provento");
+            itemVazio.setTipo("PROVENTO");
             itemVazio.setValor(BigDecimal.ZERO);
             return itemVazio;
         }
@@ -82,7 +82,7 @@ public class CalculoBeneficio implements ICalculoFolha {
 
         ItemFolha item = new ItemFolha();
         item.setDesc("Vale Alimentação");
-        item.setTipo("Provento");
+        item.setTipo("PROVENTO");
         item.setValor(valorTotalVA.setScale(2, RoundingMode.HALF_UP));
 
         return item;
@@ -92,10 +92,10 @@ public class CalculoBeneficio implements ICalculoFolha {
         ItemFolha itemVazio = new ItemFolha();
         if (tipoBeneficio == TipoBeneficio.VALE_TRANSPORTE) {
             itemVazio.setDesc("Vale Transporte");
-            itemVazio.setTipo("Desconto");
+            itemVazio.setTipo("DESCONTO");
         } else {
             itemVazio.setDesc("Vale Alimentação");
-            itemVazio.setTipo("Provento");
+            itemVazio.setTipo("PROVENTO");
         }
         itemVazio.setValor(BigDecimal.ZERO);
         return itemVazio;

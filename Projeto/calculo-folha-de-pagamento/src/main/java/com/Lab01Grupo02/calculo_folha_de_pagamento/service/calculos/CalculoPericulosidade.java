@@ -22,7 +22,7 @@ public class CalculoPericulosidade implements ICalculoFolha {
 
         ItemFolha item = new ItemFolha();
         item.setDesc("Adicional de Periculosidade (30%)");
-        item.setTipo("Provento");
+        item.setTipo("PROVENTO");
         item.setValor(valorAdicional);
         return item;
     }
@@ -30,7 +30,7 @@ public class CalculoPericulosidade implements ICalculoFolha {
     private ItemFolha criarItemVazio() {
         ItemFolha itemVazio = new ItemFolha();
         itemVazio.setDesc("Adicional de Periculosidade (30%)");
-        itemVazio.setTipo("Provento");
+        itemVazio.setTipo("PROVENTO");
         itemVazio.setValor(BigDecimal.ZERO.setScale(ESCALA));
         return itemVazio;
     }

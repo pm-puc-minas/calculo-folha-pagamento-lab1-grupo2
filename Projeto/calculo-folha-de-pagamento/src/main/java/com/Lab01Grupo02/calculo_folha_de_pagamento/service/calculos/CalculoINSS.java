@@ -49,7 +49,7 @@ public class CalculoINSS implements ICalculoFolha {
 
         ItemFolha item = new ItemFolha();
         item.setDesc("INSS");
-        item.setTipo("Desconto");
+        item.setTipo("DESCONTO");
         item.setValor(descontoINSS);
 
         return item;
@@ -91,7 +91,7 @@ public class CalculoINSS implements ICalculoFolha {
     private ItemFolha criarItemVazio() {
         ItemFolha itemVazio = new ItemFolha();
         itemVazio.setDesc("INSS");
-        itemVazio.setTipo("Desconto");
+        itemVazio.setTipo("DESCONTO");
         itemVazio.setValor(BigDecimal.ZERO);
         return itemVazio;
     }

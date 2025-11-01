@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Controller para expor a API REST de Funcionários.
@@ -57,5 +58,20 @@ public class FuncionarioController {
         List<Funcionario> funcionarios = funcionarioService.buscarPorNome(nome);
         // Retorna a lista (que pode estar vazia), convertida para um array JSON
         return ResponseEntity.ok(funcionarios);
+    }
+
+    /**
+     * NOVA ROTA: Atualizar a carga horárioa de um funcionario.
+     */
+    @PatchMapping("/{matricula}/carga-horaria")
+    public ResponseEntity<Funcionario> atualizarCargaHoraria(@PathVariable Integer matricula, @RequestBody Map<String, Integer> body) {
+        Integer novaCargaHoraria = body.get("cargaHoraria");
+
+        if(novaCargaHoraria == null){
+            // Se o Json estiver errado, retorna um erro
+            return ResponseEntity.badRequest().build();
+        }
+        Funcionario funcionarioAtualizado = funcionarioService.atualizarCargaHoraria(matricula, novaCargaHoraria);
+        return ResponseEntity.ok(funcionarioAtualizado);
     }
 }
