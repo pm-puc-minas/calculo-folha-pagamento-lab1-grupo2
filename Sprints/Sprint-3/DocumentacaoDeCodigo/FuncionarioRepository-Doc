@@ -1,0 +1,75 @@
+# 📘 Documentação: `FuncionarioRepository`
+
+`FuncionarioRepository` é uma **interface do Spring Data JPA** responsável por todo o acesso ao banco de dados da entidade `Funcionario`.  
+
+Ela automatiza a criação de consultas SQL, permitindo que o restante da aplicação interaja com o banco de dados de forma **orientada a objetos**.
+
+---
+
+## 🧩 Código
+
+```java
+@Repository
+public interface FuncionarioRepository extends JpaRepository<Funcionario, Integer> {
+
+    List<Funcionario> findByNomeContainingIgnoreCase(String nome);
+}
+```
+
+---
+
+## ⚙️ Principais Características
+
+### `@Repository`
+Marca a interface como um **componente de persistência** do Spring, permitindo:
+- A **tradução automática de exceções** relacionadas ao banco de dados.
+- A **injeção de dependência** onde for necessário.
+
+---
+
+### `extends JpaRepository<Funcionario, Integer>`
+
+#### 🧠 O que faz:
+Fornece automaticamente um **conjunto completo de métodos CRUD** (*Create, Read, Update, Delete*) prontos para uso.
+
+#### 📋 Parâmetros:
+- **`Funcionario`** → Entidade que este repositório gerencia.  
+- **`Integer`** → Tipo da **chave primária** (`Matricula`) da entidade.
+
+#### 🛠️ Métodos inclusos (exemplos):
+- `save()`  
+- `findById()`  
+- `findAll()`  
+- `deleteById()`  
+- `count()`, etc.
+
+---
+
+## 🔍 Métodos de Consulta Personalizados
+
+O **Spring Data JPA** cria consultas automaticamente a partir do **nome do método**.
+
+```java
+List<Funcionario> findByNomeContainingIgnoreCase(String nome);
+```
+
+### 🎯 Finalidade
+Realiza uma busca **“LIKE”** no banco de dados.
+
+### 🔤 Tradução
+Encontra todos os `Funcionario` cujo nome contenha a *String* fornecida, **ignorando maiúsculas e minúsculas**.
+
+### 🧮 SQL (Equivalente)
+```sql
+WHERE UPPER(nome) LIKE UPPER('%termo_busca%')
+```
+
+---
+
+## ✅ Resumo
+
+| Componente | Função |
+|-------------|--------|
+| `@Repository` | Define o repositório como um componente gerenciado pelo Spring |
+| `JpaRepository` | Fornece métodos CRUD automáticos |
+| `findByNomeContainingIgnoreCase` | Busca funcionários por nome (sem diferenciar maiúsculas/minúsculas) |
