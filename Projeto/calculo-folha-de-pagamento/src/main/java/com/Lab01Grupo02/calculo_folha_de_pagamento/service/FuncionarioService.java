@@ -6,6 +6,7 @@ import com.Lab01Grupo02.calculo_folha_de_pagamento.service.jpa.FuncionarioReposi
 // Pacote de Exceções
 import com.Lab01Grupo02.calculo_folha_de_pagamento.GlobalException.ResourceNotFoundException;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,7 @@ public class FuncionarioService {
      * @return O objeto Funcionario encontrado.
      * @throws ResourceNotFoundException Se o funcionário não for encontrado.
      */
+    @Transactional(readOnly = true)
     public Funcionario buscarPorMatricula(Integer matricula) {
         // O método findById() do repositório retorna um Optional.
         // Usamos .orElseThrow() para retornar o Funcionario se ele existir,
@@ -48,6 +50,7 @@ public class FuncionarioService {
      * @return O objeto Funcionario encontrado.
      * @throws ResourceNotFoundException Se o CPF for nulo, vazio ou não encontrado.
      */
+    @Transactional(readOnly = true)
     public Funcionario buscarPorCpf(String cpf) {
         if (cpf == null || cpf.trim().isEmpty()) {
             // Lançamos a exceção se a busca for inválida (CPF vazio)
@@ -70,6 +73,7 @@ public class FuncionarioService {
      * @param nome O termo de busca (parte do nome).
      * @return Uma Lista (possivelmente vazia) de funcionários que correspondem.
      */
+    @Transactional(readOnly = true)
     public List<Funcionario> buscarPorNome(String nome) {
         if (nome == null || nome.trim().isEmpty()) {
             // Retorna uma lista vazia se a busca for nula ou vazia
@@ -83,6 +87,7 @@ public class FuncionarioService {
      *
      * @return Uma Lista de todos os funcionários.
      */
+    @Transactional(readOnly = true)
     public List<Funcionario> buscarTodos() {
         // O método findAll() do repositório busca todos os registros.
         // Se não houver nenhum, ele retorna uma lista vazia (o que está correto).
@@ -96,6 +101,7 @@ public class FuncionarioService {
      * @return O Funcionario com os dados atualizados.
      * @throws ResourceNotFoundException Se o funcionário não for encontrado.
      */
+    @Transactional
     public Funcionario atualizarCargaHoraria(Integer matricula, int novaCargaHoraria){
         // -- 1. Busca o Funcionario com o metodo de busca --
         Funcionario funcionario = buscarPorMatricula(matricula);
@@ -104,6 +110,6 @@ public class FuncionarioService {
         funcionario.setCargaHorariaSemanal(novaCargaHoraria);
 
         // -- 3. Salvar o objeto modificado de volta no banco
-        return funcionarioRepository.save(funcionario);
+        return funcionario;
     }
 }
