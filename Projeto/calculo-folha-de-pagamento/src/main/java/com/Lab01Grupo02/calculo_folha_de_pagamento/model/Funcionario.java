@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.Lab01Grupo02.calculo_folha_de_pagamento.model.converter.LocalDateAttributeConverter;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,7 @@ public class Funcionario extends Pessoa {
     private String cargo;
 
     @Column(name = "DataAdmissao")
+    @Convert(converter = LocalDateAttributeConverter.class)
     private LocalDate dataAdmissao;
 
     @Column(name = "SalarioBruto")

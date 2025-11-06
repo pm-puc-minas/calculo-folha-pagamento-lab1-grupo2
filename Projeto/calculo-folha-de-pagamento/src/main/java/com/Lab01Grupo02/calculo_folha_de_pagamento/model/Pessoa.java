@@ -1,5 +1,6 @@
 package com.Lab01Grupo02.calculo_folha_de_pagamento.model;
 
+import com.Lab01Grupo02.calculo_folha_de_pagamento.model.converter.LocalDateAttributeConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,6 +28,7 @@ public class Pessoa {
     @Column(name = "Cpf")
     private String cpf;
     @Column(name = "DataNascimento")
+    @Convert(converter = LocalDateAttributeConverter.class)
     private LocalDate dataNascimento;
 
     public int getIdade() {

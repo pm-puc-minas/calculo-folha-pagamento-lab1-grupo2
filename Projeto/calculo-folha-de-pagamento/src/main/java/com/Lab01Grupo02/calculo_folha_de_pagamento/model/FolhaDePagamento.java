@@ -1,5 +1,6 @@
 package com.Lab01Grupo02.calculo_folha_de_pagamento.model;
 
+import com.Lab01Grupo02.calculo_folha_de_pagamento.model.converter.LocalDateAttributeConverter;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,7 @@ public class FolhaDePagamento {
     private int matricula;
 
     @Column(name = "MesReferencia")
+    @Convert(converter = LocalDateAttributeConverter.class)
     private LocalDate mesReferencia;
 
     @Column(name = "SalarioBrutoCalculo")
