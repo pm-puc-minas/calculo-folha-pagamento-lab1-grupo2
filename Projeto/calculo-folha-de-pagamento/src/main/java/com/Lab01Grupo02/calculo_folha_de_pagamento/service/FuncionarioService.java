@@ -79,6 +79,17 @@ public class FuncionarioService {
     }
 
     /**
+     * Busca TODOS os funcionários cadastrados no banco de dados.
+     *
+     * @return Uma Lista de todos os funcionários.
+     */
+    public List<Funcionario> buscarTodos() {
+        // O método findAll() do repositório busca todos os registros.
+        // Se não houver nenhum, ele retorna uma lista vazia (o que está correto).
+        return funcionarioRepository.findAll();
+    }
+
+    /**
      * NOVO METODO: Atualizar a carga horária semanal do funcionario.
      * @param matricula A matricula do funcionario a ser atualizado.
      * @param novaCargaHoraria O novo valor para a carga horária semanal.

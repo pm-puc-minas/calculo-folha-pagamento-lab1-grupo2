@@ -18,6 +18,17 @@ import java.util.Map;
 @RequestMapping("/api/funcionarios") // Prefixo do URL para todas as rotas neste controller
 public class FuncionarioController {
 
+    /**
+     * Rota para buscar TODOS os funcionários.
+     * Exemplo de URL: GET /api/funcionarios
+     */
+    @GetMapping // Sem caminho adicional, ele responde ao GET na raiz do controller
+    public ResponseEntity<List<Funcionario>> buscarTodos() {
+        List<Funcionario> funcionarios = funcionarioService.buscarTodos();
+        // Retorna a lista (que pode estar vazia), convertida para um array JSON
+        return ResponseEntity.ok(funcionarios);
+    }
+
     private final FuncionarioService funcionarioService;
 
     @Autowired
