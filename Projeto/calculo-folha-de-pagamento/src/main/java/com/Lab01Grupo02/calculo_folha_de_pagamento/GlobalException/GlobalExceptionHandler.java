@@ -1,10 +1,16 @@
 package com.Lab01Grupo02.calculo_folha_de_pagamento.GlobalException;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.util.stream.Collectors;
 
 /**
  * Handler de Exceções Global (@ControllerAdvice).
@@ -13,7 +19,7 @@ import org.springframework.web.context.request.WebRequest;
  * e as transforma em uma resposta ResponseEntity<ErrorResponse> padronizada (JSON).
  */
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
      * Captura exceções do tipo ResourceNotFoundException (HTTP 404).
@@ -33,6 +39,53 @@ public class GlobalExceptionHandler {
         );
 
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * Captura exeções de validação @valid
+     * Retorna HTTP 400 (bad Request).
+     */
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex,
+            HttpHeaders headers,
+            HttpStatusCode status,
+            WebRequest request) {
+
+        // Coleta todas as mensagens de erro dos campos
+        String detalhes = ex.getBindingResult().getFieldErrors()
+                .stream()
+                .map(error -> String.format("'%s': %s", error.getField(), error.getDefaultMessage()))
+                .collect(Collectors.joining(", "));
+
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),       // 400
+                "Erro de validação. Verifique os campos da requisição.",
+                "uri=" + request.getDescription(false) + "; Erros=[ " + detalhes + " ]"
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Captura JSon mal formatado, Se o usuario enviar Json que não pode ser lido
+     * Exemplo: { "cargaHoraria" : }
+     * Retorna HTTP 400 (Bad Request).
+     */
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(
+            org.springframework.http.converter.HttpMessageNotReadableException ex,
+            HttpHeaders headers,
+            HttpStatusCode status,
+            WebRequest request) {
+
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),       // 400
+                "Requisição JSON mal formatada ou inválida.",
+                request.getDescription(false)
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     /**

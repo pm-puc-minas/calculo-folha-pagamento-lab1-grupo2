@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -55,7 +57,7 @@ public class FolhaDePagamentoController {
      */
     @PostMapping
     @Transactional // Garante que tudo (salvar folha e itens) seja uma única transação
-    public ResponseEntity<FolhaDePagamento> gerarOuAtualizarFolhaPagamento(@RequestBody GerarFolhaRequest request) {
+    public ResponseEntity<FolhaDePagamento> gerarOuAtualizarFolhaPagamento(@Valid @RequestBody GerarFolhaRequest request) {
 
         // 1. Buscar o funcionário
         // CORRIGIDO: request.getMatricula() -> request.matricula()
