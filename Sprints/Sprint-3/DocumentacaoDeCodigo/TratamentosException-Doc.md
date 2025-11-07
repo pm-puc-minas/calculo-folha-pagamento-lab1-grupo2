@@ -57,4 +57,32 @@ sequenceDiagram
     Handler-->>Cliente: Retorna JSON (status 404)
 ```
 
+# 🧾 Documentação do Commit [c0069de](https://github.com/pm-puc-minas/calculo-folha-pagamento-lab1-grupo2/commit/c0069de1c130ba4eb02ef6650e631ca88361a79d)
+
+
+## 🧩 Maven
+
+* Adicionado o **`spring-boot-starter-validation`** às dependências do projeto.
+
+---
+
+## 📥 GerarFolhaRequest
+
+* Adicionadas duas anotações **`@NotNull`** para garantir que os campos **`matricula`** e **`mesReferencia`** não sejam omitidos no JSON de requisição.
+* Incluída a anotação **`@Min(0)`**, que assegura que valores negativos não sejam informados.
+
+---
+
+## 🧠 FolhaDePagamentoController
+
+* No método **`gerarOuAtualizarFolhaPagamento`**, foi adicionada a anotação **`@Valid`** para ativar a validação automática dos campos da requisição.
+
+---
+
+## ⚙️ GlobalExceptionHandler
+
+* Adicionados **handlers** à classe para capturar a exceção **`MethodArgumentNotValidException`**, lançada pelo **`@Valid`**.
+* Essa exceção é tratada e transformada em um objeto **`ErroResponse`**, retornando mensagens de erro mais claras e padronizadas.
+
+
 ---
