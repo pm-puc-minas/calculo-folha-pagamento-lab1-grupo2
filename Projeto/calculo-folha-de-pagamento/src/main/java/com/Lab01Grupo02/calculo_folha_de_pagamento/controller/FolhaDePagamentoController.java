@@ -1,35 +1,7 @@
-package com.Lab01Grupo02.calculo_folha_de_pagamento.controller;
-
-import com.Lab01Grupo02.calculo_folha_de_pagamento.controller.dto.GerarFolhaRequest;
-import com.Lab01Grupo02.calculo_folha_de_pagamento.model.FolhaDePagamento;
-import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Funcionario;
-import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
-import com.Lab01Grupo02.calculo_folha_de_pagamento.service.FuncionarioService;
-import com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos.ICalculadora;
-import com.Lab01Grupo02.calculo_folha_de_pagamento.service.jpa.FolhaPagamentoRepository;
-import com.Lab01Grupo02.calculo_folha_de_pagamento.service.jpa.ItemFolhaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import jakarta.validation.Valid;
-
-import java.math.BigDecimal;
-import java.util.List;
-
-/**
- * Controller para expor a API REST de geração da Folha de Pagamento.
- * Define a rota /api/folhapagamento.
- */
 @RestController
 @RequestMapping("/api/folhapagamento")
 public class FolhaDePagamentoController {
 
-    // Injeção dos serviços e repositórios necessários
     private final FuncionarioService funcionarioService;
     private final ICalculadora calculadoraService;
     private final FolhaPagamentoRepository folhaPagamentoRepository;
@@ -48,72 +20,98 @@ public class FolhaDePagamentoController {
         this.itemFolhaRepository = itemFolhaRepository;
     }
 
-    /**
-     * Rota para GERAR uma nova folha de pagamento para um funcionário.
-     * URL: POST /api/folhapagamento
-     *
-     * @param request O corpo (body) JSON da requisição (ver GerarFolhaRequest.java)
-     * @return A FolhaDePagamento completa que foi salva no banco de dados.
-     */
     @PostMapping
-    @Transactional // Garante que tudo (salvar folha e itens) seja uma única transação
+    @Transactional
     public ResponseEntity<FolhaDePagamento> gerarOuAtualizarFolhaPagamento(@Valid @RequestBody GerarFolhaRequest request) {
-
-        // 1. Buscar o funcionário
-        // CORRIGIDO: request.getMatricula() -> request.matricula()
+        // Lançar exceção se funcionário não for encontrado
         Funcionario funcionario = funcionarioService.buscarPorMatricula(request.matricula());
+        if (funcionario == null) {
+            throw new ResourceNotFoundException("Funcionário com matrícula " + request.matricula() + " não encontrado.");
+        }
 
-        // 2. LÓGICA UPSERT: Tentar encontrar a folha ou criar uma nova
-        // CORRIGIDO: request.getMatricula() -> request.matricula()
-        // CORRIGIDO: request.getMesReferencia() -> request.mesReferencia()
         FolhaDePagamento folha = folhaPagamentoRepository
                 .findByMatriculaAndMesReferencia(request.matricula(), request.mesReferencia())
                 .orElse(new FolhaDePagamento());
 
-        // 3. Limpar itens antigos (se for uma atualização)
-        if (folha.getId_Folha() > 0 && folha.getItens() != null) {
-            // APENAS ISSO:
-            // Ao limpar a lista, o 'orphanRemoval=true' que você configurou
-            // automaticamente instrui o Hibernate a deletar esses itens do banco.
+        if (folha.getItens() != null) {
             folha.getItens().clear();
         }
 
-        // 4. Preencher/Atualizar os dados da folha
         folha.setMatricula(funcionario.getIdPessoa());
-
-        // CORRIGIDO: request.getMesReferencia() -> request.mesReferencia()
         folha.setMesReferencia(request.mesReferencia());
-        // CORRIGIDO: request.getDiasFalta() -> request.diasFalta()
         folha.setDiasFalta(request.diasFalta());
         folha.setSalarioBruto(funcionario.getSalarioBruto());
 
-        // 5. Chamar o serviço de cálculo
-        // CORRIGIDO: request.getDiasFalta() -> request.diasFalta()
         List<ItemFolha> itensCalculados = calculadoraService.calcularFolhaCompleta(funcionario, request.diasFalta());
+        itensCalculados.forEach(i -> i.setFolhaDePagamento(folha));
 
-        // 6. Calcular Totais
-        BigDecimal totalProventos = BigDecimal.ZERO;
-        BigDecimal totalDescontos = BigDecimal.ZERO;
+        BigDecimal totalProventos = itensCalculados.stream()
+                .filter(i -> "PROVENTO".equals(i.getTipo()))
+                .map(ItemFolha::getValor)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        for (ItemFolha item : itensCalculados) {
-            item.setFolhaDePagamento(folha);
+        BigDecimal totalDescontos = itensCalculados.stream()
+                .filter(i -> "DESCONTO".equals(i.getTipo()))
+                .map(ItemFolha::getValor)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-            if (item.getTipo().equals("PROVENTO")) {
-                totalProventos = totalProventos.add(item.getValor());
-            } else if (item.getTipo().equals("DESCONTO")) {
-                totalDescontos = totalDescontos.add(item.getValor());
-            }
-        }
-
-        // 7. Definir os totais e o salário líquido
+        folha.setItens(itensCalculados);
         folha.setTotalProvento(totalProventos);
         folha.setTotalDesconto(totalDescontos);
         folha.setSalarioLiquido(totalProventos.subtract(totalDescontos));
-        folha.setItens(itensCalculados);
 
-        // 8. Salvar (INSERT ou UPDATE)
         FolhaDePagamento folhaSalva = folhaPagamentoRepository.save(folha);
 
+        System.out.println("Folha gerada/atualizada para matrícula: " + request.matricula());
+
         return ResponseEntity.ok(folhaSalva);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<FolhaDePagamento>> buscarTodas() {
+        return ResponseEntity.ok(folhaPagamentoRepository.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<FolhaDePagamento> buscarPorId(@PathVariable Integer id) {
+        return folhaPagamentoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Folha de pagamento com id " + id + " não encontrada."))
+                .map(ResponseEntity::ok);
+    }
+
+    @GetMapping("/funcionario/{matricula}")
+    public ResponseEntity<List<FolhaDePagamento>> buscarPorFuncionario(@PathVariable Integer matricula) {
+        List<FolhaDePagamento> folhas = folhaPagamentoRepository.findAll()
+                .stream()
+                .filter(f -> f.getMatricula().equals(matricula))
+                .toList();
+
+        if (folhas.isEmpty()) {
+            throw new ResourceNotFoundException("Nenhuma folha encontrada para matrícula: " + matricula);
+        }
+
+        return ResponseEntity.ok(folhas);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<Void> deletarFolha(@PathVariable Integer id) {
+        if (!folhaPagamentoRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Folha de pagamento com id " + id + " não encontrada.");
+        }
+        folhaPagamentoRepository.deleteById(id);
+        System.out.println("Folha deletada: " + id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/dias-falta")
+    @Transactional
+    public ResponseEntity<FolhaDePagamento> atualizarDiasFalta(@PathVariable Integer id, @RequestBody int diasFalta) {
+        FolhaDePagamento folha = folhaPagamentoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Folha de pagamento com id " + id + " não encontrada."));
+        folha.setDiasFalta(diasFalta);
+        FolhaDePagamento folhaAtualizada = folhaPagamentoRepository.save(folha);
+        System.out.println("Dias de falta atualizados para folha: " + id);
+        return ResponseEntity.ok(folhaAtualizada);
     }
 }
