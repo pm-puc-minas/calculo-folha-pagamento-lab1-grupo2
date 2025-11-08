@@ -129,4 +129,40 @@ public class FuncionarioService {
 
         return funcionarioRepository.save(funcionario);
     }
+
+    /**
+     * Atualiza um funcionário existente no banco de dados.
+     *
+     * @param matricula A matrícula do funcionário a ser atualizado.
+     * @param funcionarioAtualizado O objeto Funcionario com os novos dados.
+     * @return O Funcionario atualizado.
+     * @throws ResourceNotFoundException Se o funcionário não for encontrado.
+     */
+    @Transactional
+    public Funcionario atualizarFuncionario(Integer matricula, Funcionario funcionarioAtualizado) {
+        // Verifica se o funcionário existe
+        Funcionario funcionarioExistente = buscarPorMatricula(matricula);
+
+        // Atualiza os campos (dados de Pessoa)
+        funcionarioExistente.setNome(funcionarioAtualizado.getNome());
+
+        // Limpar o CPF antes de atualizar
+        if (funcionarioAtualizado.getCpf() != null) {
+            String cpfLimpo = funcionarioAtualizado.getCpf().replaceAll("[.-]", "");
+            funcionarioExistente.setCpf(cpfLimpo);
+        }
+
+        funcionarioExistente.setDataNascimento(funcionarioAtualizado.getDataNascimento());
+
+        // Atualiza os campos específicos de Funcionario
+        funcionarioExistente.setCargo(funcionarioAtualizado.getCargo());
+        funcionarioExistente.setDataAdmissao(funcionarioAtualizado.getDataAdmissao());
+        funcionarioExistente.setSalarioBruto(funcionarioAtualizado.getSalarioBruto());
+        funcionarioExistente.setGrauInsalubridade(funcionarioAtualizado.getGrauInsalubridade());
+        funcionarioExistente.setCargaHorariaSemanal(funcionarioAtualizado.getCargaHorariaSemanal());
+        funcionarioExistente.setPossuiPericulosidade(funcionarioAtualizado.isPossuiPericulosidade());
+
+        // O save() funciona tanto para inserir quanto para atualizar
+        return funcionarioRepository.save(funcionarioExistente);
+    }
 }
