@@ -93,16 +93,16 @@ public class FolhaDePagamentoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<FolhaDePagamento> buscarPorId(@PathVariable Integer id) {
-        return folhaPagamentoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Folha de pagamento com id " + id + " não encontrada."))
-                .map(ResponseEntity::ok);
+        FolhaDePagamento folha = folhaPagamentoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Folha de pagamento com id " + id + " não encontrada."));
+        return ResponseEntity.ok(folha);
     }
 
     @GetMapping("/funcionario/{matricula}")
     public ResponseEntity<List<FolhaDePagamento>> buscarPorFuncionario(@PathVariable Integer matricula) {
         List<FolhaDePagamento> folhas = folhaPagamentoRepository.findAll()
                 .stream()
-                .filter(f -> f.getMatricula().equals(matricula))
+                .filter(f -> f.getMatricula() == matricula)
                 .toList();
 
         if (folhas.isEmpty()) {
