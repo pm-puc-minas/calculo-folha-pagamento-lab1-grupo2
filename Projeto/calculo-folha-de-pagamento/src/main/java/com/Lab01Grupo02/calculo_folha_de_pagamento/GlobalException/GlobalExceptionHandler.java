@@ -42,6 +42,44 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
+     * Captura exceções do tipo InvalidCredentialsException (HTTP 401).
+     *
+     * @param ex A exceção InvalidCredentialsException que foi lançada.
+     * @param request O contexto da requisição web.
+     * @return Um ResponseEntity contendo o ErrorResponse JSON e o status HTTP 401.
+     */
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidCredentialsException(InvalidCredentialsException ex,
+                                                                           WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.UNAUTHORIZED.value(),        // 401
+                ex.getMessage(),
+                request.getDescription(false)
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    /**
+     * Captura exceções do tipo UserDeactivatedException (HTTP 403).
+     *
+     * @param ex A exceção UserDeactivatedException que foi lançada.
+     * @param request O contexto da requisição web.
+     * @return Um ResponseEntity contendo o ErrorResponse JSON e o status HTTP 403.
+     */
+    @ExceptionHandler(UserDeactivatedException.class)
+    public ResponseEntity<ErrorResponse> handleUserDeactivatedException(UserDeactivatedException ex,
+                                                                        WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.FORBIDDEN.value(),           // 403
+                ex.getMessage(),
+                request.getDescription(false)
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
+    }
+
+    /**
      * Captura exeções de validação @valid
      * Retorna HTTP 400 (bad Request).
      */
