@@ -23,11 +23,11 @@ public class CalculoInsalubridade implements ICalculoFolha {
         ItemFolha item = new ItemFolha();
         item.setTipo("PROVENTO"); // Define como provento
 
-        if (funcionario == null || !funcionario.isTemInsalubridade()) {
-            item.setDesc("Adicional de Insalubridade");
-            item.setValor(BigDecimal.ZERO);
-            return item;
-        }
+            if (funcionario == null || funcionario.getGrauInsalubridade() == null || funcionario.getGrauInsalubridade().equals("")) {
+                item.setDesc("Adicional de Insalubridade");
+                item.setValor(BigDecimal.ZERO);
+                return item;
+            }
 
         String grauNormalizado = normalizarGrau(funcionario.getGrauInsalubridade());
         BigDecimal percentual = PERCENTUAIS.getOrDefault(grauNormalizado, BigDecimal.ZERO);
