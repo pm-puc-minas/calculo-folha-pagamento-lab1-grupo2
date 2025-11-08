@@ -127,6 +127,63 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
+     * Captura exceções do tipo DuplicateCpfException (HTTP 409 - Conflict).
+     *
+     * @param ex A exceção DuplicateCpfException que foi lançada.
+     * @param request O contexto da requisição web.
+     * @return Um ResponseEntity contendo o ErrorResponse JSON e o status HTTP 409.
+     */
+    @ExceptionHandler(DuplicateCpfException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateCpfException(DuplicateCpfException ex,
+                                                                      WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.CONFLICT.value(),            // 409
+                ex.getMessage(),
+                request.getDescription(false)
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    /**
+     * Captura exceções do tipo InvalidDataException (HTTP 400 - Bad Request).
+     *
+     * @param ex A exceção InvalidDataException que foi lançada.
+     * @param request O contexto da requisição web.
+     * @return Um ResponseEntity contendo o ErrorResponse JSON e o status HTTP 400.
+     */
+    @ExceptionHandler(InvalidDataException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidDataException(InvalidDataException ex,
+                                                                     WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),         // 400
+                ex.getMessage(),
+                request.getDescription(false)
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Captura exceções do tipo BusinessRuleException (HTTP 422 - Unprocessable Entity).
+     *
+     * @param ex A exceção BusinessRuleException que foi lançada.
+     * @param request O contexto da requisição web.
+     * @return Um ResponseEntity contendo o ErrorResponse JSON e o status HTTP 422.
+     */
+    @ExceptionHandler(BusinessRuleException.class)
+    public ResponseEntity<ErrorResponse> handleBusinessRuleException(BusinessRuleException ex,
+                                                                      WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.UNPROCESSABLE_ENTITY.value(), // 422
+                ex.getMessage(),
+                request.getDescription(false)
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    /**
      * Captura todas as outras exceções genéricas (HTTP 500).
      * Este é o "catch-all" para erros inesperados (ex: NullPointerException).
      *
