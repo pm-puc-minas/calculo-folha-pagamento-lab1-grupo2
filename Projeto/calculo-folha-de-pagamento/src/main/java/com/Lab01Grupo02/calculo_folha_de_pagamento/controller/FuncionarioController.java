@@ -1,5 +1,7 @@
 package com.Lab01Grupo02.calculo_folha_de_pagamento.controller;
 
+import com.Lab01Grupo02.calculo_folha_de_pagamento.GlobalException.DuplicateCpfException;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.GlobalException.InvalidDataException;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Funcionario;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.service.FuncionarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,9 +91,16 @@ public class FuncionarioController {
     /**
      * Rota para criar um novo funcionário.
      * Exemplo de URL: POST /api/funcionarios
+     *
+     * @param funcionario Os dados do funcionário a ser criado (recebidos via JSON).
+     * @return ResponseEntity contendo o funcionário criado com status 201 (Created).
+     * @throws InvalidDataException Se os dados forem inválidos (tratada pelo GlobalExceptionHandler).
+     * @throws DuplicateCpfException Se o CPF já estiver cadastrado (tratada pelo GlobalExceptionHandler).
      */
     @PostMapping
     public ResponseEntity<Funcionario> criarFuncionario(@RequestBody Funcionario funcionario) {
+        // O service lançará exceptions em caso de dados inválidos ou CPF duplicado
+        // Essas exceptions serão tratadas pelo GlobalExceptionHandler
         Funcionario funcionarioSalvo = funcionarioService.salvarFuncionario(funcionario);
         return ResponseEntity.status(201).body(funcionarioSalvo);
     }
@@ -99,11 +108,20 @@ public class FuncionarioController {
     /**
      * Rota para atualizar um funcionário existente.
      * Exemplo de URL: PUT /api/funcionarios/1
+     *
+     * @param matricula A matrícula do funcionário a ser atualizado.
+     * @param funcionario Os novos dados do funcionário (recebidos via JSON).
+     * @return ResponseEntity contendo o funcionário atualizado com status 200 (OK).
+     * @throws ResourceNotFoundException Se o funcionário não for encontrado (tratada pelo GlobalExceptionHandler).
+     * @throws InvalidDataException Se os dados forem inválidos (tratada pelo GlobalExceptionHandler).
+     * @throws DuplicateCpfException Se o CPF já estiver cadastrado para outro funcionário (tratada pelo GlobalExceptionHandler).
      */
     @PutMapping("/{matricula}")
     public ResponseEntity<Funcionario> atualizarFuncionario(
             @PathVariable Integer matricula,
             @RequestBody Funcionario funcionario) {
+        // O service lançará exceptions em caso de funcionário não encontrado,
+        // dados inválidos ou CPF duplicado. Todas serão tratadas pelo GlobalExceptionHandler
         Funcionario funcionarioAtualizado = funcionarioService.atualizarFuncionario(matricula, funcionario);
         return ResponseEntity.ok(funcionarioAtualizado);
     }
