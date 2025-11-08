@@ -112,4 +112,21 @@ public class FuncionarioService {
         // -- 3. Salvar o objeto modificado de volta no banco
         return funcionario;
     }
+
+    /**
+     * Salva um novo funcionário no banco de dados.
+     *
+     * @param funcionario O objeto Funcionario a ser salvo.
+     * @return O Funcionario salvo com o ID gerado.
+     */
+    @Transactional
+    public Funcionario salvarFuncionario(Funcionario funcionario) {
+        // Limpar o CPF (remover pontos e traços) antes de salvar
+        if (funcionario.getCpf() != null) {
+            String cpfLimpo = funcionario.getCpf().replaceAll("[.-]", "");
+            funcionario.setCpf(cpfLimpo);
+        }
+
+        return funcionarioRepository.save(funcionario);
+    }
 }

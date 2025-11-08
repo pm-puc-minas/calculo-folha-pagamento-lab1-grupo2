@@ -85,4 +85,14 @@ public class FuncionarioController {
         Funcionario funcionarioAtualizado = funcionarioService.atualizarCargaHoraria(matricula, novaCargaHoraria);
         return ResponseEntity.ok(funcionarioAtualizado);
     }
+
+    /**
+     * Rota para criar um novo funcionário.
+     * Exemplo de URL: POST /api/funcionarios
+     */
+    @PostMapping
+    public ResponseEntity<Funcionario> criarFuncionario(@RequestBody Funcionario funcionario) {
+        Funcionario funcionarioSalvo = funcionarioService.salvarFuncionario(funcionario);
+        return ResponseEntity.status(201).body(funcionarioSalvo);
+    }
 }
