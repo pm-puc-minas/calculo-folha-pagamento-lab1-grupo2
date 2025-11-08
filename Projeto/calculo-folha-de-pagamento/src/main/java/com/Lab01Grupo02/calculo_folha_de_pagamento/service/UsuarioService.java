@@ -3,7 +3,6 @@ package com.Lab01Grupo02.calculo_folha_de_pagamento.service;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.GlobalException.ResourceNotFoundException;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Usuario;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.service.jpa.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +15,11 @@ import java.util.List;
 @Service
 public class UsuarioService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
+
+    public UsuarioService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
 
     /**
      * Cadastra um novo usuário no sistema.

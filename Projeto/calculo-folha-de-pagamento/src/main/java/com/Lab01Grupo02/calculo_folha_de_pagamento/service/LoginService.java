@@ -7,7 +7,6 @@ import com.Lab01Grupo02.calculo_folha_de_pagamento.model.LoginRequest;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.LoginResponse;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Usuario;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.service.jpa.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,8 +18,11 @@ import java.util.Optional;
 @Service
 public class LoginService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
+
+    public LoginService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
 
     /**
      * Efetua o login do usuário validando suas credenciais.
