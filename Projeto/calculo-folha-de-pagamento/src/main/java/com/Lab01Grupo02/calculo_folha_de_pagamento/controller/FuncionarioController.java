@@ -95,4 +95,16 @@ public class FuncionarioController {
         Funcionario funcionarioSalvo = funcionarioService.salvarFuncionario(funcionario);
         return ResponseEntity.status(201).body(funcionarioSalvo);
     }
+
+    /**
+     * Rota para atualizar um funcionário existente.
+     * Exemplo de URL: PUT /api/funcionarios/1
+     */
+    @PutMapping("/{matricula}")
+    public ResponseEntity<Funcionario> atualizarFuncionario(
+            @PathVariable Integer matricula,
+            @RequestBody Funcionario funcionario) {
+        Funcionario funcionarioAtualizado = funcionarioService.atualizarFuncionario(matricula, funcionario);
+        return ResponseEntity.ok(funcionarioAtualizado);
+    }
 }
