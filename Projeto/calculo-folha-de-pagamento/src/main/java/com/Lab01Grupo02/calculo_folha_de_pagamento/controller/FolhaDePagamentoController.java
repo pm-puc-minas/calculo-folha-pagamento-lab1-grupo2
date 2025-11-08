@@ -1,3 +1,22 @@
+package com.Lab01Grupo02.calculo_folha_de_pagamento.controller;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.GlobalException.ResourceNotFoundException;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.controller.dto.GerarFolhaRequest;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.model.FolhaDePagamento;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Funcionario;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.service.FuncionarioService;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos.ICalculadora;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.service.jpa.FolhaPagamentoRepository;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.service.jpa.ItemFolhaRepository;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/folhapagamento")
 public class FolhaDePagamentoController {
