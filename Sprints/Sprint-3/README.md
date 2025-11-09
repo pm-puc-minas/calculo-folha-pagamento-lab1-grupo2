@@ -263,6 +263,166 @@ POST http://localhost:9090/api/folhapagamento
 ```
 
 ---
+---
+
+### 1.6. ➕ Criar Novo Funcionário
+
+Cria um novo funcionário no sistema com todos os dados necessários.
+
+**Método:** `POST`
+**URL:** `http://localhost:9090/api/funcionarios`
+**Corpo (Body):** JSON
+
+#### ✅ Exemplo de Requisição
+
+```
+POST http://localhost:9090/api/funcionarios
+```
+
+**Corpo:**
+
+```json
+{
+  "nome": "João Silva",
+  "cpf": "12345678901",
+  "dataNascimento": "1990-01-15",
+  "cargo": "Desenvolvedor",
+  "dataAdmissao": "2024-01-10",
+  "salarioBruto": 5000.00,
+  "cargaHorariaSemanal": 40,
+  "grauInsalubridade": "NENHUM",
+  "possuiPericulosidade": false
+}
+```
+
+#### ✅ Resposta (Sucesso - 201 Created)
+
+```json
+{
+  "idPessoa": 10,
+  "nome": "João Silva",
+  "cpf": "12345678901",
+  "dataNascimento": "1990-01-15",
+  "cargo": "Desenvolvedor",
+  "dataAdmissao": "2024-01-10",
+  "salarioBruto": 5000.00,
+  "cargaHorariaSemanal": 40,
+  "grauInsalubridade": "NENHUM",
+  "possuiPericulosidade": false,
+  "dependentes": []
+}
+```
+
+#### ❌ Resposta (Erro - 400 Bad Request - Dados Inválidos)
+
+```json
+{
+  "statusCode": 400,
+  "message": "O nome do funcionário é obrigatório.",
+  "details": "uri=/api/funcionarios",
+  "timestamp": "2025-11-08T10:15:30.12345"
+}
+```
+
+#### ❌ Resposta (Erro - 409 Conflict - CPF Duplicado)
+
+```json
+{
+  "statusCode": 409,
+  "message": "Já existe um funcionário cadastrado com o CPF: 12345678901",
+  "details": "uri=/api/funcionarios",
+  "timestamp": "2025-11-08T10:15:30.12345"
+}
+```
+
+---
+
+### 1.7. ✏️ Atualizar Funcionário Existente
+
+Atualiza todos os dados de um funcionário existente.
+
+**Método:** `PUT`
+**URL:** `http://localhost:9090/api/funcionarios/{matricula}`
+**Parâmetros:** `{matricula}` (Path Variable)
+**Corpo (Body):** JSON
+
+#### ✅ Exemplo de Requisição
+
+```
+PUT http://localhost:9090/api/funcionarios/10
+```
+
+**Corpo:**
+
+```json
+{
+  "nome": "João Silva Santos",
+  "cpf": "12345678901",
+  "dataNascimento": "1990-01-15",
+  "cargo": "Desenvolvedor Senior",
+  "dataAdmissao": "2024-01-10",
+  "salarioBruto": 7500.00,
+  "cargaHorariaSemanal": 40,
+  "grauInsalubridade": "NENHUM",
+  "possuiPericulosidade": false
+}
+```
+
+#### ✅ Resposta (Sucesso - 200 OK)
+
+```json
+{
+  "idPessoa": 10,
+  "nome": "João Silva Santos",
+  "cpf": "12345678901",
+  "dataNascimento": "1990-01-15",
+  "cargo": "Desenvolvedor Senior",
+  "dataAdmissao": "2024-01-10",
+  "salarioBruto": 7500.00,
+  "cargaHorariaSemanal": 40,
+  "grauInsalubridade": "NENHUM",
+  "possuiPericulosidade": false,
+  "dependentes": []
+}
+```
+
+#### ❌ Resposta (Erro - 404 Not Found - Funcionário Não Encontrado)
+
+```json
+{
+  "statusCode": 404,
+  "message": "Funcionário não encontrado com a matrícula: 99999",
+  "details": "uri=/api/funcionarios/99999",
+  "timestamp": "2025-11-08T10:15:30.12345"
+}
+```
+
+#### ❌ Resposta (Erro - 400 Bad Request - Dados Inválidos)
+
+```json
+{
+  "statusCode": 400,
+  "message": "A carga horária semanal deve ser maior que zero.",
+  "details": "uri=/api/funcionarios/10",
+  "timestamp": "2025-11-08T10:15:30.12345"
+}
+```
+
+#### ❌ Resposta (Erro - 409 Conflict - CPF Já Cadastrado para Outro Funcionário)
+
+```json
+{
+  "statusCode": 409,
+  "message": "Já existe outro funcionário cadastrado com o CPF: 98765432100",
+  "details": "uri=/api/funcionarios/10",
+  "timestamp": "2025-11-08T10:15:30.12345"
+}
+```
+
+---
+
+
+---
 
 🧩 **Resumo Final:**
 
@@ -274,5 +434,7 @@ POST http://localhost:9090/api/folhapagamento
 | `/api/funcionarios/nome?termo=`               | GET    | Busca funcionário por nome          |
 | `/api/funcionarios/{matricula}/carga-horaria` | PATCH  | Atualiza carga horária semanal      |
 | `/api/folhapagamento`                         | POST   | Cria ou atualiza folha de pagamento |
+| `/api/funcionarios`                           | POST   | Cria um novo funcionário                   |
+| `/api/funcionarios/{matricula}`               | PUT    | Atualiza todos os dados de um funcionário  |
 
 
