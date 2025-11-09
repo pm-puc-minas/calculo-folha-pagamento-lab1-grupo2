@@ -558,8 +558,11 @@ PATCH http://localhost:9090/api/folhapagamento/1/dias-falta
 {
   "diasFalta": 3
 }
-❌ Resposta (Erro - 404 Not Found)
-JSON
+```
+
+### ❌ Resposta (Erro - 404 Not Found)
+
+```JSON
 
 {
   "statusCode": 404,
