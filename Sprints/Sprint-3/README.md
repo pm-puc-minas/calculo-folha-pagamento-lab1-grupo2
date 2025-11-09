@@ -573,11 +573,11 @@ JSON
 
 | Endpoint                                      | Método | Descrição                           |
 | --------------------------------------------- | ------ | ----------------------------------- |
-| `/api/folhapagamento`                           | POST   |  Cria ou atualiza folha de pagamento para um funcionário          |
-| `/api/folhapagamento`              | GET    | Lista todas as folhas de pagamento     |
-| `/api/folhapagamento/{id}`                | GET    | Busca uma folha de pagamento pelo ID           |
+| `/api/folhapagamento`                         | POST   |  Cria ou atualiza folha de pagamento para um funcionário          
+| `/api/folhapagamento`                         | GET    | Lista todas as folhas de pagamento     |
+| `/api/folhapagamento/{id}`                    | GET    | Busca uma folha de pagamento pelo ID           |
 | `/api/funcionarios/nome?termo=`               | GET    | Busca funcionário por nome          |
-| `/api/folhapagamento/funcionario/{matricula}` | GET | Atualiza carga horária semanal      |
-| `/api/folhapagamento`                         | GET   | Busca todas as folhas de um funcionário por matrícula |
-| `/api/folhapagamento/{id}`                          | DELETE  | Deleta uma folha de pagamento pelo ID                   |
-| `/api/folhapagamento/{id}/dias-falta`               | PATCH   | Atualiza apenas os dias de falta de uma folha  |
+| `/api/folhapagamento/funcionario/{matricula}` | GET    | Atualiza carga horária semanal      |
+| `/api/folhapagamento`                         | GET    | Busca todas as folhas de um funcionário por matrícula |
+| `/api/folhapagamento/{id}`                    | DELETE | Deleta uma folha de pagamento pelo ID                   |
+| `/api/folhapagamento/{id}/dias-falta`         | PATCH  | Atualiza apenas os dias de falta de uma folha  
