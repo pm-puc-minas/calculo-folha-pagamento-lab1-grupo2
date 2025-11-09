@@ -194,6 +194,7 @@ PATCH http://localhost:9090/api/funcionarios/101/carga-horaria
 
 ---
 
+
 ### 1.6. ➕ Criar Novo Funcionário
 
 Cria um novo funcionário no sistema com todos os dados necessários.
@@ -355,28 +356,39 @@ PUT http://localhost:9090/api/funcionarios/10
 
 🧩 **Resumo Final:**
 
-| Endpoint | Método | Descrição |
-|---|---|---|
-| `/api/folhapagamento` | POST | Cria ou atualiza folha de pagamento para um funcionário |
-| `/api/folhapagamento` | GET | Lista todas as folhas de pagamento |
-| `/api/folhapagamento/{id}` | GET | Busca uma folha de pagamento pelo ID |
-| `/api/folhapagamento/funcionario/{matricula}` | GET | Busca todas as folhas de um funcionário por matrícula |
-| `/api/folhapagamento/{id}` | DELETE | Deleta uma folha de pagamento pelo ID |
-| `/api/folhapagamento/{id}/dias-falta` | PATCH | Atualiza apenas os dias de falta de uma folha |
+| Endpoint                                      | Método | Descrição                           |
+| --------------------------------------------- | ------ | ----------------------------------- |
+| `/api/funcionarios`                           | GET    | Lista todos os funcionários         |
+| `/api/funcionarios/{matricula}`               | GET    | Busca funcionário por matrícula     |
+| `/api/funcionarios/cpf?valor=`                | GET    | Busca funcionário por CPF           |
+| `/api/funcionarios/nome?termo=`               | GET    | Busca funcionário por nome          |
+| `/api/funcionarios/{matricula}/carga-horaria` | PATCH  | Atualiza carga horária semanal      |
+| `/api/folhapagamento`                         | POST   | Cria ou atualiza folha de pagamento |
+| `/api/funcionarios`                           | POST   | Cria um novo funcionário                   |
+| `/api/funcionarios/{matricula}`               | PUT    | Atualiza todos os dados de um funcionário  |
+
 
 
 ## 2️⃣ API da Folha de Pagamento (`/api/folhapagamento`)
+
 Este endpoint gerencia a **criação, consulta, atualização e exclusão da folha de pagamento** de um funcionário para um mês específico, com tratamento de exceções.
+
 ---
+
 ### 2.1. 💰 Gerar ou Atualizar Folha de Pagamento (com Dias de Falta)
+
 Cria uma nova folha ou atualiza a existente para o mês de referência informado.
 Lança exceção se o funcionário não for encontrado.
 
 **Método:** `POST`
 **URL:** `http://localhost:9090/api/folhapagamento`
 **Corpo (Body):** JSON
+
 #### ✅ Exemplo de Requisição
+
+```
 POST http://localhost:9090/api/folhapagamento
+```
 
 **Corpo:**
 ```json
@@ -385,8 +397,10 @@ POST http://localhost:9090/api/folhapagamento
   "mesReferencia": "2025-10-01",
   "diasFalta": 2
 }
-✅ Resposta (Sucesso - 200 OK)
-JSON
+````
+#### ✅ Resposta (Sucesso - 200 OK)
+
+```JSON
 
 {
   "id_Folha": 1,
@@ -418,8 +432,10 @@ JSON
     }
   ]
 }
-❌ Resposta (Erro - 404 Not Found)
-JSON
+```
+#### ❌ Resposta (Erro - 404 Not Found)
+
+```JSON
 
 {
   "statusCode": 404,
@@ -427,13 +443,21 @@ JSON
   "details": "uri=/api/folhapagamento",
   "timestamp": "2025-11-08T10:15:30.12345"
 }
-2.2. 🔍 Buscar Todas as Folhas de Pagamento
+```
+
+---
+
+### 2.2. 🔍 Buscar Todas as Folhas de Pagamento
+
 Retorna todas as folhas registradas no sistema.
 
-Método: GET URL: http://localhost:9090/api/folhapagamento Parâmetros: Nenhum
+**Método:** `GET` 
+**URL:** `http://localhost:9090/api/folhapagamento` 
+**Parâmetros:** `Nenhum`
 
-✅ Resposta (Sucesso - 200 OK)
-JSON
+#### ✅ Resposta (Sucesso - 200 OK)
+
+```JSON
 
 [
   {
@@ -445,13 +469,20 @@ JSON
     "itens": [...]
   }
 ]
-2.3. 🔎 Buscar Folha por ID
+```
+---
+
+### 2.3. 🔎 Buscar Folha por ID
+
 Busca uma folha específica pelo seu ID.
 
-Método: GET URL: http://localhost:9090/api/folhapagamento/{id} Parâmetros: {id} (Path Variable)
+**Método:** `GET` 
+**URL:** `http://localhost:9090/api/folhapagamento/{id}` 
+**Parâmetros:** `{id} (Path Variable)`
 
-❌ Resposta (Erro - 404 Not Found)
-JSON
+#### ❌ Resposta (Erro - 404 Not Found)
+
+```JSON
 
 {
   "statusCode": 404,
@@ -459,13 +490,20 @@ JSON
   "details": "uri=/api/folhapagamento/999",
   "timestamp": "2025-11-08T10:15:30.12345"
 }
-2.4. 🔎 Buscar Folhas por Matrícula do Funcionário
+```
+
+---
+
+### 2.4. 🔎 Buscar Folhas por Matrícula do Funcionário
+
 Retorna todas as folhas de um funcionário específico.
 
-Método: GET URL: http://localhost:9090/api/folhapagamento/funcionario/{matricula} Parâmetros: {matricula} (Path Variable)
+**Método:** `GET` 
+**URL:** `http://localhost:9090/api/folhapagamento/funcionario/{matricula}` **Parâmetros:** `{matricula} (Path Variable)`
 
-❌ Resposta (Erro - 404 Not Found)
-JSON
+#### ❌ Resposta (Erro - 404 Not Found)
+
+```JSON
 
 {
   "statusCode": 404,
@@ -473,13 +511,21 @@ JSON
   "details": "uri=/api/folhapagamento/funcionario/999",
   "timestamp": "2025-11-08T10:15:30.12345"
 }
-2.5. 🗑️ Deletar Folha de Pagamento
+```
+
+---
+
+### 2.5. 🗑️ Deletar Folha de Pagamento
+
 Remove uma folha específica pelo seu ID.
 
-Método: DELETE URL: http://localhost:9090/api/folhapagamento/{id} Parâmetros: {id} (Path Variable)
+**Método:** `DELETE` 
+**URL:** `http://localhost:9090/api/folhapagamento/{id}` 
+**Parâmetros:** `{id} (Path Variable)`
 
-❌ Resposta (Erro - 404 Not Found)
-JSON
+### ❌ Resposta (Erro - 404 Not Found)
+
+```JSON
 
 {
   "statusCode": 404,
@@ -487,16 +533,27 @@ JSON
   "details": "uri=/api/folhapagamento/999",
   "timestamp": "2025-11-08T10:15:30.12345"
 }
-2.6. ✏️ Atualizar Dias de Falta
+```
+
+---
+
+### 2.6. ✏️ Atualizar Dias de Falta
+
 Atualiza apenas os dias de falta de uma folha existente.
 
-Método: PATCH URL: http://localhost:9090/api/folhapagamento/{id}/dias-falta Parâmetros: {id} (Path Variable) Corpo (Body): JSON
+**Método:** `PATCH` 
+**URL:** `http://localhost:9090/api/folhapagamento/{id}/dias-falta` 
+**Parâmetros:** `{id} (Path Variable)` 
+**Corpo (Body):** `JSON`
 
-✅ Exemplo de Requisição
+**Corpo:**
+#### ✅ Exemplo de Requisição
+
+```
 PATCH http://localhost:9090/api/folhapagamento/1/dias-falta
-Corpo:
+```
 
-JSON
+```JSON
 
 {
   "diasFalta": 3
@@ -510,13 +567,17 @@ JSON
   "details": "uri=/api/folhapagamento/999/dias-falta",
   "timestamp": "2025-11-08T10:15:30.12345"
 }
----
+```
+
 🧩 **Resumo Final:**
-| Endpoint | Método | Descrição |
-|---|---|---|
-| `/api/folhapagamento` | POST | Cria ou atualiza folha de pagamento para um funcionário |
-| `/api/folhapagamento` | GET | Lista todas as folhas de pagamento |
-| `/api/folhapagamento/{id}` | GET | Busca uma folha de pagamento pelo ID |
-| `/api/folhapagamento/funcionario/{matricula}` | GET | Busca todas as folhas de um funcionário por matrícula |
-| `/api/folhapagamento/{id}` | DELETE | Deleta uma folha de pagamento pelo ID |
-| `/api/folhapagamento/{id}/dias-falta` | PATCH | Atualiza apenas os dias de falta de uma folha |
+
+| Endpoint                                      | Método | Descrição                           |
+| --------------------------------------------- | ------ | ----------------------------------- |
+| `/api/folhapagamento`                           | POST   |  Cria ou atualiza folha de pagamento para um funcionário          |
+| `/api/folhapagamento`              | GET    | Lista todas as folhas de pagamento     |
+| `/api/folhapagamento/{id}`                | GET    | Busca uma folha de pagamento pelo ID           |
+| `/api/funcionarios/nome?termo=`               | GET    | Busca funcionário por nome          |
+| `/api/folhapagamento/funcionario/{matricula}` | GET | Atualiza carga horária semanal      |
+| `/api/folhapagamento`                         | GET   | Busca todas as folhas de um funcionário por matrícula |
+| `/api/folhapagamento/{id}`                          | DELETE  | Deleta uma folha de pagamento pelo ID                   |
+| `/api/folhapagamento/{id}/dias-falta`               | PATCH   | Atualiza apenas os dias de falta de uma folha  |
