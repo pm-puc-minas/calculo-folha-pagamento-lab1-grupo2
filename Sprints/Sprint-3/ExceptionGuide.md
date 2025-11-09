@@ -159,3 +159,190 @@ Confirmar que a anotação `@Min(0)` do DTO `GerarFolhaRequest` está validando 
 
 > 💬 *A mensagem em `details` será exatamente a definida na anotação `@Min` do DTO.*
 
+---
+
+## 🔴 5. Erro 400 — `InvalidDataException` (Dados Inválidos - Criação)
+
+### 🧭 Objetivo
+
+Testar a validação de dados inválidos ao criar um novo funcionário.
+
+### 🧾 Passos (Exemplo 1: Nome vazio)
+
+1. Abra o **Postman**.
+2. **Método:** `POST`
+3. **URL:** `http://localhost:9090/api/funcionarios`
+4. Vá até **Body → raw → JSON**.
+5. Cole o seguinte JSON:
+
+   ```json
+   {
+       "nome": "",
+       "cpf": "12345678901",
+       "dataNascimento": "1990-01-01",
+       "cargo": "Desenvolvedor",
+       "dataAdmissao": "2024-01-01",
+       "salarioBruto": 5000.00,
+       "cargaHorariaSemanal": 40,
+       "grauInsalubridade": "NENHUM",
+       "possuiPericulosidade": false
+   }
+   ```
+6. Clique em **Send**.
+
+### ✅ Resultado Esperado
+
+* **Status:** `400 Bad Request`
+* **Body (JSON):**
+
+  ```json
+  {
+      "statusCode": 400,
+      "message": "O nome do funcionário é obrigatório.",
+      "details": "uri=/api/funcionarios",
+      "timestamp": "..."
+  }
+  ```
+
+---
+## 🔴 6. Erro 400 — `InvalidDataException` (Dados Inválidos - Edição)
+
+### 🧭 Objetivo
+
+Testar a validação de dados inválidos ao atualizar um funcionário existente.
+
+### 🧾 Passos (Exemplo: Data de admissão antes do nascimento)
+
+1. Abra o **Postman**.
+2. **Método:** `PUT`
+3. **URL:** `http://localhost:9090/api/funcionarios/1`
+   *(Use uma matrícula existente no banco de dados.)*
+4. Vá até **Body → raw → JSON**.
+5. Cole o seguinte JSON:
+
+   ```json
+   {
+       "nome": "Roberto Alves",
+       "cpf": "98765432100",
+       "dataNascimento": "1995-01-01",
+       "cargo": "Coordenador",
+       "dataAdmissao": "1990-01-01",
+       "salarioBruto": 7000.00,
+       "cargaHorariaSemanal": 40,
+       "grauInsalubridade": "NENHUM",
+       "possuiPericulosidade": false
+   }
+   ```
+6. Clique em **Send**.
+
+### ✅ Resultado Esperado
+
+* **Status:** `400 Bad Request`
+* **Body (JSON):**
+
+  ```json
+  {
+      "statusCode": 400,
+      "message": "A data de admissão não pode ser anterior à data de nascimento.",
+      "details": "uri=/api/funcionarios/1",
+      "timestamp": "..."
+  }
+  ```
+
+
+---
+
+## ⚠️ 7. Erro 409 — `DuplicateCpfException` (CPF Duplicado - Criação)
+
+### 🧭 Objetivo
+
+Verificar o tratamento de erro quando se tenta criar um funcionário com CPF já cadastrado.
+
+### 🧾 Passos
+
+1. **Pré-requisito:** Certifique-se de que existe um funcionário com CPF `12345678901` no banco de dados. Se não existir, crie um primeiro.
+
+2. Abra o **Postman**.
+3. **Método:** `POST`
+4. **URL:** `http://localhost:9090/api/funcionarios`
+5. Vá até **Body → raw → JSON**.
+6. Cole o seguinte JSON (usando o mesmo CPF existente):
+
+   ```json
+   {
+       "nome": "Teste Duplicado",
+       "cpf": "12345678901",
+       "dataNascimento": "1988-05-15",
+       "cargo": "Analista",
+       "dataAdmissao": "2024-01-01",
+       "salarioBruto": 4000.00,
+       "cargaHorariaSemanal": 40,
+       "grauInsalubridade": "NENHUM",
+       "possuiPericulosidade": false
+   }
+   ```
+7. Clique em **Send**.
+
+### ✅ Resultado Esperado
+
+* **Status:** `409 Conflict`
+* **Body (JSON):**
+
+  ```json
+  {
+      "statusCode": 409,
+      "message": "Já existe um funcionário cadastrado com o CPF: 12345678901",
+      "details": "uri=/api/funcionarios",
+      "timestamp": "..."
+  }
+  ```
+
+---
+
+## ⚠️ 8. Erro 409 — `DuplicateCpfException` (CPF Duplicado - Edição)
+
+### 🧭 Objetivo
+
+Verificar o tratamento de erro quando se tenta atualizar um funcionário usando um CPF que já pertence a outro funcionário.
+
+### 🧾 Passos
+
+1. **Pré-requisito:** Certifique-se de que existem dois funcionários:
+   - Funcionário com matrícula `1` e CPF `11111111111`
+   - Funcionário com matrícula `2` e CPF `22222222222`
+
+2. Abra o **Postman**.
+3. **Método:** `PUT`
+4. **URL:** `http://localhost:9090/api/funcionarios/1`
+5. Vá até **Body → raw → JSON**.
+6. Cole o seguinte JSON (tentando alterar o CPF do funcionário 1 para o CPF do funcionário 2):
+
+   ```json
+   {
+       "nome": "Funcionário Atualizado",
+       "cpf": "22222222222",
+       "dataNascimento": "1990-01-01",
+       "cargo": "Desenvolvedor Senior",
+       "dataAdmissao": "2023-01-01",
+       "salarioBruto": 9000.00,
+       "cargaHorariaSemanal": 40,
+       "grauInsalubridade": "NENHUM",
+       "possuiPericulosidade": false
+   }
+   ```
+7. Clique em **Send**.
+
+### ✅ Resultado Esperado
+
+* **Status:** `409 Conflict`
+* **Body (JSON):**
+
+  ```json
+  {
+      "statusCode": 409,
+      "message": "Já existe outro funcionário cadastrado com o CPF: 22222222222",
+      "details": "uri=/api/funcionarios/1",
+      "timestamp": "..."
+  }
+  ```
+
