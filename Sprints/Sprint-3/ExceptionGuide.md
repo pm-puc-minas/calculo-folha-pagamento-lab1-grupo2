@@ -345,4 +345,155 @@ Verificar o tratamento de erro quando se tenta atualizar um funcionário usando 
       "timestamp": "..."
   }
   ```
+  ---
+
+## ⚠️ 1. Erro 404 — ResourceNotFoundException (Folha de Pagamento Não Encontrada)
+
+### 🧭 Objetivo
+
+Verificar o tratamento de erros quando uma folha de pagamento inexistente é buscada, deletada ou atualizada.
+
+### 🧾 Passos
+
+1. Abra o **Postman** e crie uma nova requisição.
+2. **Método:** `GET`
+3. **URL:** `http://localhost:9090/api/folhapagamento/999 (ID inexistente)`
+4. Clique em **Send**.
+
+### ✅ Resultado Esperado
+
+* **Status:** `404 Not Found`
+* **Body (JSON):**
+
+```json
+{
+    "statusCode": 404,
+    "message": "Folha de pagamento com id 999 não encontrada.",
+    "details": "uri=/api/folhapagamento/999",
+    "timestamp": "..."
+}
+```
+
+> 💡 *Observação: Mesma exceção será lançada para `DELETE` e `PATCH` com ID inexistente, mudando apenas a URL:*
+
+**DELETE:** `http://localhost:9090/api/folhapagamento/999`
+**PATCH:** `http://localhost:9090/api/folhapagamento/999/dias-falta`
+
+---
+
+## ⚠️ 2. Erro 400 — `MethodArgumentNotValidException` (Falha na Validação DTO)
+
+### 🧭 Objetivo
+
+Testar a validação de campos obrigatórios ou valores inválidos no DTO **GerarFolhaRequest**.
+
+### 🧾 Passos
+
+1.Abra o Postman.
+2. **Método:** `POST`
+3. **URL:** `http://localhost:9090/api/folhapagamento`
+4. Cole o JSON inválido:
+
+```json
+{
+    "matricula": null,
+    "mesReferencia": "2025-11-01",
+    "diasFalta": -5
+}
+```
+
+Clique em **Send**.
+
+### ✅ Resultado Esperado
+
+* **Status:** `400 Bad Request`
+* **Body (JSON):**
+
+```json
+{
+    "statusCode": 400,
+    "message": "Erro de validação. Verifique os campos da requisição.",
+    "details": "uri=/api/folhapagamento; Erros=[ 'matricula': A matrícula não pode ser nula, 'diasFalta': Dias de falta não pode ser negativo ]",
+    "timestamp": "..."
+}
+```
+
+> 💡 *A ordem dos erros em `details` pode variar.*
+
+---
+
+## ⚠️ 3. Erro 400 — `HttpMessageNotReadableException` (JSON Malformado)
+
+### 🧭 Objetivo
+
+Testar tratamento de erro para JSON com sintaxe incorreta.
+
+### 🧾 Passos
+
+1. Requisição **POST** para `http://localhost:9090/api/folhapagamento`
+2. Cole o JSON abaixo (vírgula extra):
+
+```json
+{
+    "matricula": 123,
+    "mesReferencia": "2025-11-01",
+    "diasFalta": 2,  <-- vírgula extra!
+}
+```
+
+Clique em **Send**.
+
+### ✅ Resultado Esperado
+
+* **Status:** `400 Bad Request`
+* **Body (JSON):**
+
+```json
+{
+    "statusCode": 400,
+    "message": "Requisição JSON mal formatada ou inválida.",
+    "details": "uri=/api/folhapagamento",
+    "timestamp": "..."
+}
+```
+
+---
+
+
+## ⚠️ 4. Erro 404 — `ResourceNotFoundException` (Funcionário Não Encontrado)
+
+### 🧭 Objetivo
+
+Testar a exceção lançada quando se tenta gerar ou atualizar uma folha para uma matrícula inexistente.
+
+### 🧾 Passos
+
+Requisição **POST** para `http://localhost:9090/api/folhapagamento`
+
+**Exemplo:**
+
+```json
+{
+    "matricula": 999,
+    "mesReferencia": "2025-11-01",
+    "diasFalta": 2
+}
+```
+
+
+Clique em **Send**.
+
+### ✅ Resultado Esperado
+
+* **Status:** 404 Not Found
+* **Body (JSON):**
+
+```json
+{
+    "statusCode": 404,
+    "message": "Funcionário com matrícula 999 não encontrado.",
+    "details": "uri=/api/folhapagamento",
+    "timestamp": "..."
+}
+```
 
