@@ -544,7 +544,7 @@ Atualiza apenas os dias de falta de uma folha existente.
 **Método:** `PATCH` 
 **URL:** `http://localhost:9090/api/folhapagamento/{id}/dias-falta` 
 **Parâmetros:** `{id} (Path Variable)` 
-**Corpo (Body):** `JSON`
+**Corpo (Body):** `Número inteiro representando os dias de falta`
 
 **Corpo:**
 #### ✅ Exemplo de Requisição
@@ -553,7 +553,7 @@ Atualiza apenas os dias de falta de uma folha existente.
 PATCH http://localhost:9090/api/folhapagamento/1/dias-falta
 ```
 
-```JSON
+```CORPO
 
 {
   "diasFalta": 3
@@ -571,6 +571,45 @@ PATCH http://localhost:9090/api/folhapagamento/1/dias-falta
   "timestamp": "2025-11-08T10:15:30.12345"
 }
 ```
+### ✅ Resposta (Sucesso - 200 OK)
+
+```JSON
+
+{
+  "id_Folha": 1,
+  "matricula": 101,
+  "mesReferencia": "2025-10-01",
+  "salarioBruto": 5500.00,
+  "totalProvento": 5500.00,
+  "totalDesconto": 1000.00,
+  "salarioLiquido": 4500.00,
+  "diasFalta": 3,
+  "itens": [
+    {
+      "id_Folha": 1,
+      "desc": "Salário Base",
+      "tipo": "PROVENTO",
+      "valor": 5500.00
+    },
+    {
+      "id_Folha": 2,
+      "desc": "INSS",
+      "tipo": "DESCONTO",
+      "valor": 600.00
+    },
+    {
+      "id_Folha": 3,
+      "desc": "IRRF",
+      "tipo": "DESCONTO",
+      "valor": 400.00
+    }
+  ]
+}
+
+```
+
+
+
 
 🧩 **Resumo Final:**
 
