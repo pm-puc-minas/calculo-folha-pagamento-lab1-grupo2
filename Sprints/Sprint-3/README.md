@@ -437,6 +437,7 @@ PUT http://localhost:9090/api/funcionarios/10
 | `/api/funcionarios`                           | POST   | Cria um novo funcionário                   |
 | `/api/funcionarios/{matricula}`               | PUT    | Atualiza todos os dados de um funcionário  |
 
+
 Markdown
 
 ## 2️⃣ API da Folha de Pagamento (`/api/folhapagamento`)
@@ -585,5 +586,3 @@ JSON
   "timestamp": "2025-11-08T10:15:30.12345"
 }
 🧩 Resumo Final (Folha de Pagamento): | Endpoint | Método | Descrição | |---|---|---| | /api/folhapagamento | POST | Cria ou atualiza folha de pagamento para um funcionário | | /api/folhapagamento | GET | Lista todas as folhas de pagamento | | /api/folhapagamento/{id} | GET | Busca uma folha de pagamento pelo ID | | /api/folhapagamento/funcionario/{matricula} | GET | Busca todas as folhas de um funcionário por matrícula | | /api/folhapagamento/{id} | DELETE | Deleta uma folha de pagamento pelo ID | | /api/folhapagamento/{id}/dias-falta | PATCH | Atualiza apenas os dias de falta de uma folha |
-
-
