@@ -2,6 +2,7 @@ package com.Lab01Grupo02.calculo_folha_de_pagamento.controller;
 
 import com.Lab01Grupo02.calculo_folha_de_pagamento.GlobalException.DuplicateCpfException;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.GlobalException.InvalidDataException;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.GlobalException.ResourceNotFoundException;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Funcionario;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.service.FuncionarioService;
 import org.springframework.beans.factory.annotation.Autowired;
