@@ -437,4 +437,153 @@ PUT http://localhost:9090/api/funcionarios/10
 | `/api/funcionarios`                           | POST   | Cria um novo funcionário                   |
 | `/api/funcionarios/{matricula}`               | PUT    | Atualiza todos os dados de um funcionário  |
 
+Markdown
+
+## 2️⃣ API da Folha de Pagamento (`/api/folhapagamento`)
+Este endpoint gerencia a **criação, consulta, atualização e exclusão da folha de pagamento** de um funcionário para um mês específico, com tratamento de exceções.
+---
+### 2.1. 💰 Gerar ou Atualizar Folha de Pagamento (com Dias de Falta)
+Cria uma nova folha ou atualiza a existente para o mês de referência informado.
+Lança exceção se o funcionário não for encontrado.
+
+**Método:** `POST`
+**URL:** `http://localhost:9090/api/folhapagamento`
+**Corpo (Body):** JSON
+#### ✅ Exemplo de Requisição
+POST http://localhost:9090/api/folhapagamento
+
+**Corpo:**
+```json
+{
+  "matricula": 101,
+  "mesReferencia": "2025-10-01",
+  "diasFalta": 2
+}
+✅ Resposta (Sucesso - 200 OK)
+JSON
+
+{
+  "id_Folha": 1,
+  "matricula": 101,
+  "mesReferencia": "2025-10-01",
+  "salarioBruto": 5500.00,
+  "totalProvento": 5500.00,
+  "totalDesconto": 1000.00,
+  "salarioLiquido": 4500.00,
+  "diasFalta": 2,
+  "itens": [
+    {
+      "id_Folha": 1,
+      "desc": "Salário Base",
+      "tipo": "PROVENTO",
+      "valor": 5500.00
+    },
+    {
+      "id_Folha": 2,
+      "desc": "INSS",
+      "tipo": "DESCONTO",
+      "valor": 600.00
+    },
+    {
+      "id_Folha": 3,
+      "desc": "IRRF",
+      "tipo": "DESCONTO",
+      "valor": 400.00
+    }
+  ]
+}
+❌ Resposta (Erro - 404 Not Found)
+JSON
+
+{
+  "statusCode": 404,
+  "message": "Funcionário com matrícula 999 não encontrado.",
+  "details": "uri=/api/folhapagamento",
+  "timestamp": "2025-11-08T10:15:30.12345"
+}
+2.2. 🔍 Buscar Todas as Folhas de Pagamento
+Retorna todas as folhas registradas no sistema.
+
+Método: GET URL: http://localhost:9090/api/folhapagamento Parâmetros: Nenhum
+
+✅ Resposta (Sucesso - 200 OK)
+JSON
+
+[
+  {
+    "id_Folha": 1,
+    "matricula": 101,
+    "mesReferencia": "2025-10-01",
+    "salarioLiquido": 4500.00,
+    "diasFalta": 2,
+    "itens": [...]
+  }
+]
+2.3. 🔎 Buscar Folha por ID
+Busca uma folha específica pelo seu ID.
+
+Método: GET URL: http://localhost:9090/api/folhapagamento/{id} Parâmetros: {id} (Path Variable)
+
+❌ Resposta (Erro - 404 Not Found)
+JSON
+
+{
+  "statusCode": 404,
+  "message": "Folha de pagamento com id 999 não encontrada.",
+  "details": "uri=/api/folhapagamento/999",
+  "timestamp": "2025-11-08T10:15:30.12345"
+}
+2.4. 🔎 Buscar Folhas por Matrícula do Funcionário
+Retorna todas as folhas de um funcionário específico.
+
+Método: GET URL: http://localhost:9090/api/folhapagamento/funcionario/{matricula} Parâmetros: {matricula} (Path Variable)
+
+❌ Resposta (Erro - 404 Not Found)
+JSON
+
+{
+  "statusCode": 404,
+  "message": "Nenhuma folha encontrada para matrícula: 999",
+  "details": "uri=/api/folhapagamento/funcionario/999",
+  "timestamp": "2025-11-08T10:15:30.12345"
+}
+2.5. 🗑️ Deletar Folha de Pagamento
+Remove uma folha específica pelo seu ID.
+
+Método: DELETE URL: http://localhost:9090/api/folhapagamento/{id} Parâmetros: {id} (Path Variable)
+
+❌ Resposta (Erro - 404 Not Found)
+JSON
+
+{
+  "statusCode": 404,
+  "message": "Folha de pagamento com id 999 não encontrada.",
+  "details": "uri=/api/folhapagamento/999",
+  "timestamp": "2025-11-08T10:15:30.12345"
+}
+2.6. ✏️ Atualizar Dias de Falta
+Atualiza apenas os dias de falta de uma folha existente.
+
+Método: PATCH URL: http://localhost:9090/api/folhapagamento/{id}/dias-falta Parâmetros: {id} (Path Variable) Corpo (Body): JSON
+
+✅ Exemplo de Requisição
+PATCH http://localhost:9090/api/folhapagamento/1/dias-falta
+Corpo:
+
+JSON
+
+{
+  "diasFalta": 3
+}
+❌ Resposta (Erro - 404 Not Found)
+JSON
+
+{
+  "statusCode": 404,
+  "message": "Folha de pagamento com id 999 não encontrada.",
+  "details": "uri=/api/folhapagamento/999/dias-falta",
+  "timestamp": "2025-11-08T10:15:30.12345"
+}
+🧩 Resumo Final (Folha de Pagamento): | Endpoint | Método | Descrição | |---|---|---| | /api/folhapagamento | POST | Cria ou atualiza folha de pagamento para um funcionário | | /api/folhapagamento | GET | Lista todas as folhas de pagamento | | /api/folhapagamento/{id} | GET | Busca uma folha de pagamento pelo ID | | /api/folhapagamento/funcionario/{matricula} | GET | Busca todas as folhas de um funcionário por matrícula | | /api/folhapagamento/{id} | DELETE | Deleta uma folha de pagamento pelo ID | | /api/folhapagamento/{id}/dias-falta | PATCH | Atualiza apenas os dias de falta de uma folha |
+
 
