@@ -194,77 +194,6 @@ PATCH http://localhost:9090/api/funcionarios/101/carga-horaria
 
 ---
 
-## 2️⃣ API da Folha de Pagamento (`/api/folhapagamento`)
-
-Este endpoint gerencia a **criação e atualização da folha de pagamento** de um funcionário para um mês específico.
-
----
-
-### 2.1. 💰 Gerar ou Atualizar Folha de Pagamento (com Dias de Falta)
-
-Implementa uma lógica **"UPSERT"**:
-
-* Se **não existir** uma folha para a matrícula e mês de referência, **uma nova folha é criada**.
-* Se **já existir**, **a folha é atualizada** com os novos dados (como diasFalta).
-
-**Método:** `POST`
-**URL:** `http://localhost:9090/api/folhapagamento`
-**Corpo (Body):** JSON
-
-#### ✅ Exemplo de Requisição
-
-```
-POST http://localhost:9090/api/folhapagamento
-```
-
-**Corpo:**
-
-```json
-{
-  "matricula": 101,
-  "mesReferencia": "2025-10-01",
-  "diasFalta": 2
-}
-```
-
-#### ✅ Resposta (Sucesso - 200 OK)
-
-```json
-{
-  "id_Folha": 1,
-  "matricula": 101,
-  "mesReferencia": "2025-10-01",
-  "salarioBruto": 5500.00,
-  "totalProvento": 5500.00,
-  "totalDesconto": 1000.00,
-  "salarioLiquido": 4500.00,
-  "diasFalta": 2,
-  "itens": [
-    {
-      "id_Folha": 1,
-      "desc": "Salário Base",
-      "tipo": "PROVENTO",
-      "valor": 5500.00
-    },
-    {
-      "id_Folha": 2,
-      "desc": "INSS",
-      "tipo": "DESCONTO",
-      "valor": 600.00
-    },
-    {
-      "id_Folha": 3,
-      "desc": "IRRF",
-      "tipo": "DESCONTO",
-      "valor": 400.00
-    }
-  ]
-}
-```
-
----
----
-
 ### 1.6. ➕ Criar Novo Funcionário
 
 Cria um novo funcionário no sistema com todos os dados necessários.
@@ -426,19 +355,15 @@ PUT http://localhost:9090/api/funcionarios/10
 
 🧩 **Resumo Final:**
 
-| Endpoint                                      | Método | Descrição                           |
-| --------------------------------------------- | ------ | ----------------------------------- |
-| `/api/funcionarios`                           | GET    | Lista todos os funcionários         |
-| `/api/funcionarios/{matricula}`               | GET    | Busca funcionário por matrícula     |
-| `/api/funcionarios/cpf?valor=`                | GET    | Busca funcionário por CPF           |
-| `/api/funcionarios/nome?termo=`               | GET    | Busca funcionário por nome          |
-| `/api/funcionarios/{matricula}/carga-horaria` | PATCH  | Atualiza carga horária semanal      |
-| `/api/folhapagamento`                         | POST   | Cria ou atualiza folha de pagamento |
-| `/api/funcionarios`                           | POST   | Cria um novo funcionário                   |
-| `/api/funcionarios/{matricula}`               | PUT    | Atualiza todos os dados de um funcionário  |
+| Endpoint | Método | Descrição |
+|---|---|---|
+| `/api/folhapagamento` | POST | Cria ou atualiza folha de pagamento para um funcionário |
+| `/api/folhapagamento` | GET | Lista todas as folhas de pagamento |
+| `/api/folhapagamento/{id}` | GET | Busca uma folha de pagamento pelo ID |
+| `/api/folhapagamento/funcionario/{matricula}` | GET | Busca todas as folhas de um funcionário por matrícula |
+| `/api/folhapagamento/{id}` | DELETE | Deleta uma folha de pagamento pelo ID |
+| `/api/folhapagamento/{id}/dias-falta` | PATCH | Atualiza apenas os dias de falta de uma folha |
 
-
-Markdown
 
 ## 2️⃣ API da Folha de Pagamento (`/api/folhapagamento`)
 Este endpoint gerencia a **criação, consulta, atualização e exclusão da folha de pagamento** de um funcionário para um mês específico, com tratamento de exceções.
@@ -585,4 +510,13 @@ JSON
   "details": "uri=/api/folhapagamento/999/dias-falta",
   "timestamp": "2025-11-08T10:15:30.12345"
 }
-🧩 Resumo Final (Folha de Pagamento): | Endpoint | Método | Descrição | |---|---|---| | /api/folhapagamento | POST | Cria ou atualiza folha de pagamento para um funcionário | | /api/folhapagamento | GET | Lista todas as folhas de pagamento | | /api/folhapagamento/{id} | GET | Busca uma folha de pagamento pelo ID | | /api/folhapagamento/funcionario/{matricula} | GET | Busca todas as folhas de um funcionário por matrícula | | /api/folhapagamento/{id} | DELETE | Deleta uma folha de pagamento pelo ID | | /api/folhapagamento/{id}/dias-falta | PATCH | Atualiza apenas os dias de falta de uma folha |
+---
+🧩 **Resumo Final:**
+| Endpoint | Método | Descrição |
+|---|---|---|
+| `/api/folhapagamento` | POST | Cria ou atualiza folha de pagamento para um funcionário |
+| `/api/folhapagamento` | GET | Lista todas as folhas de pagamento |
+| `/api/folhapagamento/{id}` | GET | Busca uma folha de pagamento pelo ID |
+| `/api/folhapagamento/funcionario/{matricula}` | GET | Busca todas as folhas de um funcionário por matrícula |
+| `/api/folhapagamento/{id}` | DELETE | Deleta uma folha de pagamento pelo ID |
+| `/api/folhapagamento/{id}/dias-falta` | PATCH | Atualiza apenas os dias de falta de uma folha |
