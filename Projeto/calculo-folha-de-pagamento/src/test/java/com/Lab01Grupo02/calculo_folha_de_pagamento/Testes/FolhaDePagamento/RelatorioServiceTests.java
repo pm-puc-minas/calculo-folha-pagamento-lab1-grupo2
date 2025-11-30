@@ -62,7 +62,7 @@ class RelatorioServiceTests {
 
     @BeforeEach
     void setupTestDatabase() {
-        try (Connection conn = DAO.getConnection(); Statement stmt = conn.createStatement()) {
+        try (Connection conn = DAO.getInstance().getConnection(); Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(SQL_SETUP_DATABASE);
         } catch (Exception e) {
             throw new RuntimeException("Falha ao preparar o banco de dados de teste.", e);

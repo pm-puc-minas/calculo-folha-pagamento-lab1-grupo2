@@ -1,5 +1,10 @@
 package com.Lab01Grupo02.calculo_folha_de_pagamento.controller;
 
+// Importe o DTO que criamos
+import com.Lab01Grupo02.calculo_folha_de_pagamento.controller.dto.FuncionarioRequestDTO;
+// Importe a Factory que criamos
+import com.Lab01Grupo02.calculo_folha_de_pagamento.service.FuncionarioFactory;
+
 import com.Lab01Grupo02.calculo_folha_de_pagamento.GlobalException.DuplicateCpfException;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.GlobalException.InvalidDataException;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.GlobalException.ResourceNotFoundException;
@@ -12,25 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Controller para expor a API REST de Funcionários.
- * Esta classe define os URLs (rotas) e lida com as requisições HTTP,
- * convertendo automaticamente os retornos para JSON.
- */
-@RestController // Fundamental: Diz ao Spring que esta classe retorna JSON
-@RequestMapping("/api/funcionarios") // Prefixo do URL para todas as rotas neste controller
+@RestController
+@RequestMapping("/api/funcionarios")
 public class FuncionarioController {
-
-    /**
-     * Rota para buscar TODOS os funcionários.
-     * Exemplo de URL: GET /api/funcionarios
-     */
-    @GetMapping // Sem caminho adicional, ele responde ao GET na raiz do controller
-    public ResponseEntity<List<Funcionario>> buscarTodos() {
-        List<Funcionario> funcionarios = funcionarioService.buscarTodos();
-        // Retorna a lista (que pode estar vazia), convertida para um array JSON
-        return ResponseEntity.ok(funcionarios);
-    }
 
     private final FuncionarioService funcionarioService;
 
@@ -39,90 +28,71 @@ public class FuncionarioController {
         this.funcionarioService = funcionarioService;
     }
 
-    /**
-     * Rota para buscar um funcionário pela MATRÍCULA (ID).
-     * Exemplo de URL: GET /api/funcionarios/123
-     */
+    // --- MÉTODOS DE LEITURA (GET) CONTINUAM IGUAIS ---
+
+    @GetMapping
+    public ResponseEntity<List<Funcionario>> buscarTodos() {
+        List<Funcionario> funcionarios = funcionarioService.buscarTodos();
+        return ResponseEntity.ok(funcionarios);
+    }
+
     @GetMapping("/{matricula}")
     public ResponseEntity<Funcionario> buscarPorMatricula(@PathVariable Integer matricula) {
-        // O serviço irá retornar o Funcionario ou lançar ResourceNotFoundException
         Funcionario funcionario = funcionarioService.buscarPorMatricula(matricula);
-
-        // ResponseEntity.ok() retorna um status HTTP 200
-        // O Spring/Jackson converte 'funcionario' para JSON automaticamente
         return ResponseEntity.ok(funcionario);
     }
 
-    /**
-     * Rota para buscar um funcionário pelo CPF.
-     * Exemplo de URL: GET /api/funcionarios/cpf?valor=123.456.789-00
-     */
     @GetMapping("/cpf")
     public ResponseEntity<Funcionario> buscarPorCpf(@RequestParam("valor") String cpf) {
         Funcionario funcionario = funcionarioService.buscarPorCpf(cpf);
         return ResponseEntity.ok(funcionario);
     }
 
-    /**
-     * Rota para buscar funcionários por NOME.
-     * Exemplo de URL: GET /api/funcionarios/nome?termo=Joao
-     */
     @GetMapping("/nome")
     public ResponseEntity<List<Funcionario>> buscarPorNome(@RequestParam("termo") String nome) {
         List<Funcionario> funcionarios = funcionarioService.buscarPorNome(nome);
-        // Retorna a lista (que pode estar vazia), convertida para um array JSON
         return ResponseEntity.ok(funcionarios);
     }
 
+    // --- AQUI ESTÁ A MUDANÇA PRINCIPAL (FACTORY) ---
+
     /**
-     * NOVA ROTA: Atualizar a carga horárioa de um funcionario.
+     * Rota para criar um novo funcionário.
+     * MUDANÇA: Recebe um DTO (dados brutos) e usa a Factory para criar o objeto.
      */
+    @PostMapping
+    public ResponseEntity<Funcionario> criarFuncionario(@RequestBody FuncionarioRequestDTO dadosRecebidos) {
+
+        // 1. USO DO PADRÃO FACTORY:
+        // O Controller não cria mais o objeto manualmente. Ele delega para a fábrica.
+        // A fábrica cuida de converter String para BigDecimal, tratar datas, definir padrões, etc.
+        Funcionario novoFuncionario = FuncionarioFactory.criarDoDTO(dadosRecebidos);
+
+        // 2. Persistência normal no Service
+        Funcionario funcionarioSalvo = funcionarioService.salvarFuncionario(novoFuncionario);
+
+        return ResponseEntity.status(201).body(funcionarioSalvo);
+    }
+
+    // --- MÉTODOS DE ATUALIZAÇÃO (PUT/PATCH) ---
+
     @PatchMapping("/{matricula}/carga-horaria")
     public ResponseEntity<Funcionario> atualizarCargaHoraria(@PathVariable Integer matricula, @RequestBody Map<String, Integer> body) {
         Integer novaCargaHoraria = body.get("cargaHoraria");
-
         if(novaCargaHoraria == null){
-            // Se o Json estiver errado, retorna um erro
             return ResponseEntity.badRequest().build();
         }
         Funcionario funcionarioAtualizado = funcionarioService.atualizarCargaHoraria(matricula, novaCargaHoraria);
         return ResponseEntity.ok(funcionarioAtualizado);
     }
 
-    /**
-     * Rota para criar um novo funcionário.
-     * Exemplo de URL: POST /api/funcionarios
-     *
-     * @param funcionario Os dados do funcionário a ser criado (recebidos via JSON).
-     * @return ResponseEntity contendo o funcionário criado com status 201 (Created).
-     * @throws InvalidDataException Se os dados forem inválidos (tratada pelo GlobalExceptionHandler).
-     * @throws DuplicateCpfException Se o CPF já estiver cadastrado (tratada pelo GlobalExceptionHandler).
-     */
-    @PostMapping
-    public ResponseEntity<Funcionario> criarFuncionario(@RequestBody Funcionario funcionario) {
-        // O service lançará exceptions em caso de dados inválidos ou CPF duplicado
-        // Essas exceptions serão tratadas pelo GlobalExceptionHandler
-        Funcionario funcionarioSalvo = funcionarioService.salvarFuncionario(funcionario);
-        return ResponseEntity.status(201).body(funcionarioSalvo);
-    }
-
-    /**
-     * Rota para atualizar um funcionário existente.
-     * Exemplo de URL: PUT /api/funcionarios/1
-     *
-     * @param matricula A matrícula do funcionário a ser atualizado.
-     * @param funcionario Os novos dados do funcionário (recebidos via JSON).
-     * @return ResponseEntity contendo o funcionário atualizado com status 200 (OK).
-     * @throws ResourceNotFoundException Se o funcionário não for encontrado (tratada pelo GlobalExceptionHandler).
-     * @throws InvalidDataException Se os dados forem inválidos (tratada pelo GlobalExceptionHandler).
-     * @throws DuplicateCpfException Se o CPF já estiver cadastrado para outro funcionário (tratada pelo GlobalExceptionHandler).
-     */
     @PutMapping("/{matricula}")
     public ResponseEntity<Funcionario> atualizarFuncionario(
             @PathVariable Integer matricula,
             @RequestBody Funcionario funcionario) {
-        // O service lançará exceptions em caso de funcionário não encontrado,
-        // dados inválidos ou CPF duplicado. Todas serão tratadas pelo GlobalExceptionHandler
+        // Nota: Para atualização, você pode manter recebendo 'Funcionario' direto
+        // ou criar uma lógica específica se necessário. Para o exercício do Factory,
+        // focar na criação (POST) já é suficiente.
         Funcionario funcionarioAtualizado = funcionarioService.atualizarFuncionario(matricula, funcionario);
         return ResponseEntity.ok(funcionarioAtualizado);
     }

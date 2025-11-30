@@ -82,7 +82,13 @@ public class CalculadoraService implements ICalculadora {
         // qual cálculo específico está sendo executado. Isso demonstra o poder da modularidade.
         for (ICalculoFolha modulo : this.modulosDeCalculo) {
             ItemFolha itemCalculado = modulo.calcular(funcionario);
-            itensDaFolha.add(itemCalculado);
+
+            // VERIFICAÇÃO DE SEGURANÇA:
+            // Só adiciona na lista se o cálculo retornou um item válido.
+            // Isso protege caso um imposto retorne 'null' (ex: isento de IRRF).
+            if (itemCalculado != null) {
+                itensDaFolha.add(itemCalculado);
+            }
         }
 
         return itensDaFolha;
