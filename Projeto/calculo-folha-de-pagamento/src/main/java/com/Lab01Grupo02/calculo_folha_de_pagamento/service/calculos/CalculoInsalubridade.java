@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Map;
 
-public class CalculoInsalubridade implements ICalculoFolha {
+public class CalculoInsalubridade implements com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos.ICalculoFolha {
 
     private static final BigDecimal SALARIO_MINIMO = new BigDecimal("1380.60");
 
@@ -19,15 +19,17 @@ public class CalculoInsalubridade implements ICalculoFolha {
 
     @Override
     public ItemFolha calcular(Funcionario funcionario) {
-
         ItemFolha item = new ItemFolha();
         item.setTipo("PROVENTO"); // Define como provento
 
-            if (funcionario == null || funcionario.getGrauInsalubridade() == null || funcionario.getGrauInsalubridade().equals("")) {
-                item.setDesc("Adicional de Insalubridade");
-                item.setValor(BigDecimal.ZERO);
-                return item;
-            }
+        // Corrigido: tratar corretamente funcionário nulo, grau vazio ou 'Nenhum'
+        if (funcionario == null || funcionario.getGrauInsalubridade() == null || 
+            funcionario.getGrauInsalubridade().trim().isEmpty() || 
+            funcionario.getGrauInsalubridade().trim().equalsIgnoreCase("Nenhum")) {
+            item.setDesc("Adicional de Insalubridade");
+            item.setValor(BigDecimal.ZERO);
+            return item;
+        }
 
         String grauNormalizado = normalizarGrau(funcionario.getGrauInsalubridade());
         BigDecimal percentual = PERCENTUAIS.getOrDefault(grauNormalizado, BigDecimal.ZERO);
@@ -40,13 +42,13 @@ public class CalculoInsalubridade implements ICalculoFolha {
         }
 
         item.setDesc(
-                "Adicional de Insalubridade - " + grauNormalizado +
-                        " (" + percentual.multiply(BigDecimal.valueOf(100)).stripTrailingZeros().toPlainString() + "%)"
+            "Adicional de Insalubridade - " + grauNormalizado +
+            " (" + percentual.multiply(BigDecimal.valueOf(100)).stripTrailingZeros().toPlainString() + "%)"
         );
 
         BigDecimal valor = SALARIO_MINIMO
-                .multiply(percentual)
-                .setScale(2, RoundingMode.HALF_UP);
+            .multiply(percentual)
+            .setScale(2, RoundingMode.HALF_UP);
 
         item.setValor(valor);
         return item;

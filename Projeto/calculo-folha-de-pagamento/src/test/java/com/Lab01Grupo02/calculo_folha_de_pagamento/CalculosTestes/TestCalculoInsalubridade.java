@@ -2,7 +2,7 @@ package com.Lab01Grupo02.calculo_folha_de_pagamento.CalculosTestes;
 
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Funcionario;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.model.ItemFolha;
-// import com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos.CalculoInsalubridade;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.service.calculos.CalculoInsalubridade;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,6 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
 class TestCalculoInsalubridade {
 
     private CalculoInsalubridade calculoInsalubridade;
@@ -26,11 +25,10 @@ class TestCalculoInsalubridade {
         funcionario.setMatricula(1);
         funcionario.setNome("João Silva");
         funcionario.setCpf("123.456.789-00");
-        funcionario.setDataNascimento(LocalDate.of(1990, 1, 1));
-        funcionario.setSalarioBruto(new BigDecimal("3000.00"));
+        funcionario.setDataNascimento(LocalDate.of(1990, 1, 1));        funcionario.setSalarioBruto(new BigDecimal("3000.00"));
         funcionario.setDataAdmissao(LocalDate.of(2020, 1, 1));
         funcionario.setCargo("Operador");
-        funcionario.setTemInsalubridade(true);
+        // Removido setTemInsalubridade(true) - agora usa apenas grauInsalubridade
     }
 
     @Test
@@ -40,11 +38,9 @@ class TestCalculoInsalubridade {
 
         ItemFolha resultado = calculoInsalubridade.calcular(funcionario);
 
-        BigDecimal valorEsperado = new BigDecimal("138.06");
-
-        assertNotNull(resultado, "O resultado não deve ser nulo");
-        assertEquals("Adicional de Insalubridade - Grau Mínimo (10%)", resultado.getDesc());
-        assertEquals("Provento", resultado.getTipo());
+        BigDecimal valorEsperado = new BigDecimal("138.06");        assertNotNull(resultado, "O resultado não deve ser nulo");
+        assertEquals("Adicional de Insalubridade - BAIXO (10%)", resultado.getDesc());
+        assertEquals("PROVENTO", resultado.getTipo());
         assertEquals(0, valorEsperado.compareTo(resultado.getValor()),
                 "Valor esperado: R$138,06, mas foi: R$" + resultado.getValor());
     }
@@ -56,11 +52,9 @@ class TestCalculoInsalubridade {
 
         ItemFolha resultado = calculoInsalubridade.calcular(funcionario);
 
-        BigDecimal valorEsperado = new BigDecimal("276.12");
-
-        assertNotNull(resultado, "O resultado não deve ser nulo");
-        assertEquals("Adicional de Insalubridade - Grau Médio (20%)", resultado.getDesc());
-        assertEquals("Provento", resultado.getTipo());
+        BigDecimal valorEsperado = new BigDecimal("276.12");        assertNotNull(resultado, "O resultado não deve ser nulo");
+        assertEquals("Adicional de Insalubridade - MEDIO (20%)", resultado.getDesc());
+        assertEquals("PROVENTO", resultado.getTipo());
         assertEquals(0, valorEsperado.compareTo(resultado.getValor()),
                 "Valor esperado: R$276,12, mas foi: R$" + resultado.getValor());
     }
@@ -72,44 +66,38 @@ class TestCalculoInsalubridade {
 
         ItemFolha resultado = calculoInsalubridade.calcular(funcionario);
 
-        BigDecimal valorEsperado = new BigDecimal("552.24");
-
-        assertNotNull(resultado, "O resultado não deve ser nulo");
-        assertEquals("Adicional de Insalubridade - Grau Máximo (40%)", resultado.getDesc());
-        assertEquals("Provento", resultado.getTipo());
+        BigDecimal valorEsperado = new BigDecimal("552.24");        assertNotNull(resultado, "O resultado não deve ser nulo");
+        assertEquals("Adicional de Insalubridade - ALTO (40%)", resultado.getDesc());
+        assertEquals("PROVENTO", resultado.getTipo());
         assertEquals(0, valorEsperado.compareTo(resultado.getValor()),
                 "Valor esperado: R$552,24, mas foi: R$" + resultado.getValor());
-    }
-
-    @Test
+    }    @Test
     @DisplayName("Funcionário sem insalubridade deve retornar valor zero")
     void testFuncionarioSemInsalubridade() {
-        funcionario.setTemInsalubridade(false);
-        funcionario.setGrauInsalubridade("BAIXO");
+        // Funcionário sem grau de insalubridade ou com grau "Nenhum"
+        funcionario.setGrauInsalubridade("Nenhum");
 
         ItemFolha resultado = calculoInsalubridade.calcular(funcionario);
 
         assertNotNull(resultado);
         assertEquals("Adicional de Insalubridade", resultado.getDesc());
-        assertEquals("Provento", resultado.getTipo());
+        assertEquals("PROVENTO", resultado.getTipo());
         assertEquals(0, BigDecimal.ZERO.compareTo(resultado.getValor()));
-    }
-
-    @Test
+    }    @Test
     @DisplayName("Funcionário nulo deve retornar valor zero")
     void testFuncionarioNulo() {
         ItemFolha resultado = calculoInsalubridade.calcular(null);
 
         assertNotNull(resultado);
         assertEquals("Adicional de Insalubridade", resultado.getDesc());
-        assertEquals("Provento", resultado.getTipo());
+        assertEquals("PROVENTO", resultado.getTipo());
         assertEquals(0, BigDecimal.ZERO.compareTo(resultado.getValor()));
     }
 
     @Test
     @DisplayName("Grau de insalubridade nulo deve retornar valor zero")
     void testGrauInsalubridadeNulo() {
-        funcionario.setTemInsalubridade(true);
+        // Removido setTemInsalubridade(true) - agora usa apenas grauInsalubridade
         funcionario.setGrauInsalubridade(null);
 
         ItemFolha resultado = calculoInsalubridade.calcular(funcionario);
@@ -164,4 +152,3 @@ class TestCalculoInsalubridade {
         }
     }
 }
- */
