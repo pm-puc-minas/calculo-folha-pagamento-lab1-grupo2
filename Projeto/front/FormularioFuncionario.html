@@ -57,14 +57,13 @@
 <body>
 
     <nav class="navbar">
-        <a href="gerenciamentoFuncionarioRH.html" class="navbar-brand">Portal Colaborador</a>
-        
+        <a href="home.html" class="navbar-brand">Portal Colaborador</a>
         <ul class="nav-links">
             <li><a href="gerenciamentoFuncionarioRH.html">Gerenciamento de Funcionários</a></li>
             <li><a href="FolhaPagamento.html">Folha de Pagamento</a></li>
             <li><a href="relatorio.html">Relatórios</a></li>
+            <li><a href="inicioFuncionario.html">Início Funcionário</a></li>
         </ul>
-        
         <button onclick="window.location.href='login.html'" class="btn-logout">Logout</button>
     </nav>
 
@@ -176,7 +175,6 @@
         // Função do botão Cancelar
         function cancelarCadastro() {
             if(confirm("Deseja cancelar? Os dados não salvos serão perdidos.")) {
-                // CORREÇÃO 2: Retorna para a tela de listagem CORRETA
                 window.location.href = "gerenciamentoFuncionarioRH.html";
             }
         }
@@ -184,11 +182,7 @@
         // Função do botão Salvar (Simulação)
         document.getElementById('funcionarioForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            // Simulação de envio para Backend
             alert("Funcionário salvo com sucesso!");
-            
-            // CORREÇÃO 3: Redireciona de volta para a listagem CORRETA
             window.location.href = "gerenciamentoFuncionarioRH.html";
         });
     </script>
