@@ -281,4 +281,17 @@ public class FuncionarioService {
             }
         }
     }
+
+    /**
+     * Exclui um funcionário do banco de dados pela matrícula.
+     *
+     * @param matricula A matrícula do funcionário a ser excluído.
+     * @throws ResourceNotFoundException Se o funcionário não for encontrado.
+     */
+    @Transactional
+    public void excluirFuncionario(Integer matricula) {
+        // Verifica se o funcionário existe antes de tentar excluir
+        Funcionario funcionario = buscarPorMatricula(matricula);
+        funcionarioRepository.delete(funcionario);
+    }
 }
