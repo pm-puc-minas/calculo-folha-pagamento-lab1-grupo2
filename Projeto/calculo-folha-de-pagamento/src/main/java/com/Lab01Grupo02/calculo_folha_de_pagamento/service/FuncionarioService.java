@@ -192,7 +192,7 @@ public class FuncionarioService {
         funcionarioExistente.setSalarioBruto(funcionarioAtualizado.getSalarioBruto());
         funcionarioExistente.setGrauInsalubridade(funcionarioAtualizado.getGrauInsalubridade());
         funcionarioExistente.setCargaHorariaSemanal(funcionarioAtualizado.getCargaHorariaSemanal());
-        funcionarioExistente.setPossuiPericulosidade(funcionarioAtualizado.isPossuiPericulosidade());
+        funcionarioExistente.setPossuiPericulosidade(funcionarioAtualizado.getPossuiPericulosidade());
 
         // O save() funciona tanto para inserir quanto para atualizar
         return funcionarioRepository.save(funcionarioExistente);
@@ -286,12 +286,62 @@ public class FuncionarioService {
      * Exclui um funcionário do banco de dados pela matrícula.
      *
      * @param matricula A matrícula do funcionário a ser excluído.
-     * @throws ResourceNotFoundException Se o funcionário não for encontrado.
+     * @throws ResourceNotFoundException Se o funcionário não foi encontrado.
      */
     @Transactional
     public void excluirFuncionario(Integer matricula) {
         // Verifica se o funcionário existe antes de tentar excluir
         Funcionario funcionario = buscarPorMatricula(matricula);
         funcionarioRepository.delete(funcionario);
+    }
+
+    /**
+     * Define ou atualiza a senha de um funcionário para permitir login.
+     *
+     * @param matricula A matrícula do funcionário.
+     * @param novaSenha A nova senha do funcionário.
+     * @return O Funcionario com a senha atualizada.
+     * @throws ResourceNotFoundException Se o funcionário não for encontrado.
+     * @throws InvalidDataException Se a senha for inválida.
+     */
+    @Transactional
+    public Funcionario definirSenha(Integer matricula, String novaSenha) {
+        if (novaSenha == null || novaSenha.length() < 6) {
+            throw new InvalidDataException("A senha deve ter pelo menos 6 caracteres.");
+        }
+
+        Funcionario funcionario = buscarPorMatricula(matricula);
+        funcionario.setSenha(novaSenha);
+        funcionario.setAtivo(true);
+
+        return funcionarioRepository.save(funcionario);
+    }
+
+    /**
+     * Ativa um funcionário desativado.
+     *
+     * @param matricula A matrícula do funcionário.
+     * @return O Funcionario ativado.
+     * @throws ResourceNotFoundException Se o funcionário não for encontrado.
+     */
+    @Transactional
+    public Funcionario ativarFuncionario(Integer matricula) {
+        Funcionario funcionario = buscarPorMatricula(matricula);
+        funcionario.setAtivo(true);
+        return funcionarioRepository.save(funcionario);
+    }
+
+    /**
+     * Desativa um funcionário (soft delete).
+     *
+     * @param matricula A matrícula do funcionário.
+     * @return O Funcionario desativado.
+     * @throws ResourceNotFoundException Se o funcionário não for encontrado.
+     */
+    @Transactional
+    public Funcionario desativarFuncionario(Integer matricula) {
+        Funcionario funcionario = buscarPorMatricula(matricula);
+        funcionario.setAtivo(false);
+        return funcionarioRepository.save(funcionario);
     }
 }

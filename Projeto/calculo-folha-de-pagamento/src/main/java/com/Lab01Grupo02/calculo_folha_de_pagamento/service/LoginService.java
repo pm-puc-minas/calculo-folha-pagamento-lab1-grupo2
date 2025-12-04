@@ -3,9 +3,8 @@ package com.Lab01Grupo02.calculo_folha_de_pagamento.service;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.GlobalException.InvalidCredentialsException;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.GlobalException.ResourceNotFoundException;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.GlobalException.UserDeactivatedException;
-import com.Lab01Grupo02.calculo_folha_de_pagamento.model.LoginRequest;
-import com.Lab01Grupo02.calculo_folha_de_pagamento.model.LoginResponse;
-import com.Lab01Grupo02.calculo_folha_de_pagamento.model.Usuario;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.model.*;
+import com.Lab01Grupo02.calculo_folha_de_pagamento.service.jpa.FuncionarioRepository;
 import com.Lab01Grupo02.calculo_folha_de_pagamento.service.jpa.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,45 +18,97 @@ import java.util.Optional;
 public class LoginService {
 
     private final UsuarioRepository usuarioRepository;
+    private final FuncionarioRepository funcionarioRepository;
 
-    public LoginService(UsuarioRepository usuarioRepository) {
+    public LoginService(UsuarioRepository usuarioRepository, FuncionarioRepository funcionarioRepository) {
         this.usuarioRepository = usuarioRepository;
+        this.funcionarioRepository = funcionarioRepository;
     }
 
     /**
      * Efetua o login do usuário validando suas credenciais.
-     * 
-     * @param loginRequest Dados de login (email e senha)
+     * Suporta dois tipos de login:
+     * 1. Login com EMAIL + SENHA (para usuários RH)
+     * 2. Login com CPF + SENHA (para funcionários)
+     *
+     * @param loginRequest Dados de login (email/cpf e senha)
      * @return LoginResponse com dados do usuário autenticado
-     * @throws InvalidCredentialsException quando email/senha estão incorretos
-     * @throws UserDeactivatedException quando usuário está desativado
-     * @throws ResourceNotFoundException quando usuário não existe
+     * @throws InvalidCredentialsException quando email/cpf/senha estão incorretos
+     * @throws UserDeactivatedException quando usuário/funcionário está desativado
      */
     public LoginResponse efetuarLogin(LoginRequest loginRequest) {
-        // 1. Buscar usuário pelo email
-        Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(loginRequest.getEmail());
-        
-        if (usuarioOptional.isEmpty()) {
-            throw new ResourceNotFoundException("Não foi encontrado usuário com o email: " + loginRequest.getEmail());
+        String identificador = loginRequest.getEmail();
+        String senha = loginRequest.getSenha();
+
+        // Verifica se o identificador parece ser um email
+        if (identificador.contains("@")) {
+            // Tenta login como Usuario (RH)
+            return efetuarLoginUsuario(identificador, senha);
+        } else {
+            // Tenta login como Funcionario (usando CPF)
+            return efetuarLoginFuncionario(identificador, senha);
         }
-        
+    }
+
+    /**
+     * Login para usuários RH (usando email).
+     */
+    private LoginResponse efetuarLoginUsuario(String email, String senha) {
+        Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(email);
+
+        if (usuarioOptional.isEmpty()) {
+            throw new InvalidCredentialsException("Email ou senha incorretos.");
+        }
+
         Usuario usuario = usuarioOptional.get();
-        
-        // 2. Verificar se o usuário está ativo
+
         if (!usuario.isAtivo()) {
             throw new UserDeactivatedException("Usuário está desativado. Entre em contato com o administrador.");
         }
-        
-        // 3. Validar senha
-        if (!validarSenha(loginRequest.getSenha(), usuario.getSenha())) {
+
+        if (!validarSenha(senha, usuario.getSenha())) {
             throw new InvalidCredentialsException("Email ou senha incorretos.");
         }
-        
-        // 4. Login bem-sucedido - retornar dados do usuário
+
         return new LoginResponse(
             usuario.getIdPessoa(),
             usuario.getNome(),
-            usuario.getEmail()
+            usuario.getEmail(),
+            usuario.getTipo()
+        );
+    }
+
+    /**
+     * Login para funcionários (usando CPF).
+     */
+    private LoginResponse efetuarLoginFuncionario(String cpf, String senha) {
+        Optional<Funcionario> funcionarioOptional = funcionarioRepository.findByCpf(cpf);
+
+        if (funcionarioOptional.isEmpty()) {
+            throw new InvalidCredentialsException("CPF ou senha incorretos.");
+        }
+
+        Funcionario funcionario = funcionarioOptional.get();
+
+        if (funcionario.getAtivo() == null || !funcionario.getAtivo()) {
+            throw new UserDeactivatedException("Funcionário está desativado. Entre em contato com o RH.");
+        }
+
+        if (funcionario.getSenha() == null || funcionario.getSenha().isEmpty()) {
+            throw new InvalidCredentialsException("Funcionário não possui senha cadastrada. Entre em contato com o RH.");
+        }
+
+        if (!validarSenha(senha, funcionario.getSenha())) {
+            throw new InvalidCredentialsException("CPF ou senha incorretos.");
+        }
+
+        // Retorna com tipo FUNCIONARIO e matrícula
+        return new LoginResponse(
+            funcionario.getIdPessoa(),
+            funcionario.getNome(),
+            cpf,
+            TipoUsuario.FUNCIONARIO,
+            funcionario.getIdPessoa()
         );
     }
     

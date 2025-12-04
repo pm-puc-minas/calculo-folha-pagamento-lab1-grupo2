@@ -23,7 +23,7 @@ public class UsuarioService {
 
     /**
      * Cadastra um novo usuário no sistema.
-     * 
+     *
      * @param usuario Dados do usuário a ser cadastrado
      * @return Usuario cadastrado com ID gerado
      * @throws DataIntegrityViolationException se email já existe
@@ -33,10 +33,15 @@ public class UsuarioService {
         if (usuarioRepository.existsByEmail(usuario.getEmail())) {
             throw new DataIntegrityViolationException("Já existe um usuário cadastrado com o email: " + usuario.getEmail());
         }
-        
+
         // Garantir que o usuário inicia como ativo
         usuario.setAtivo(true);
-        
+
+        // Se o tipo não foi definido, define como RH por padrão
+        if (usuario.getTipo() == null) {
+            usuario.setTipo(com.Lab01Grupo02.calculo_folha_de_pagamento.model.TipoUsuario.RH);
+        }
+
         return usuarioRepository.save(usuario);
     }
     
@@ -115,7 +120,10 @@ public class UsuarioService {
         if (dadosAtualizados.getSenha() != null) {
             usuarioExistente.setSenha(dadosAtualizados.getSenha());
         }
-        
+        if (dadosAtualizados.getTipo() != null) {
+            usuarioExistente.setTipo(dadosAtualizados.getTipo());
+        }
+
         return usuarioRepository.save(usuarioExistente);
     }
 }

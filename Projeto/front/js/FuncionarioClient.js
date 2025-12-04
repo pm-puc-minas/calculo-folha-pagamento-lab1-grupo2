@@ -4,8 +4,6 @@
  * Responsável apenas pelas requisições HTTP
  */
 
-const API_BASE_URL = 'http://localhost:9090/api';
-
 class FuncionarioClient {
     /**
      * Busca todos os funcionários

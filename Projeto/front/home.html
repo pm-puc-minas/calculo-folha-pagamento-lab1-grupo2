@@ -33,7 +33,6 @@
         .card h3 { font-size: 1.1rem; color: #555; margin-bottom: 10px; }
         .card .number { font-size: 2rem; font-weight: bold; color: #333; }
 
-        /* Responsividade */
         @media (max-width: 768px) {
             .navbar { flex-direction: column; height: auto; padding: 15px; }
             .nav-links { margin: 15px 0; flex-direction: column; text-align: center; gap: 10px; }
@@ -45,11 +44,11 @@
 
     <nav class="navbar">
         <a href="home.html" class="navbar-brand">Portal Colaborador</a>
-        
+
         <ul class="nav-links">
             <li><a href="gerenciamentoFuncionarioRH.html">Gerenciamento de Funcionários</a></li>
             <li><a href="FolhaPagamento.html">Folha de Pagamento</a></li>
-            <li><a href="relatorio.html">Relatórios</a></li>
+            <li><a href="relatorioRH.html">Relatórios</a></li>
         </ul>
 
         <button onclick="fazerLogout()" class="btn-logout">Logout</button>
@@ -81,10 +80,19 @@
 
     </main>
 
+    <script src="js/Config.js"></script>
+    <script src="js/AuthClient.js"></script>
+    <script src="js/AuthService.js"></script>
     <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            AuthService.inicializar();
+        });
+
         function fazerLogout() {
-            // Redireciona para o login
-            window.location.href = "login.html"; 
+            if (confirm('Deseja realmente sair do sistema?')) {
+                AuthService.logout();
+                window.location.href = "login.html";
+            }
         }
     </script>
 

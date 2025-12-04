@@ -17,129 +17,283 @@
         .btn-logout { padding: 8px 20px; background-color: transparent; border: 1px solid #dc3545; color: #dc3545; border-radius: 5px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
         .btn-logout:hover { background-color: #dc3545; color: white; }
 
-        .main-container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
-        .process-card { background-color: #ffffff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); text-align: center; }
-        .process-card h2 { margin-bottom: 10px; color: #333; }
-        .process-card p { color: #666; margin-bottom: 30px; }
-        .competencia-selector { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; }
-        .form-control { padding: 12px; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px; background-color: #fff; }
-        .select-mes { width: 200px; }
-        .input-ano { width: 100px; }
+        .main-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        .card { background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); margin-bottom: 20px; }
+        .card h2 { margin-bottom: 10px; color: #333; }
+        .card p { color: #666; margin-bottom: 20px; }
 
-        .btn-processar { background-color: #28a745; color: white; padding: 15px 40px; font-size: 1.1rem; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; transition: transform 0.2s, background-color 0.3s; box-shadow: 0 4px 6px rgba(40, 167, 69, 0.2); }
-        .btn-processar:hover { background-color: #218838; transform: translateY(-2px); }
-        .btn-processar:disabled { background-color: #ccc; cursor: not-allowed; transform:none; box-shadow:none; }
+        .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group label { margin-bottom: 5px; font-weight: 500; color: #555; }
+        .form-control { padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem; }
 
-        .status-area { margin-top: 30px; min-height: 80px; display: none; }
-        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #007bff; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 15px auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .status-text { font-weight: 500; color: #555; }
-        .success-message { color: #28a745; font-weight: bold; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-group { display: flex; gap: 10px; justify-content: flex-end; }
+        .btn { padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+        .btn-primary { background-color: #007bff; color: white; }
+        .btn-primary:hover { background-color: #0056b3; }
+        .btn-success { background-color: #28a745; color: white; }
+        .btn-success:hover { background-color: #218838; }
+        .btn:disabled { background-color: #ccc; cursor: not-allowed; }
+
+        .funcionarios-list { max-height: 300px; overflow-y: auto; border: 1px solid #ddd; border-radius: 5px; padding: 10px; }
+        .funcionario-item { padding: 10px; margin-bottom: 8px; border: 1px solid #e0e0e0; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; background-color: #f9f9f9; }
+        .funcionario-item:hover { background-color: #f0f0f0; }
+        .funcionario-info { flex: 1; }
+        .funcionario-info strong { color: #333; }
+        .funcionario-info small { color: #666; display: block; margin-top: 3px; }
+        .funcionario-faltas { width: 100px; margin: 0 10px; }
+        .funcionario-faltas input { width: 100%; padding: 5px; text-align: center; }
+        .funcionario-status { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .funcionario-status.pending { background-color: #ffc107; }
+        .funcionario-status.success { background-color: #28a745; color: white; }
+        .funcionario-status.error { background-color: #dc3545; color: white; }
+
+        .progress-bar { width: 100%; height: 30px; background-color: #e9ecef; border-radius: 15px; overflow: hidden; margin-top: 20px; display: none; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #007bff, #28a745); transition: width 0.3s; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
+
+        .alert { padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .alert-info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .alert-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .alert-danger { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
     </style>
 </head>
 
 <body>
-
     <nav class="navbar">
-        <a href="gerenciamentoFuncionarioRH.html" class="navbar-brand">Portal Colaborador</a>
-        
+        <a href="home.html" class="navbar-brand">Portal Colaborador</a>
+
         <ul class="nav-links">
             <li><a href="gerenciamentoFuncionarioRH.html">Gerenciamento de Funcionários</a></li>
-            <li><a href="#" class="active">Folha de Pagamento</a></li>
-            <li><a href="relatorio.html">Relatórios</a></li>
+            <li><a href="FolhaPagamento.html" class="active">Folha de Pagamento</a></li>
+            <li><a href="relatorioRH.html">Relatórios</a></li>
         </ul>
-        
-        <button onclick="window.location.href='login.html'" class="btn-logout">Logout</button>
+
+        <button onclick="fazerLogout()" class="btn-logout">Logout</button>
     </nav>
 
     <main class="main-container">
-        
-        <div class="process-card">
-            <h2>Cálculo da Folha de Pagamento</h2>
-            <p>Selecione a competência (mês/ano) para iniciar o processamento dos pagamentos.</p>
+        <div class="card">
+            <h2>Geração de Folha de Pagamento</h2>
+            <p>Selecione a competência e os funcionários para gerar a folha de pagamento</p>
 
-            <div class="competencia-selector">
-                <select id="mes" class="form-control select-mes">
-                    <option value="" disabled selected>Selecione o Mês</option>
-                    <option value="1">Janeiro</option>
-                    <option value="2">Fevereiro</option>
-                    <option value="3">Março</option>
-                    <option value="4">Abril</option>
-                    <option value="5">Maio</option>
-                    <option value="6">Junho</option>
-                    <option value="7">Julho</option>
-                    <option value="8">Agosto</option>
-                    <option value="9">Setembro</option>
-                    <option value="10">Outubro</option>
-                    <option value="11">Novembro</option>
-                    <option value="12">Dezembro</option>
-                </select>
-                
-                <input type="number" id="ano" class="form-control input-ano" value="2025" min="2020" max="2030">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="mes">Mês de Referência</label>
+                    <select id="mes" class="form-control">
+                        <option value="" disabled selected>Selecione o Mês</option>
+                        <option value="1">Janeiro</option>
+                        <option value="2">Fevereiro</option>
+                        <option value="3">Março</option>
+                        <option value="4">Abril</option>
+                        <option value="5">Maio</option>
+                        <option value="6">Junho</option>
+                        <option value="7">Julho</option>
+                        <option value="8">Agosto</option>
+                        <option value="9">Setembro</option>
+                        <option value="10">Outubro</option>
+                        <option value="11">Novembro</option>
+                        <option value="12">Dezembro</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ano">Ano de Referência</label>
+                    <input type="number" id="ano" class="form-control" value="2025" min="2020" max="2030">
+                </div>
             </div>
 
-            <button id="btnCalcular" class="btn-processar" onclick="iniciarCalculo()">
-                Calcular Folha de Pagamento
-            </button>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="carregarFuncionarios()">Carregar Funcionários</button>
+            </div>
+        </div>
 
-            <div id="statusArea" class="status-area">
-                <div id="loadingSpinner" class="loader"></div>
-                <div id="statusText" class="status-text">Processando cálculos...</div>
+        <div id="funcionariosCard" class="card" style="display: none;">
+            <h2>Funcionários Selecionados</h2>
+            <p>Configure os dias de falta para cada funcionário (opcional)</p>
+
+            <div id="alertContainer"></div>
+
+            <div id="funcionariosList" class="funcionarios-list">
+                <!-- Funcionários serão carregados aqui -->
+            </div>
+
+            <div class="progress-bar" id="progressBar">
+                <div class="progress-fill" id="progressFill">0%</div>
+            </div>
+
+            <div class="btn-group" style="margin-top: 20px;">
+                <button class="btn btn-success" id="btnGerarFolha" onclick="gerarFolhaTodos()">
+                    Gerar Folha para Todos
+                </button>
             </div>
         </div>
     </main>
 
+    <!-- Scripts -->
+    <script src="js/Config.js"></script>
+    <script src="js/FuncionarioClient.js"></script>
     <script src="js/FolhaPagamentoClient.js"></script>
+    <script src="js/AuthClient.js"></script>
+    <script src="js/AuthService.js"></script>
+    <script src="js/Utils.js"></script>
 
     <script>
-        async function iniciarCalculo() {
+        let funcionarios = [];
+        let funcionariosProcessados = 0;
 
-            const mes = document.getElementById("mes").value;
-            const ano = document.getElementById("ano").value;
+        window.addEventListener('DOMContentLoaded', () => {
+            AuthService.inicializar();
+        });
+
+        function fazerLogout() {
+            if (confirm('Deseja realmente sair do sistema?')) {
+                AuthService.logout();
+                window.location.href = 'login.html';
+            }
+        }
+
+        async function carregarFuncionarios() {
+            const mes = document.getElementById('mes').value;
+            const ano = document.getElementById('ano').value;
 
             if (!mes || !ano) {
-                alert("Por favor, selecione mês e ano.");
+                alert('Por favor, selecione mês e ano antes de continuar.');
                 return;
             }
 
-            // Converter para formato exigido pelo backend → AAAAMM
-            const mesReferencia = Number(`${ano}${mes.toString().padStart(2, "0")}`);
-
-            // Matricula temporária
-            const matricula = 1;
-
-            const btn = document.getElementById("btnCalcular");
-            const statusArea = document.getElementById("statusArea");
-            const spinner = document.getElementById("loadingSpinner");
-            const statusText = document.getElementById("statusText");
-
-            btn.disabled = true;
-            statusArea.style.display = "block";
-            spinner.style.display = "block";
-            statusText.textContent = "Gerando folha no servidor...";
-
             try {
+                showAlert('Carregando funcionários...', 'info');
 
-                await FolhaPagamentoClient.gerarFolha(matricula, mesReferencia, 0);
+                funcionarios = await FuncionarioClient.buscarTodos();
 
-                spinner.style.display = "none";
-                statusText.innerHTML = "✅ Folha gerada com sucesso!";
-                statusText.classList.add("success-message");
+                if (funcionarios.length === 0) {
+                    showAlert('Nenhum funcionário encontrado no sistema.', 'danger');
+                    return;
+                }
 
-                setTimeout(() => {
-                    window.location.href = "relatorio.html";
-                }, 1500);
+                exibirFuncionarios();
+                document.getElementById('funcionariosCard').style.display = 'block';
+                clearAlert();
+            } catch (error) {
+                showAlert('Erro ao carregar funcionários: ' + error.message, 'danger');
+            }
+        }
 
-            } catch (err) {
-                spinner.style.display = "none";
-                statusText.textContent = "❌ Erro ao gerar folha.";
-                statusText.style.color = "red";
-                alert(err.message || "Erro desconhecido");
+        function exibirFuncionarios() {
+            const lista = document.getElementById('funcionariosList');
+            lista.innerHTML = '';
+
+            funcionarios.forEach((func, index) => {
+                const item = document.createElement('div');
+                item.className = 'funcionario-item';
+                item.id = `func-${func.idPessoa}`;
+
+                item.innerHTML = `
+                    <div class="funcionario-info">
+                        <strong>${func.nome}</strong>
+                        <small>Matrícula: ${func.idPessoa} | Cargo: ${func.cargo || 'N/A'}</small>
+                    </div>
+                    <div class="funcionario-faltas">
+                        <label style="font-size: 0.85rem; color: #666;">Dias de Falta</label>
+                        <input type="number" id="faltas-${func.idPessoa}"
+                               class="form-control" value="0" min="0" max="30">
+                    </div>
+                    <div class="funcionario-status pending" id="status-${func.idPessoa}" title="Aguardando processamento">
+                        ⏳
+                    </div>
+                `;
+
+                lista.appendChild(item);
+            });
+        }
+
+        async function gerarFolhaTodos() {
+            const mes = document.getElementById('mes').value;
+            const ano = document.getElementById('ano').value;
+
+            if (!mes || !ano) {
+                alert('Por favor, selecione mês e ano.');
+                return;
             }
 
-            btn.disabled = false;
+            if (funcionarios.length === 0) {
+                alert('Nenhum funcionário carregado.');
+                return;
+            }
+
+            const mesReferencia = Number(`${ano}${mes.toString().padStart(2, '0')}`);
+
+            const btnGerar = document.getElementById('btnGerarFolha');
+            btnGerar.disabled = true;
+            btnGerar.textContent = 'Processando...';
+
+            funcionariosProcessados = 0;
+            let sucessos = 0;
+            let erros = 0;
+
+            const progressBar = document.getElementById('progressBar');
+            const progressFill = document.getElementById('progressFill');
+            progressBar.style.display = 'block';
+
+            showAlert(`Processando folha de ${funcionarios.length} funcionário(s)...`, 'info');
+
+            for (let i = 0; i < funcionarios.length; i++) {
+                const func = funcionarios[i];
+                const diasFalta = parseInt(document.getElementById(`faltas-${func.idPessoa}`).value) || 0;
+                const statusIcon = document.getElementById(`status-${func.idPessoa}`);
+
+                try {
+                    // Marca como processando
+                    statusIcon.innerHTML = '⏳';
+                    statusIcon.title = 'Processando...';
+
+                    await FolhaPagamentoClient.gerarFolha(func.idPessoa, mesReferencia, diasFalta);
+
+                    // Marca como sucesso
+                    statusIcon.className = 'funcionario-status success';
+                    statusIcon.innerHTML = '✓';
+                    statusIcon.title = 'Folha gerada com sucesso';
+                    sucessos++;
+
+                } catch (error) {
+                    // Marca como erro
+                    statusIcon.className = 'funcionario-status error';
+                    statusIcon.innerHTML = '✗';
+                    statusIcon.title = `Erro: ${error.message}`;
+                    erros++;
+                }
+
+                funcionariosProcessados++;
+                const progresso = Math.round((funcionariosProcessados / funcionarios.length) * 100);
+                progressFill.style.width = progresso + '%';
+                progressFill.textContent = progresso + '%';
+            }
+
+            // Finalizado
+            btnGerar.disabled = false;
+            btnGerar.textContent = 'Gerar Folha para Todos';
+
+            if (erros === 0) {
+                showAlert(`✅ Folha gerada com sucesso para todos os ${sucessos} funcionário(s)!`, 'success');
+                setTimeout(() => {
+                    if (confirm('Deseja visualizar os relatórios?')) {
+                        window.location.href = 'relatorioRH.html';
+                    }
+                }, 1000);
+            } else {
+                showAlert(`⚠️ Processo concluído: ${sucessos} sucesso(s), ${erros} erro(s)`, 'danger');
+            }
+        }
+
+        function showAlert(message, type) {
+            const container = document.getElementById('alertContainer');
+            container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+        }
+
+        function clearAlert() {
+            const container = document.getElementById('alertContainer');
+            container.innerHTML = '';
         }
     </script>
-
 </body>
 </html>

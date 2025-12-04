@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Acesso ao Sistema</title>
     <style>
-        /* Reset básico e Fontes */
         * {
             margin: 0;
             padding: 0;
@@ -13,7 +12,6 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Centralização da tela */
         body {
             background-color: #f0f2f5; /* Cor de fundo suave */
             display: flex;
@@ -22,14 +20,14 @@
             height: 100vh;
         }
 
-        /* Container do Login (Card) */
+
         .login-container {
             background-color: #ffffff;
             padding: 40px 30px;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 400px; /* Largura máxima para não ficar esticado */
+            max-width: 400px;
         }
 
         .login-header {
@@ -47,7 +45,7 @@
             font-size: 0.9rem;
         }
 
-        /* Estilos do Formulário */
+
         .form-group {
             margin-bottom: 20px;
         }
@@ -69,11 +67,11 @@
         }
 
         .form-group input:focus {
-            border-color: #007bff; /* Cor de destaque ao clicar */
+            border-color: #007bff; 
             outline: none;
         }
 
-        /* Botão de Entrar */
+
         .btn-login {
             width: 100%;
             padding: 12px;
@@ -91,7 +89,7 @@
             background-color: #0056b3;
         }
 
-        /* Mensagem de Erro (Oculta por padrão) */
+ 
         .error-message {
             background-color: #fdecea;
             color: #dc3545;
@@ -101,10 +99,10 @@
             font-size: 0.9rem;
             text-align: center;
             border: 1px solid #f5c6cb;
-            display: none; /* Só aparece se houver erro */
+            display: none; 
         }
 
-        /* Responsividade */
+
         @media (max-width: 480px) {
             .login-container {
                 padding: 20px;
@@ -125,38 +123,62 @@
             Usuário ou senha inválidos. Tente novamente.
         </div>
 
-        <form onsubmit="fazerLogin(event)">
-    <div class="form-group">
-        <label for="identificacao">Matrícula ou E-mail</label>
-        <input type="text" id="identificacao" required>
+        <form id="form-login" onsubmit="fazerLogin(event)">
+            <div class="form-group">
+                <label for="identificacao">Email ou CPF</label>
+                <input type="text" id="identificacao" placeholder="Digite seu email ou CPF" required>
+                <small style="color: #666; font-size: 0.85rem; display: block; margin-top: 5px;">
+                    RH: use seu email | Funcionário: use seu CPF
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" placeholder="Digite sua senha" required>
+            </div>
+            <button type="submit" class="btn-login" id="btn-submit">Entrar</button>
+        </form>
     </div>
-    <div class="form-group">
-        <label for="senha">Senha</label>
-        <input type="password" id="senha" required>
-    </div>
-    <button type="submit" class="btn-login">Entrar</button>
-</form>
 
-<script>
-    function fazerLogin(event) {
-        event.preventDefault(); // Impede o recarregamento da página
-        
-        const usuario = document.getElementById('identificacao').value;
-        const senha = document.getElementById('senha').value;
+    <script src="js/Config.js"></script>
+    <script src="js/AuthClient.js"></script>
+    <script src="js/AuthService.js"></script>
+    <script>
 
-        // Simulação simples de autenticação
-        if (usuario === 'admin' && senha === 'admin') {
-            // Se for admin, vai para a tela do RH
-            window.location.href = "home.html";
-        } else if (usuario === 'user' && senha === 'user') {
-            // Se for user, vai para a tela do Funcionário
-            window.location.href = "inicioFuncionario.html";
-        } else {
-            // Erro
-            document.getElementById('msg-erro').style.display = 'block';
+        async function fazerLogin(event) {
+            event.preventDefault();
+
+            const identificador = document.getElementById('identificacao').value.trim();
+            const senha = document.getElementById('senha').value;
+            const msgErro = document.getElementById('msg-erro');
+            const btnSubmit = document.getElementById('btn-submit');
+
+            msgErro.style.display = 'none';
+
+            btnSubmit.disabled = true;
+            btnSubmit.textContent = 'Entrando...';
+
+            try {
+                await AuthService.efetuarLogin(identificador, senha);
+
+                AuthService.redirecionarParaHome();
+
+            } catch (error) {
+
+                msgErro.textContent = error.message || 'Erro ao fazer login. Tente novamente.';
+                msgErro.style.display = 'block';
+
+                // Reabilita botão
+                btnSubmit.disabled = false;
+                btnSubmit.textContent = 'Entrar';
+            }
         }
-    }
-</script>
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (AuthService.estaLogado()) {
+                AuthService.redirecionarParaHome();
+            }
+        });
+    </script>
     </div>
 
 </body>

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meu Perfil - Colaborador</title>
     <style>
-        /* (MANTIVE O MESMO CSS) */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #f0f2f5; color: #333; }
         .navbar { background-color: #ffffff; height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
@@ -108,8 +107,18 @@
         document.getElementById('perfilForm').addEventListener('submit', function(e) {
             e.preventDefault();
             alert("Dados atualizados com sucesso!");
-            cancelarEdicao(); 
+            cancelarEdicao();
         });
     </script>
+
+    <script src="js/Config.js"></script>
+    <script src="js/AuthClient.js"></script>
+    <script src="js/AuthService.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            AuthService.inicializar();
+        });
+    </script>
+
 </body>
 </html>

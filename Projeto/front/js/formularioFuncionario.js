@@ -1,26 +1,19 @@
-/**
- * formularioFuncionario.js
- * Lógica específica da página de cadastro/edição de funcionários
- * Responsável por: criar, editar, validar e salvar funcionários
- */
 
-// Estado do formulário
 const FormState = {
     modoEdicao: false,
     matriculaAtual: null
 };
 
-/**
- * Inicializa a página do formulário
- */
+
 async function inicializar() {
+    if (typeof AuthService !== 'undefined') {
+        AuthService.inicializar();
+    }
+
     configurarEventos();
     verificarModoEdicao();
 }
 
-/**
- * Configura eventos do formulário
- */
 function configurarEventos() {
     const form = document.getElementById('funcionarioForm');
     const cpfInput = document.getElementById('cpf');
@@ -34,9 +27,7 @@ function configurarEventos() {
     form.addEventListener('submit', salvarFuncionario);
 }
 
-/**
- * Verifica se é modo de edição através da URL
- */
+
 function verificarModoEdicao() {
     const matricula = URLUtils.getParametro('matricula');
 
@@ -47,10 +38,6 @@ function verificarModoEdicao() {
     }
 }
 
-/**
- * Carrega dados do funcionário para edição
- * @param {number} matricula - Matrícula do funcionário
- */
 async function carregarFuncionario(matricula) {
     try {
         const funcionario = await FuncionarioClient.buscarPorMatricula(matricula);
@@ -65,10 +52,7 @@ async function carregarFuncionario(matricula) {
     }
 }
 
-/**
- * Preenche o formulário com os dados do funcionário
- * @param {Object} funcionario - Dados do funcionário
- */
+
 function preencherFormulario(funcionario) {
     // Dados pessoais
     document.getElementById('nome').value = funcionario.nome || '';
@@ -84,19 +68,13 @@ function preencherFormulario(funcionario) {
     document.getElementById('periculosidade').value = funcionario.possuiPericulosidade ? 'true' : 'false';
 }
 
-/**
- * Atualiza o título da página para modo edição
- */
+
 function atualizarTituloParaEdicao() {
     document.querySelector('.form-header h2').textContent = 'Editar Funcionário';
     document.querySelector('.form-header p').textContent = 'Atualize os dados do colaborador.';
     document.querySelector('.btn-save').textContent = 'Atualizar Funcionário';
 }
 
-/**
- * Coleta dados do formulário
- * @returns {Object} Dados do formulário
- */
 function coletarDadosFormulario() {
     return {
         nome: document.getElementById('nome').value.trim(),
@@ -111,13 +89,8 @@ function coletarDadosFormulario() {
     };
 }
 
-/**
- * Valida os dados do formulário
- * @param {Object} dados - Dados a validar
- * @returns {Object} { valido: boolean, mensagem: string }
- */
+
 function validarFormulario(dados) {
-    // Validar CPF
     if (!ValidationUtils.validarCPF(dados.cpf)) {
         return {
             valido: false,
@@ -125,8 +98,6 @@ function validarFormulario(dados) {
             campo: 'cpf'
         };
     }
-
-    // Validar salário
     if (!ValidationUtils.validarNumeroPositivo(dados.salario)) {
         return {
             valido: false,
@@ -135,7 +106,6 @@ function validarFormulario(dados) {
         };
     }
 
-    // Validar carga horária
     if (!ValidationUtils.validarCargaHoraria(dados.cargaHoraria)) {
         return {
             valido: false,
@@ -144,7 +114,6 @@ function validarFormulario(dados) {
         };
     }
 
-    // Validar data de nascimento
     if (!ValidationUtils.validarDataNaoFutura(dados.dataNascimento)) {
         return {
             valido: false,
@@ -153,7 +122,6 @@ function validarFormulario(dados) {
         };
     }
 
-    // Validar data de admissão
     if (!ValidationUtils.validarDataNaoFutura(dados.dataAdmissao)) {
         return {
             valido: false,
@@ -162,7 +130,6 @@ function validarFormulario(dados) {
         };
     }
 
-    // Validar se admissão é posterior ao nascimento
     if (!ValidationUtils.validarDataAdmissao(dados.dataNascimento, dados.dataAdmissao)) {
         return {
             valido: false,
@@ -174,11 +141,6 @@ function validarFormulario(dados) {
     return { valido: true };
 }
 
-/**
- * Monta o objeto DTO para enviar à API
- * @param {Object} dados - Dados do formulário
- * @returns {Object} FuncionarioRequestDTO
- */
 function montarDTO(dados) {
     return {
         nome: dados.nome,
@@ -193,17 +155,12 @@ function montarDTO(dados) {
     };
 }
 
-/**
- * Salva o funcionário (criar ou atualizar)
- * @param {Event} event - Evento de submit
- */
+
 async function salvarFuncionario(event) {
     event.preventDefault();
 
-    // Coletar dados
     const dados = coletarDadosFormulario();
 
-    // Validar
     const validacao = validarFormulario(dados);
     if (!validacao.valido) {
         URLUtils.alerta(validacao.mensagem);
@@ -212,22 +169,17 @@ async function salvarFuncionario(event) {
         }
         return;
     }
-
-    // Montar DTO
     const funcionarioDTO = montarDTO(dados);
 
     try {
         if (FormState.modoEdicao) {
-            // Atualizar funcionário existente
             await FuncionarioClient.atualizar(FormState.matriculaAtual, funcionarioDTO);
             URLUtils.alerta('Funcionário atualizado com sucesso!');
         } else {
-            // Criar novo funcionário
             await FuncionarioClient.criar(funcionarioDTO);
             URLUtils.alerta('Funcionário cadastrado com sucesso!');
         }
 
-        // Redirecionar para a lista
         URLUtils.redirecionar('gerenciamentoFuncionarioRH.html');
 
     } catch (error) {
@@ -236,10 +188,6 @@ async function salvarFuncionario(event) {
     }
 }
 
-/**
- * Trata erros específicos do salvamento
- * @param {Error} error - Erro capturado
- */
 function tratarErroSalvamento(error) {
     let mensagemErro = 'Erro ao salvar funcionário. Tente novamente.';
 
@@ -256,14 +204,10 @@ function tratarErroSalvamento(error) {
     URLUtils.alerta(mensagemErro);
 }
 
-/**
- * Cancela o cadastro/edição
- */
 function cancelarCadastro() {
     if (URLUtils.confirmar("Deseja cancelar? Os dados não salvos serão perdidos.")) {
         URLUtils.redirecionar("gerenciamentoFuncionarioRH.html");
     }
 }
 
-// Inicializa quando o DOM estiver pronto
 document.addEventListener('DOMContentLoaded', inicializar);

@@ -108,4 +108,53 @@ public class FuncionarioController {
         funcionarioService.excluirFuncionario(matricula);
         return ResponseEntity.noContent().build();
     }
+
+    /**
+     * Endpoint para definir ou atualizar a senha de um funcionário.
+     *
+     * Rota: PATCH /api/funcionarios/{matricula}/senha
+     *
+     * @param matricula A matrícula do funcionário
+     * @param body JSON com a nova senha {"senha": "novaSenha123"}
+     * @return Funcionario com senha atualizada
+     */
+    @PatchMapping("/{matricula}/senha")
+    public ResponseEntity<Funcionario> definirSenha(
+            @PathVariable Integer matricula,
+            @RequestBody Map<String, String> body) {
+        String novaSenha = body.get("senha");
+        if (novaSenha == null || novaSenha.trim().isEmpty()) {
+            throw new InvalidDataException("A senha não pode ser vazia.");
+        }
+        Funcionario funcionario = funcionarioService.definirSenha(matricula, novaSenha);
+        return ResponseEntity.ok(funcionario);
+    }
+
+    /**
+     * Endpoint para ativar um funcionário.
+     *
+     * Rota: PATCH /api/funcionarios/{matricula}/ativar
+     *
+     * @param matricula A matrícula do funcionário
+     * @return Funcionario ativado
+     */
+    @PatchMapping("/{matricula}/ativar")
+    public ResponseEntity<Funcionario> ativarFuncionario(@PathVariable Integer matricula) {
+        Funcionario funcionario = funcionarioService.ativarFuncionario(matricula);
+        return ResponseEntity.ok(funcionario);
+    }
+
+    /**
+     * Endpoint para desativar um funcionário.
+     *
+     * Rota: PATCH /api/funcionarios/{matricula}/desativar
+     *
+     * @param matricula A matrícula do funcionário
+     * @return Funcionario desativado
+     */
+    @PatchMapping("/{matricula}/desativar")
+    public ResponseEntity<Funcionario> desativarFuncionario(@PathVariable Integer matricula) {
+        Funcionario funcionario = funcionarioService.desativarFuncionario(matricula);
+        return ResponseEntity.ok(funcionario);
+    }
 }

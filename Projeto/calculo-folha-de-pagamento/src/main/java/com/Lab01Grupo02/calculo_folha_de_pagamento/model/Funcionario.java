@@ -51,14 +51,20 @@ public class Funcionario extends Pessoa {
     // --- CORREÇÃO 2: RENOMEADO ---
     // O campo é "PossuiPericulosidade"
     @Column(name = "PossuiPericulosidade")
-    private boolean possuiPericulosidade; // Renomeado de "temPericulosidade"
+    private Boolean possuiPericulosidade = false; // Alterado para Boolean wrapper para aceitar null
 
     // --- CORREÇÃO 3: REMOVIDO ---
     // O campo "TemInsalubridade" (boolean) não está na imagem
     // e é redundante, já que "GrauInsalubridade" (String) já passa essa informação.
-    // (Ex: se for "Nenhum" ou nulo, não tem; se for "Minimo", "Medio", etc., ele tem).
+    // (Ex: se for "Nenhum" ou nulo, não tem; se por "Minimo", "Medio", etc., ele tem).
     // @Column(name = "TemInsalubridade")
     // private boolean temInsalubridade;
+
+    @Column(name = "Senha")
+    private String senha;
+
+    @Column(name = "Ativo")
+    private Boolean ativo = true; // Alterado para Boolean wrapper para aceitar null
 
     @JsonManagedReference
     @OneToMany(mappedBy = "funcionario", cascade = CascadeType.ALL, orphanRemoval = true)

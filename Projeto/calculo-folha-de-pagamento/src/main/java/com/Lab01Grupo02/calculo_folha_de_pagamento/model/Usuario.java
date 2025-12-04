@@ -35,7 +35,14 @@ public class Usuario extends Pessoa {
     
     @Column(name = "Ativo", nullable = false)
     private boolean ativo = true;
-    
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "Tipo", nullable = false)
+    private TipoUsuario tipo = TipoUsuario.RH;
+
+    @Column(name = "IdFuncionarioVinculado")
+    private Integer idFuncionarioVinculado;
+
     /**
      * Construtor que aceita os campos da classe pai Pessoa.
      */
@@ -46,5 +53,19 @@ public class Usuario extends Pessoa {
         this.email = email;
         this.senha = senha;
         this.ativo = true;
+        this.tipo = TipoUsuario.RH;
+    }
+
+    /**
+     * Construtor completo com tipo de usuário.
+     */
+    public Usuario(String nome, String cpf, String email, String senha, TipoUsuario tipo) {
+        super();
+        this.setNome(nome);
+        this.setCpf(cpf);
+        this.email = email;
+        this.senha = senha;
+        this.ativo = true;
+        this.tipo = tipo;
     }
 }

@@ -14,24 +14,40 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginResponse {
-    
+
     private int idUsuario;
     private String nome;
     private String email;
+    private String tipo;
+    private Integer matricula;
     private String mensagem;
     private boolean sucesso;
-    
+
     /**
-     * Construtor para login bem-sucedido.
+     * Construtor para login bem-sucedido (Usuario RH).
      */
-    public LoginResponse(int idUsuario, String nome, String email) {
+    public LoginResponse(int idUsuario, String nome, String email, TipoUsuario tipo) {
         this.idUsuario = idUsuario;
         this.nome = nome;
         this.email = email;
+        this.tipo = tipo.name();
         this.mensagem = "Login realizado com sucesso";
         this.sucesso = true;
     }
-    
+
+    /**
+     * Construtor para login bem-sucedido (Funcionario).
+     */
+    public LoginResponse(int idUsuario, String nome, String email, TipoUsuario tipo, Integer matricula) {
+        this.idUsuario = idUsuario;
+        this.nome = nome;
+        this.email = email;
+        this.tipo = tipo.name();
+        this.matricula = matricula;
+        this.mensagem = "Login realizado com sucesso";
+        this.sucesso = true;
+    }
+
     /**
      * Construtor para falha no login.
      */
