@@ -96,4 +96,16 @@ public class FuncionarioController {
         Funcionario funcionarioAtualizado = funcionarioService.atualizarFuncionario(matricula, funcionario);
         return ResponseEntity.ok(funcionarioAtualizado);
     }
+
+    /**
+     * Endpoint para excluir um funcionário pela matrícula.
+     *
+     * @param matricula A matrícula do funcionário a ser excluído.
+     * @return ResponseEntity com status 204 (No Content) em caso de sucesso.
+     */
+    @DeleteMapping("/{matricula}")
+    public ResponseEntity<Void> excluirFuncionario(@PathVariable Integer matricula) {
+        funcionarioService.excluirFuncionario(matricula);
+        return ResponseEntity.noContent().build();
+    }
 }
