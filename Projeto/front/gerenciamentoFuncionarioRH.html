@@ -160,12 +160,13 @@
 
         // Função para filtrar funcionários
         function filtrarFuncionarios() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
             const sortBy = document.getElementById('sortSelect').value;
 
+            // Copia o array para não modificar o original
             let funcionariosFiltrados = [...todosFuncionarios];
 
-            // Filtro por busca
+            // Filtro por busca (nome, CPF ou matrícula)
             if (searchTerm) {
                 funcionariosFiltrados = funcionariosFiltrados.filter(func => {
                     const nome = (func.nome || '').toLowerCase();
@@ -173,9 +174,22 @@
                     const matricula = (func.idPessoa || '').toString();
                     const searchClean = searchTerm.replace(/\D/g, '');
 
-                    return nome.includes(searchTerm) ||
-                           cpf.includes(searchClean) ||
-                           matricula.includes(searchTerm);
+                    // Busca por nome
+                    if (nome.includes(searchTerm)) {
+                        return true;
+                    }
+
+                    // Busca por CPF (apenas números)
+                    if (searchClean && cpf.includes(searchClean)) {
+                        return true;
+                    }
+
+                    // Busca por matrícula
+                    if (matricula.includes(searchTerm)) {
+                        return true;
+                    }
+
+                    return false;
                 });
             }
 
@@ -218,13 +232,27 @@
             }
         }
 
-        // Adicionar evento de Enter no campo de busca
+        // Inicialização e eventos
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('searchInput');
+            const sortSelect = document.getElementById('sortSelect');
+
+            // Evento de Enter no campo de busca
             searchInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     filtrarFuncionarios();
                 }
+            });
+
+            // Evento de mudança no select de ordenação
+            sortSelect.addEventListener('change', function() {
+                filtrarFuncionarios();
+            });
+
+            // Evento de input para busca em tempo real (opcional - remove se preferir só com Enter)
+            searchInput.addEventListener('input', function() {
+                // Aplica filtro em tempo real enquanto digita
+                filtrarFuncionarios();
             });
 
             // Carregar funcionários ao iniciar a página
