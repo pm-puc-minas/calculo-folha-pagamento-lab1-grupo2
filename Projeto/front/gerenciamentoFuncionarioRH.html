@@ -76,16 +76,17 @@
         </div>
 
         <div class="filter-container">
-            <input type="text" placeholder="Buscar por Nome, Matrícula ou CPF..." class="search-input">
-            
-            <select class="filter-select">
+            <input type="text" id="searchInput" placeholder="Buscar por Nome, Matrícula ou CPF..." class="search-input">
+
+            <select id="sortSelect" class="filter-select">
                 <option value="">Ordenar por...</option>
                 <option value="nome">Nome (A-Z)</option>
                 <option value="matricula">Matrícula</option>
-                <option value="departamento">Departamento</option>
+                <option value="cargo">Cargo</option>
             </select>
 
-            <button class="btn-filter">Filtrar</button>
+            <button class="btn-filter" onclick="filtrarFuncionarios()">Filtrar</button>
+            <button class="btn-filter" onclick="carregarFuncionarios()" style="background-color: #6c757d;">Limpar</button>
         </div>
 
         <div class="table-container">
@@ -101,39 +102,7 @@
                     </tr>
                 </thead>
                 <tbody id="tabela-funcionarios">
-                    <tr>
-                        <td>2025001</td>
-                        <td>Ana Silva</td>
-                        <td>123.456.789-00</td>
-                        <td>Recursos Humanos</td>
-                        <td>Analista Jr.</td>
-                        <td class="actions-cell">
-                            <button class="btn-action btn-edit" onclick="editarFuncionario(2025001)">Editar</button>
-                            <button class="btn-action btn-delete" onclick="excluirFuncionario(this)">Excluir</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2025002</td>
-                        <td>Carlos Oliveira</td>
-                        <td>987.654.321-11</td>
-                        <td>TI</td>
-                        <td>Desenvolvedor Fullstack</td>
-                        <td class="actions-cell">
-                            <button class="btn-action btn-edit" onclick="editarFuncionario(2025002)">Editar</button>
-                            <button class="btn-action btn-delete" onclick="excluirFuncionario(this)">Excluir</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2025003</td>
-                        <td>Mariana Costa</td>
-                        <td>456.789.123-22</td>
-                        <td>Financeiro</td>
-                        <td>Gerente</td>
-                        <td class="actions-cell">
-                            <button class="btn-action btn-edit" onclick="editarFuncionario(2025003)">Editar</button>
-                            <button class="btn-action btn-delete" onclick="excluirFuncionario(this)">Excluir</button>
-                        </td>
-                    </tr>
+                    <!-- Dados serão carregados dinamicamente via JavaScript -->
                 </tbody>
             </table>
         </div>
@@ -141,24 +110,148 @@
     </main>
 
     <script>
-        // CORREÇÃO: Redireciona para o arquivo correto
-        function editarFuncionario(matricula) {
-            // Em um sistema real, passaria o ID na URL
-            alert(`Redirecionando para editar o funcionário matrícula: ${matricula}`);
-            window.location.href = 'FormularioFuncionario.html'; 
+        // URL base da API
+        const API_URL = 'http://localhost:9090/api/funcionarios';
+
+        // Array para armazenar todos os funcionários
+        let todosFuncionarios = [];
+
+        // Função para formatar CPF
+        function formatarCPF(cpf) {
+            if (!cpf) return '';
+            // Remove caracteres não numéricos
+            cpf = cpf.replace(/\D/g, '');
+            // Aplica a máscara XXX.XXX.XXX-XX
+            return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
         }
 
-        // Simulação da Exclusão Lógica
-        function excluirFuncionario(botao) {
-            if (confirm("Tem certeza que deseja desativar este funcionário do sistema?")) {
-                const linha = botao.closest('tr');
-                linha.style.opacity = '0.5'; 
-                setTimeout(() => {
-                    linha.remove();
-                    alert("Funcionário excluído (logicamente) com sucesso.");
-                }, 300);
+        // Função para carregar funcionários da API
+        async function carregarFuncionarios() {
+            try {
+                const response = await fetch(API_URL);
+
+                if (!response.ok) {
+                    throw new Error('Erro ao carregar funcionários');
+                }
+
+                todosFuncionarios = await response.json();
+                exibirFuncionarios(todosFuncionarios);
+
+                // Limpar filtros
+                document.getElementById('searchInput').value = '';
+                document.getElementById('sortSelect').value = '';
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao carregar funcionários. Verifique se o backend está rodando na porta 9090.');
             }
         }
+
+        // Função para exibir funcionários na tabela
+        function exibirFuncionarios(funcionarios) {
+            const tbody = document.getElementById('tabela-funcionarios');
+            tbody.innerHTML = '';
+
+            if (funcionarios.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Nenhum funcionário encontrado</td></tr>';
+                return;
+            }
+
+            funcionarios.forEach(func => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${func.idPessoa || ''}</td>
+                    <td>${func.nome || ''}</td>
+                    <td>${formatarCPF(func.cpf)}</td>
+                    <td>-</td>
+                    <td>${func.cargo || ''}</td>
+                    <td class="actions-cell">
+                        <button class="btn-action btn-edit" onclick="editarFuncionario(${func.idPessoa})">Editar</button>
+                        <button class="btn-action btn-delete" onclick="excluirFuncionario(${func.idPessoa})">Excluir</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Função para filtrar funcionários
+        function filtrarFuncionarios() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const sortBy = document.getElementById('sortSelect').value;
+
+            let funcionariosFiltrados = [...todosFuncionarios];
+
+            // Filtro por busca
+            if (searchTerm) {
+                funcionariosFiltrados = funcionariosFiltrados.filter(func => {
+                    const nome = (func.nome || '').toLowerCase();
+                    const cpf = (func.cpf || '').replace(/\D/g, '');
+                    const matricula = (func.idPessoa || '').toString();
+                    const searchClean = searchTerm.replace(/\D/g, '');
+
+                    return nome.includes(searchTerm) ||
+                           cpf.includes(searchClean) ||
+                           matricula.includes(searchTerm);
+                });
+            }
+
+            // Ordenação
+            if (sortBy) {
+                funcionariosFiltrados.sort((a, b) => {
+                    if (sortBy === 'nome') {
+                        return (a.nome || '').localeCompare(b.nome || '');
+                    } else if (sortBy === 'matricula') {
+                        return (a.idPessoa || 0) - (b.idPessoa || 0);
+                    } else if (sortBy === 'cargo') {
+                        return (a.cargo || '').localeCompare(b.cargo || '');
+                    }
+                    return 0;
+                });
+            }
+
+            exibirFuncionarios(funcionariosFiltrados);
+        }
+
+        // Função para editar funcionário
+        function editarFuncionario(matricula) {
+            // Redireciona para a página de formulário passando a matrícula como parâmetro
+            window.location.href = `FormularioFuncionario.html?matricula=${matricula}`;
+        }
+
+        // Função para excluir funcionário
+        async function excluirFuncionario(matricula) {
+            if (!confirm("Tem certeza que deseja excluir este funcionário do sistema?")) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/${matricula}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erro ao excluir funcionário');
+                }
+
+                alert('Funcionário excluído com sucesso!');
+                carregarFuncionarios(); // Recarrega a lista
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao excluir funcionário. Tente novamente.');
+            }
+        }
+
+        // Adicionar evento de Enter no campo de busca
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    filtrarFuncionarios();
+                }
+            });
+
+            // Carregar funcionários ao iniciar a página
+            carregarFuncionarios();
+        });
     </script>
 
 </body>
