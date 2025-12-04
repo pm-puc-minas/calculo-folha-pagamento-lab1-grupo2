@@ -14,5 +14,5 @@ document.getElementById('funcionarioForm').addEventListener('submit', function(e
 // Dentro da função iniciarCalculo(), no setTimeout final:
 setTimeout(() => {
     alert("Redirecionando para os Relatórios...");
-    window.location.href = "relatorios.html"; // Vai para a tela de relatórios
+    window.location.href = "relatorio.html"; // Vai para a tela de relatórios
 }, 1000);
