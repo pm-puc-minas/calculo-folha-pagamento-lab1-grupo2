@@ -109,32 +109,17 @@
 
     </main>
 
-    <script>
-        // URL base da API
-        const API_URL = 'http://localhost:9090/api/funcionarios';
+    <!-- Importar o arquivo de API -->
+    <script src="js/api.js"></script>
 
+    <script>
         // Array para armazenar todos os funcionários
         let todosFuncionarios = [];
-
-        // Função para formatar CPF
-        function formatarCPF(cpf) {
-            if (!cpf) return '';
-            // Remove caracteres não numéricos
-            cpf = cpf.replace(/\D/g, '');
-            // Aplica a máscara XXX.XXX.XXX-XX
-            return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-        }
 
         // Função para carregar funcionários da API
         async function carregarFuncionarios() {
             try {
-                const response = await fetch(API_URL);
-
-                if (!response.ok) {
-                    throw new Error('Erro ao carregar funcionários');
-                }
-
-                todosFuncionarios = await response.json();
+                todosFuncionarios = await FuncionarioAPI.buscarTodos();
                 exibirFuncionarios(todosFuncionarios);
 
                 // Limpar filtros
@@ -161,7 +146,7 @@
                 tr.innerHTML = `
                     <td>${func.idPessoa || ''}</td>
                     <td>${func.nome || ''}</td>
-                    <td>${formatarCPF(func.cpf)}</td>
+                    <td>${FormatUtils.formatarCPF(func.cpf)}</td>
                     <td>-</td>
                     <td>${func.cargo || ''}</td>
                     <td class="actions-cell">
@@ -224,14 +209,7 @@
             }
 
             try {
-                const response = await fetch(`${API_URL}/${matricula}`, {
-                    method: 'DELETE'
-                });
-
-                if (!response.ok) {
-                    throw new Error('Erro ao excluir funcionário');
-                }
-
+                await FuncionarioAPI.excluir(matricula);
                 alert('Funcionário excluído com sucesso!');
                 carregarFuncionarios(); // Recarrega a lista
             } catch (error) {
