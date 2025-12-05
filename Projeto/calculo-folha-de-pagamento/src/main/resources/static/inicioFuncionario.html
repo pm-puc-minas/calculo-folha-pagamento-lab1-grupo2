@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Início - Área do Colaborador</title>
+    <style>
+        /* (MANTIVE O MESMO CSS) */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f0f2f5; color: #333; }
+        .navbar { background-color: #ffffff; height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+        .navbar-brand { font-size: 1.5rem; font-weight: bold; color: #007bff; text-decoration: none; }
+        .nav-links { display: flex; list-style: none; gap: 20px; }
+        .nav-links a { text-decoration: none; color: #555; font-weight: 500; padding: 8px 12px; border-radius: 5px; transition: all 0.3s; }
+        .nav-links a:hover { background-color: #e9ecef; color: #007bff; }
+        .btn-logout { padding: 8px 20px; background-color: transparent; border: 1px solid #dc3545; color: #dc3545; border-radius: 5px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+        .btn-logout:hover { background-color: #dc3545; color: white; }
+        .main-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .welcome-section { margin-bottom: 30px; }
+        .welcome-section h1 { font-size: 1.8rem; color: #333; margin-bottom: 5px; }
+        .welcome-section p { color: #666; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { background-color: #ffffff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); border-left: 5px solid #007bff; transition: transform 0.2s; }
+        .card:hover { transform: translateY(-5px); }
+        .card h3 { font-size: 1.1rem; color: #555; margin-bottom: 10px; }
+        .card .info-highlight { font-size: 1.5rem; font-weight: bold; color: #333; }
+        .card .status-ok { color: #28a745; font-size: 1rem; }
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; height: auto; padding: 15px; }
+            .nav-links { margin: 15px 0; flex-direction: column; text-align: center; gap: 10px; }
+            .btn-logout { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="inicioFuncionario.html" class="navbar-brand">Portal Colaborador</a>
+        
+        <ul class="nav-links">
+            <li><a href="GerenciamentoFuncionario.html">Meu Perfil</a></li>
+            <li><a href="FolhaPagamento.html">Folha de Pagamento</a></li>
+            <li><a href="relatorio.html">Relatórios</a></li>
+        </ul>
+
+        <button onclick="fazerLogout()" class="btn-logout">Logout</button>
+    </nav>
+
+    <main class="main-container">
+        
+        <div class="welcome-section">
+            <h1>Olá, Carlos Silva</h1>
+            <p>Bem-vindo à sua área pessoal.</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <h3>Último Holerite</h3>
+                <div class="info-highlight">Novembro/2025</div>
+                <p class="status-ok">Disponível para download</p>
+            </div>
+            
+            <div class="card" style="border-left-color: #28a745;">
+                <h3>Próximo Pagamento</h3>
+                <div class="info-highlight">05/12/2025</div>
+            </div>
+
+            <div class="card" style="border-left-color: #6c757d;">
+                <h3>Status do Ponto</h3>
+                <div class="info-highlight">Dia atual: Normal</div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function fazerLogout() {
+            alert("Sessão finalizada com segurança.");
+            window.location.href = "login.html"; 
+        }
+    </script>
+
+</body>
+</html>

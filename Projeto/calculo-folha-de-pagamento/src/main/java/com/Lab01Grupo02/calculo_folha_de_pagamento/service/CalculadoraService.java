@@ -35,7 +35,7 @@ public class CalculadoraService implements ICalculadora {
         // NOTA: Para adicionar um novo cálculo (ex: IRRF), basta criar a classe
         // e adicioná-la nesta lista. O resto do sistema se adapta automaticamente.
         this.modulosDeCalculo = Collections.unmodifiableList(Arrays.<ICalculoFolha>asList(
-                new CalculoFGTS(),
+                // new CalculoFGTS(), // Removido: FGTS não deve entrar na folha
                 new CalculoINSS(),
                 new CalculoIRRF(),
                 CalculoBeneficio.valeTransporte(new BigDecimal("150.00")), // exemplo de VT
